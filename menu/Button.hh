@@ -27,7 +27,9 @@ void easyButtonDisplayFunc();
 
 class EasyButton : public Button {
  public:
-	EasyButton(const Anchor anchor, const vector::Vector2 offset, const vector::Vector2 width, const std::string text, void (*buttonClickFunc)());
+	EasyButton(const Anchor anchor, const vector::Vector2 offset, const vector::Vector2 width, const std::string text, void (*buttonClickFunc)()) :
+		Button(anchor, offset, width, easyButtonDisplayFunc, buttonClickFunc),
+		label(text) { }
 
 	EasyButton(const EasyButton&) = delete;
 	EasyButton& operator=(const EasyButton&) = delete;

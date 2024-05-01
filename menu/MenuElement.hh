@@ -18,6 +18,11 @@ struct MenuElement {
 	MenuElement(const MenuElement&) = default;
 	MenuElement& operator=(const MenuElement&) = default;
 
+	/**
+	 * Returns if the point is inside the menu element
+	*/
+	bool inBounds(const vector::Vector2 point);
+
 	const Anchor anchor;
 	const vector::Vector2 offset, size;
 	void (*displayFunction)();
