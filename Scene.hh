@@ -14,7 +14,7 @@ class Scene {
 	/**
 	 * Scene is guaranteed to be loaded before display starts
 	*/
-	Scene(const SceneType type, const void (*displayFunction)()) : type(type), displayFunction(displayFunction) { }
+	Scene(const SceneType type, void (*displayFunction)()) : type(type), displayFunction(displayFunction) { }
 	Scene(const Scene&) = delete;
 	virtual ~Scene() { }
 
@@ -37,6 +37,6 @@ class Scene {
 
  protected:
 	const SceneType type;
-	const void (*displayFunction)();
+	void (*displayFunction)();
 	bool destroy = false;
 };
