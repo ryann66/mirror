@@ -1,2 +1,2 @@
 # racer
-OpenGL Racing Game
+OpenGL Racing Game. Work in Progress.
