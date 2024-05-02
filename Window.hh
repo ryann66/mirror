@@ -39,3 +39,7 @@ class Window {
 	std::unordered_map<SceneType, Scene*> scenes;
 	SceneType activeScene;
 };
+
+void closeFunction() {
+	// TODO delete the window
+}

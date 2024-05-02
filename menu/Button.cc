@@ -1,12 +1,11 @@
 #include "Button.hh"
+#include "Window.hh"
 
 using std::string;
 
 namespace menu {
 
-void easyButtonDisplayFunc() {
-    // TODO
-}
+void displayTextCentered(int x, int y, const char* str);
 
 // TODO display functions for menu buttons
 
