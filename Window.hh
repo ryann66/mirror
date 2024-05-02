@@ -4,6 +4,9 @@
 #include <stdint.h>
 
 #include "Scene.hh"
+#include "Vector2.hh"
+
+void windowResizeFunc(int, int);
 
 /**
  * Manager class for the whole window
@@ -35,7 +38,12 @@ class Window {
 	*/
 	void addScene(Scene*);
 
+	vector::Vector2 size;	
+
  private:
 	std::unordered_map<SceneType, Scene*> scenes;
 	SceneType activeScene;
 };
+
+// pointer to the main window
+extern Window* window;

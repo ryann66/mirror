@@ -33,4 +33,6 @@ class MenuScene : public Scene {
     mutable int counter = 0;
 };
 
+// TODO function generators for various menus
+
 }  // namespace menu
