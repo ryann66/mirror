@@ -8,6 +8,7 @@
 #include <GL/freeglut.h>
 #endif
 
+#include "Window.hh"
 #include "MenuScene.hh"
 #include "Vector2.hh"
 #include "timings.hh"
@@ -58,6 +59,20 @@ void MenuScene::onUnload() {
 	glutMotionFunc(nullptr);
 	glutPassiveMotionFunc(nullptr);
 	glutMouseFunc(nullptr);
+}
+
+void pauseMenuKeyboardFunc(unsigned char key, int x, int y) {
+	if (key == 27 /* escape */) window->loadScene(GAME);
+}
+
+void PauseMenuScene::onLoad() {
+	glutKeyboardFunc(pauseMenuKeyboardFunc);
+	MenuScene::onLoad();
+}
+
+void PauseMenuScene::onUnload() {
+	glutKeyboardFunc(nullptr);
+	MenuScene::onUnload();
 }
 
 }  // namespace menu

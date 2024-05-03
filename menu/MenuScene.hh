@@ -11,7 +11,7 @@ void menuSceneDisplayFunc();
 
 /**
  * Scene for menus
- * Written in the fixed function style of openGL 2
+ * Written in the fixed function style of openGL
 */
 class MenuScene : public Scene {
 	MenuScene(SceneType type) : Scene(type, menuSceneDisplayFunc) { }
@@ -31,6 +31,19 @@ class MenuScene : public Scene {
  private:
 	std::vector<MenuElement*> elements;
 	std::vector<Button*> buttons;
+};
+
+/**
+ * Pause menu scene
+ * Written in the fixed function style of openGL
+*/
+class PauseMenuScene : public MenuScene {
+	PauseMenuScene() : MenuScene(PAUSE_MENU) { }
+	PauseMenuScene(const PauseMenuScene&) = delete;
+	PauseMenuScene& operator=(const PauseMenuScene&) = delete;
+	
+	virtual void onLoad();
+	virtual void onUnload();
 };
 
 // TODO function generators for various menus
