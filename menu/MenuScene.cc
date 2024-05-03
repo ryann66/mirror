@@ -23,6 +23,9 @@ MenuScene::~MenuScene() {
 	for (Button* b : buttons) delete b;
 }
 
+/**
+ * Handles highlighting buttons when hovered
+*/
 void hoverFunc(int x, int y) {
 	for (Button* b : curMenu->buttons) {
 		bool before = b->hovered;
@@ -31,12 +34,18 @@ void hoverFunc(int x, int y) {
 	}
 }
 
+/**
+ * Handles displaying menu elements
+*/
 void menuSceneDisplayFunc() {
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	for (MenuElement* e : curMenu->elements) e->display();
 	for (Button* b : curMenu->buttons) b->display();
 }
 
+/**
+ * Handles clicking on buttons
+*/
 void menuSceneClickFunc(int button, int state, int x, int y) {
 	if (button == GLUT_LEFT_BUTTON && state == GLUT_DOWN) {
 		for (Button* b : curMenu->buttons) {
@@ -61,6 +70,9 @@ void MenuScene::onUnload() {
 	glutMouseFunc(nullptr);
 }
 
+/**
+ * Enables escape to leave pause menu
+*/
 void pauseMenuKeyboardFunc(unsigned char key, int x, int y) {
 	if (key == 27 /* escape */) window->loadScene(GAME);
 }
