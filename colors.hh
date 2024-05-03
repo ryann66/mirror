@@ -5,6 +5,7 @@
 /**
  * Constant hard coded color values
 */
+
 namespace menu {
 
 const GLfloat EasyButtonDefaultColor[] = {0.5, 0., 0., 1.};

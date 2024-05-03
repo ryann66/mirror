@@ -14,15 +14,15 @@
 #define INIT_WINDOW_HEIGHT 900
 
 int main(int argc, char** argv) {
-    // initialize glut
-    glutInit(&argc, &argv);
-    glutInitWindowSize(INIT_WINDOW_WIDTH, INIT_WINDOW_HEIGHT);
-    glutInitWindowPos(100, 100);
-    glutInitDisplayMode(GLUT_RGBA | GLUT_DOUBLE | GLUT_ALPHA | GLUT_DEPTH);
-    glutCreateWindow("Racer");
+	// initialize glut
+	glutInit(&argc, &argv);
+	glutInitWindowSize(INIT_WINDOW_WIDTH, INIT_WINDOW_HEIGHT);
+	glutInitWindowPos(100, 100);
+	glutInitDisplayMode(GLUT_RGBA | GLUT_DOUBLE | GLUT_ALPHA | GLUT_DEPTH);
+	glutCreateWindow("Racer");
 
-    // create window with main menu scene
+	// create window with main menu scene
 
-    // start main loop
-    glutMainLoop();
+	// start main loop
+	glutMainLoop();
 }
