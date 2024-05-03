@@ -47,3 +47,7 @@ class Window {
 
 // pointer to the main window
 extern Window* window;
+
+void closeFunction() {
+	delete window;
+}
