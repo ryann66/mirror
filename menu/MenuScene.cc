@@ -32,14 +32,23 @@ void hoverFunc(int x, int y) {
 
 void menuSceneDisplayFunc() {
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-	for (MenuElement* e : curMenu->elements) e->displayFunction();
-	for (Button* b : curMenu->buttons) b->displayFunction();
+	for (MenuElement* e : curMenu->elements) e->display();
+	for (Button* b : curMenu->buttons) b->display();
+}
+
+void menuSceneClickFunc(int button, int state, int x, int y) {
+	if (button == GLUT_LEFT_BUTTON && state == GLUT_DOWN) {
+		for (Button* b : curMenu->buttons) {
+			if (b->inBounds(vector::Vector2(x, y))) b->onClick();
+		}
+	}
 }
 
 void MenuScene::onLoad() {
 	for (Button* b : buttons) b->hovered = false;
 	glutMotionFunc(hoverFunc);
 	glutPassiveMotionFunc(hoverFunc);
+	glutMouseFunc(menuSceneClickFunc);
 	curMenu = this;
 	glutPostRedisplay();
 }
@@ -48,6 +57,7 @@ void MenuScene::onUnload() {
 	menuSceneCounter++;
 	glutMotionFunc(nullptr);
 	glutPassiveMotionFunc(nullptr);
+	glutMouseFunc(nullptr);
 }
 
 }  // namespace menu

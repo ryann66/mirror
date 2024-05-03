@@ -9,20 +9,24 @@ namespace menu {
 
 class Button : public MenuElement {
  public:
-	Button(const Anchor anchor, const vector::Vector2 offset, const vector::Vector2 width, void (*buttonDisplayFunc)(), void(*buttonClickFunc)()) :
-		MenuElement(anchor, offset, size, buttonDisplayFunc),
-		buttonClickFunc(buttonClickFunc) { }
+	Button(const Anchor anchor, const vector::Vector2 offset, const vector::Vector2 size) :
+		MenuElement(anchor, offset, size) { }
 
 	Button(const Button&) = delete;
 	Button& operator=(const Button&) = delete;
+
+	/**
+	 * Draws this on the current window
+	*/
+	virtual void display() = 0;
+
+	/**
+	 * Called when clicked
+	*/
+	virtual void onClick() = 0;
 	
 	// set to whether the button is being hovered over or not by scene
 	bool hovered = false;
-	
-	// called when button clicked
-	void (*buttonClickFunc)();
 };
-
-// TODO function generators for various buttons
 
 } // namespace menu

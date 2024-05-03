@@ -9,11 +9,10 @@ enum Anchor {
 };
 
 struct MenuElement {
-	MenuElement(const Anchor anchor, const vector::Vector2 offset, const vector::Vector2 size, void (*displayFunction)()) : 
+	MenuElement(const Anchor anchor, const vector::Vector2 offset, const vector::Vector2 size) : 
 		anchor(anchor),
 		offset(offset),
-		size(size),
-		displayFunction(displayFunction) { }
+		size(size) { }
 
 	MenuElement(const MenuElement&) = default;
 	MenuElement& operator=(const MenuElement&) = default;
@@ -22,6 +21,11 @@ struct MenuElement {
 	 * Returns if the point is inside the menu element
 	*/
 	bool inBounds(const vector::Vector2 point);
+
+	/**
+	 * Draws this on the current window
+	*/
+	virtual void display() = 0;
 
 	/**
 	 * Returns the bottom left (smallest value) corner point
@@ -35,9 +39,6 @@ struct MenuElement {
 
 	const Anchor anchor;
 	const vector::Vector2 offset, size;
-	void (*displayFunction)();
 };
-
-// TODO function generators for various elements
 
 }  // namespace menu
