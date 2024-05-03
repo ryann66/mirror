@@ -22,8 +22,8 @@ class MenuScene : public Scene {
     void addElement(MenuElement* el) { elements.push_back(el); }
     void addButton(Button* b) { buttons.push_back(b); }
 
-    virtual void onLoad() = 0;
-	virtual void onUnload() = 0;
+    virtual void onLoad();
+	virtual void onUnload();
 
  private:
     std::vector<MenuElement*> elements;
