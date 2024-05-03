@@ -18,14 +18,19 @@ int stringWidth(void* font, const char* str) {
 	return len;
 }
 
-void displayStringLeft(int x, int y, const char* str) {
-	
+void displayStringLeft(void* font, int x, int y, const char* str) {
+	glRasterPos2i(glCoordSpaceX(x), glCoordSpaceY(y));
+	while (*str) {
+		glutBitmapCharacter(font, reinterpret_cast<int>(*str++));
+	}
 }
 
-void displayStringCenter(int x, int y, const char* str) {
-
+void displayStringCenter(void* font, int x, int y, const char* str) {
+	int left = x - stringWidth(font, str) / 2;
+	displayStringLeft(font, left, y, str);
 }
 
-void displayStringRight(int x, int y, const char* str) {
-
+void displayStringRight(void* font, int x, int y, const char* str) {
+	int left = x - stringWidth(font, str);
+	displayStringLeft(font, left, y, str);
 }
