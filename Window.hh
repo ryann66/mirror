@@ -46,8 +46,6 @@ class Window {
 };
 
 // pointer to the main window
-extern Window* window;
+inline Window* window;
 
-void closeFunction() {
-	delete window;
-}
+void closeFunction();

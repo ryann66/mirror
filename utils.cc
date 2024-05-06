@@ -13,7 +13,7 @@
 int stringWidth(void* font, const char* str) {
 	int len = 0;
 	while (*str) {
-		len += glutBitmapWidth(font, reinterpret_cast<int>(*str++));
+		len += glutBitmapWidth(font, static_cast<int>(*str++));
 	}
 	return len;
 }

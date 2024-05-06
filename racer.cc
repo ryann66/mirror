@@ -15,9 +15,9 @@
 
 int main(int argc, char** argv) {
 	// initialize glut
-	glutInit(&argc, &argv);
+	glutInit(&argc, argv);
 	glutInitWindowSize(INIT_WINDOW_WIDTH, INIT_WINDOW_HEIGHT);
-	glutInitWindowPos(100, 100);
+	glutInitWindowPosition(100, 100);
 	glutInitDisplayMode(GLUT_RGBA | GLUT_DOUBLE | GLUT_ALPHA | GLUT_DEPTH);
 	glutCreateWindow("Racer");
 

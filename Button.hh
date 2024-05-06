@@ -58,6 +58,6 @@ class EasyButton : public Button {
  private:
 	std::string text;
 	void (*onClickFunc)();
-}
+};
 
 } // namespace menu
