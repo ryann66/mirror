@@ -14,6 +14,7 @@ void menuSceneDisplayFunc();
  * Written in the fixed function style of openGL
 */
 class MenuScene : public Scene {
+ public:
 	MenuScene(SceneType type) : Scene(type, menuSceneDisplayFunc) { }
 	MenuScene(const MenuScene&) = delete;
 	MenuScene& operator=(const MenuScene&) = delete;
@@ -27,6 +28,7 @@ class MenuScene : public Scene {
 
 	friend void hoverFunc(int, int);
 	friend void menuSceneDisplayFunc();
+	friend void menuSceneClickFunc(int, int, int, int);
 
  private:
 	std::vector<MenuElement*> elements;
@@ -41,6 +43,7 @@ class PauseMenuScene : public MenuScene {
 	PauseMenuScene() : MenuScene(PAUSE_MENU) { }
 	PauseMenuScene(const PauseMenuScene&) = delete;
 	PauseMenuScene& operator=(const PauseMenuScene&) = delete;
+	virtual ~PauseMenuScene() = default;
 	
 	virtual void onLoad();
 	virtual void onUnload();

@@ -35,3 +35,7 @@ void Window::addScene(Scene* scene) {
 	}
 	scenes[type] = scene;
 }
+
+void closeFunction() {
+	delete window;
+}

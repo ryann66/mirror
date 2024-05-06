@@ -63,12 +63,14 @@ vector::Vector2 MenuElement::origin() {
 	Vector2 a(anchorPoint(anchor));
 	a.x += offset.x - size.x;
 	a.y += offset.y - size.y;
+	return a;
 }
 
 vector::Vector2 MenuElement::destination() {
 	Vector2 a(anchorPoint(anchor));
 	a.x += offset.x + size.x;
 	a.y += offset.y + size.y;
+	return a;
 }
 
 }  // namespace menu
