@@ -13,6 +13,8 @@
 #include "Vector2.hh"
 #include "timings.hh"
 
+using vector::Vector2;
+
 namespace menu {
 
 int menuSceneCounter = 0;
@@ -41,6 +43,7 @@ void menuSceneDisplayFunc() {
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	for (MenuElement* e : curMenu->elements) e->display();
 	for (Button* b : curMenu->buttons) b->display();
+	glutSwapBuffers();
 }
 
 /**
@@ -59,6 +62,7 @@ void MenuScene::onLoad() {
 	glutMotionFunc(hoverFunc);
 	glutPassiveMotionFunc(hoverFunc);
 	glutMouseFunc(menuSceneClickFunc);
+	glutDisplayFunc(displayFunction);
 	curMenu = this;
 	glutPostRedisplay();
 }
@@ -88,7 +92,8 @@ void PauseMenuScene::onUnload() {
 }
 
 Scene* mainMenu() {
-	return nullptr;
+	MenuScene* main = new MenuScene(MAIN_MENU);
+	return main;
 }
 
 Scene* pauseMenu() {

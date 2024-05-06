@@ -29,8 +29,8 @@ void displayStringRight(void* font, int x, int y, const char* str);
  * Converts X/Y coords from glut coordinate system to gl coordinate system
 */
 inline float glCoordSpaceX(int glutCoordX) {
-	return ((float)(glutCoordX * 2)) / window->size.x;
+	return (((float)(glutCoordX * 2)) / window->size.x) - 1.;
 }
 inline float glCoordSpaceY(int glutCoordY) {
-	return ((float)(glutCoordY * -2)) / window->size.y;
+	return (((float)(glutCoordY * -2)) / window->size.y) + 1.;
 }

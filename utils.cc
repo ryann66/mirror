@@ -19,7 +19,7 @@ int stringWidth(void* font, const char* str) {
 }
 
 void displayStringLeft(void* font, int x, int y, const char* str) {
-	glRasterPos2i(glCoordSpaceX(x), glCoordSpaceY(y));
+	glRasterPos2f(glCoordSpaceX(x), glCoordSpaceY(y));
 	while (*str) {
 		glutBitmapCharacter(font, static_cast<int>(*str++));
 	}

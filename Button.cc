@@ -25,7 +25,7 @@ void EasyButton::display() {
 	
 	glColor4fv(EasyButtonTextColor);
 	vector::Vector2 an(anchorPoint(anchor));
-	displayStringCenter(GLUT_BITMAP_HELVETICA_18, an.x, an.y - 9, text.c_str());
+	displayStringCenter(GLUT_BITMAP_HELVETICA_18, an.x + offset.x, an.y + offset.y + 9, text.c_str());
 }
 
 }  // namespace menu

@@ -49,8 +49,6 @@ class PauseMenuScene : public MenuScene {
 	virtual void onUnload();
 };
 
-// TODO function generators for various menus
-
 /**
  * Creates a new instance of the main menu
 */

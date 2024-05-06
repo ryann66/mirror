@@ -1,10 +1,28 @@
+#ifdef __APPLE_CC__
+#include <GLUT/gl.h>
+#include <GLUT/glu.h>
+#include <GLUT/freeglut.h>
+#else
+#include <GL/gl.h>
+#include <GL/glu.h>
+#include <GL/freeglut.h>
+#endif
+
 #include <stdexcept>
 
 #include "Window.hh"
 
 using std::logic_error;
 
-Window::Window(Scene* mainScene) {
+void windowResizeFunc(int w, int h) {
+	window->size.x = w;
+	window->size.y = h;
+	glViewport(0, 0, w, h);
+	glutPostRedisplay();
+}
+
+Window::Window(Scene* mainScene) : size(1200, 900) {
+	glutReshapeFunc(windowResizeFunc);
 	activeScene = mainScene->getType();
 	scenes[activeScene] = mainScene;
 	mainScene->onLoad();

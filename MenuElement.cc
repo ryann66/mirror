@@ -41,7 +41,7 @@ Vector2 anchorPoint(Anchor anchor) {
 		case BOTTOM:
 		case BOTTOM_LEFT:
 		case BOTTOM_RIGHT:
-			// point.y = 0;
+			point.y = window->size.y;
 			break;
 		case CENTER:
 		case LEFT:
@@ -51,7 +51,7 @@ Vector2 anchorPoint(Anchor anchor) {
 		case TOP:
 		case TOP_LEFT:
 		case TOP_RIGHT:
-			point.y = window->size.y;
+			// point.y = 0;
 			break;
 		default:
 			throw new logic_error("Unrecognized anchor");
@@ -61,15 +61,15 @@ Vector2 anchorPoint(Anchor anchor) {
 
 vector::Vector2 MenuElement::origin() {
 	Vector2 a(anchorPoint(anchor));
-	a.x += offset.x - size.x;
-	a.y += offset.y - size.y;
+	a.x += offset.x - size.x / 2;
+	a.y += offset.y - size.y / 2;
 	return a;
 }
 
 vector::Vector2 MenuElement::destination() {
 	Vector2 a(anchorPoint(anchor));
-	a.x += offset.x + size.x;
-	a.y += offset.y + size.y;
+	a.x += offset.x + size.x / 2;
+	a.y += offset.y + size.y / 2;
 	return a;
 }
 

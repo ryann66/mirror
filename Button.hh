@@ -37,7 +37,7 @@ class Button : public MenuElement {
 */
 class EasyButton : public Button {
  public:
-	EasyButton(const Anchor, const vector::Vector2 offset, const vector::Vector2 size, std::string text, void (*onClickFunc)()) :
+	EasyButton(const Anchor anchor, const vector::Vector2 offset, const vector::Vector2 size, std::string text, void (*onClickFunc)()) :
 		Button(anchor, offset, size),
 		text(text),
 		onClickFunc(onClickFunc) { }
