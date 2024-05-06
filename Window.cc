@@ -57,3 +57,7 @@ void Window::addScene(Scene* scene) {
 void closeFunction() {
 	delete window;
 }
+
+void unregisteredDisplayFunc() {
+	throw new logic_error("Unregistered display");
+}

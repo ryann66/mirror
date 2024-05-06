@@ -72,6 +72,7 @@ void MenuScene::onUnload() {
 	glutMotionFunc(nullptr);
 	glutPassiveMotionFunc(nullptr);
 	glutMouseFunc(nullptr);
+	glutDisplayFunc(unregisteredDisplayFunc);
 }
 
 /**

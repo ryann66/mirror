@@ -6,8 +6,6 @@
 #include "Scene.hh"
 #include "Vector2.hh"
 
-void windowResizeFunc(int, int);
-
 /**
  * Manager class for the whole window
  * Only one of each scene type can exist at a time
@@ -48,4 +46,13 @@ class Window {
 // pointer to the main window
 inline Window* window;
 
+/**
+ * Forces program closure
+*/
 void closeFunction();
+
+/**
+ * Dummy function to provide to unregistering glutDisplayFunc
+ * Should never be called, indicates error
+*/
+void unregisteredDisplayFunc();
