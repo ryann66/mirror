@@ -9,6 +9,7 @@
 #endif
 
 #include "Window.hh"
+#include "MenuScene.hh"
 
 #define INIT_WINDOW_WIDTH 1200
 #define INIT_WINDOW_HEIGHT 900
@@ -22,6 +23,7 @@ int main(int argc, char** argv) {
 	glutCreateWindow("Racer");
 
 	// create window with main menu scene
+	window = new Window(menu::mainMenu());
 
 	// start main loop
 	glutMainLoop();

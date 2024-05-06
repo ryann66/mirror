@@ -87,4 +87,12 @@ void PauseMenuScene::onUnload() {
 	MenuScene::onUnload();
 }
 
+Scene* mainMenu() {
+	return nullptr;
+}
+
+Scene* pauseMenu() {
+	return nullptr;
+}
+
 }  // namespace menu

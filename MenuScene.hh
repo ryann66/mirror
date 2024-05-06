@@ -51,4 +51,14 @@ class PauseMenuScene : public MenuScene {
 
 // TODO function generators for various menus
 
+/**
+ * Creates a new instance of the main menu
+*/
+Scene* mainMenu();
+
+/**
+ * Creates a new instance of the pause menu
+*/
+Scene* pauseMenu();
+
 }  // namespace menu

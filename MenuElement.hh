@@ -8,7 +8,7 @@ enum Anchor {
 	CENTER, BOTTOM, TOP, LEFT, RIGHT, BOTTOM_LEFT, BOTTOM_RIGHT, TOP_LEFT, TOP_RIGHT
 };
 
-Vector2 anchorPoint(Anchor anchor);
+vector::Vector2 anchorPoint(Anchor anchor);
 
 struct MenuElement {
 	MenuElement(const Anchor anchor, const vector::Vector2 offset, const vector::Vector2 size) : 
