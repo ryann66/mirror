@@ -91,8 +91,14 @@ void PauseMenuScene::onUnload() {
 	MenuScene::onUnload();
 }
 
+void playButtonClickFunc() {
+	
+	window->loadScene(GAME);
+}
+
 Scene* mainMenu() {
 	MenuScene* main = new MenuScene(MAIN_MENU);
+	main->addButton(new EasyButton(CENTER, Vector2(), DEFAULT_BUTTON_SIZE, "Play", playButtonClickFunc));
 	return main;
 }
 

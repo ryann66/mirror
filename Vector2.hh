@@ -11,4 +11,13 @@ struct Vector2 {
 	int x, y;
 };
 
+struct Vector2f {
+	Vector2f() : x(0.), y(0.) { }
+	Vector2f(float x, float y) : x(x), y(y) { }
+	Vector2f(const Vector2f&) = default;
+	Vector2f& operator=(const Vector2f&) = default;
+
+	float x, y;
+};
+
 }  // namespace vector

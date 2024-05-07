@@ -16,6 +16,7 @@ class Scene {
 	*/
 	Scene(const SceneType type, void (*displayFunction)()) : type(type), displayFunction(displayFunction) { }
 	Scene(const Scene&) = delete;
+	Scene& operator=(const Scene&) = delete;
 	virtual ~Scene() { }
 
 	/**
