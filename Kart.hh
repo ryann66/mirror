@@ -5,6 +5,18 @@
 namespace game {
 
 /**
+ * Struct for controlling how the kart should move
+*/
+struct KartControls {
+	enum {
+		BRAKE, IDLE, GAS
+	} gas;
+	enum {
+		LEFT, STRAIGHT, RIGHT
+	} steering;
+};
+
+/**
  * Class for karts; inherit to implement controls
  * loop: calculateMove, move, checkCollisions, display
 */
@@ -41,6 +53,7 @@ class Kart : public GameObject {
  protected:
 	vector::Vector2f vel;
 	float rotVel;
+	KartControls control;
 };
 
 }  // namespace game
