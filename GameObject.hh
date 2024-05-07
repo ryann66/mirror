@@ -1,9 +1,10 @@
 #pragma once
 
 #include "Vector2.hh"
-#include "Kart.hh"
 
 namespace game {
+
+class Kart;
 
 /**
  * Common ancestor for all objects in the game scene
@@ -36,7 +37,7 @@ class GameObject {
 /**
  * Exclusion class to provide distinction between static and dynamic objects
 */
-class StaticGameObject {
+class StaticGameObject : public GameObject {
  public:
 	StaticGameObject(vector::Vector2f pos, float rot) : GameObject(pos, rot) { }
 	StaticGameObject(const StaticGameObject&) = delete;

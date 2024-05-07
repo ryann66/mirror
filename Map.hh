@@ -38,7 +38,7 @@ class Map final {
 	float stableSpeed(vector::Vector2f pos);
 
  private:
-	std::vector<StaticGameObject> envir;
+	std::vector<StaticGameObject*> envir;
 	/* bitmaps for ground texture and roughness (kart stable speed) */
 };
 

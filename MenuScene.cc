@@ -92,7 +92,6 @@ void PauseMenuScene::onUnload() {
 }
 
 void playButtonClickFunc() {
-	
 	window->loadScene(GAME);
 }
 

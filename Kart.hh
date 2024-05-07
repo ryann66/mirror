@@ -18,7 +18,7 @@ class Kart : public GameObject {
 	/**
 	 * displays the kart
 	*/
-	virtual void display(size_t frameCount);
+	virtual void display(int frameCount);
 
 	/**
 	 * Updates the karts position
@@ -29,7 +29,7 @@ class Kart : public GameObject {
 	 * Calculates where the kart should go
 	 * Implementations may vary based on kart control behavior
 	*/
-	void calculateMove() = 0;
+	virtual void calculateMove() = 0;
 
 	/**
 	 * Checks for collision and imparts force/movement onto both karts if collides
