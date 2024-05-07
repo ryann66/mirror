@@ -23,7 +23,7 @@ void windowResizeFunc(int w, int h) {
 
 Window::Window(Scene* mainScene) : size(1200, 900) {
 	glutReshapeFunc(windowResizeFunc);
-	activeScene = mainScene->getType();
+	activeScene = mainScene->type;
 	scenes[activeScene] = mainScene;
 	mainScene->onLoad();
 }
@@ -42,16 +42,24 @@ void Window::loadScene(SceneType scene) {
 }
 
 void Window::addScene(Scene* scene) {
-	SceneType type = scene->getType();
-	Scene* ex = scenes[type];
-	if (ex != nullptr) {
-		if (ex->destroyable()) {
-			delete ex;
-		} else {
-			throw new logic_error("Duplicates of scene type");
-		}
-	}
+	SceneType type = scene->type;
+	if (scenes[type] != nullptr) throw new logic_error("Duplicates of scene type");
 	scenes[type] = scene;
+}
+
+void Window::deleteScene(SceneType scene) {
+	if (activeScene == scene) throw new logic_error("Cannot delete current scene");
+	if (scenes[scene] == nullptr) throw new logic_error("Nonexistent scene");
+	delete scenes[scene];
+	scenes[scene] = nullptr;
+
+}
+
+void Window::replaceScene(SceneType scene) {
+	if (scene == activeScene) throw new logic_error("Cannot replace scene with self");
+	SceneType os = activeScene;
+	loadScene(scene);
+	deleteScene(os);
 }
 
 void closeFunction() {

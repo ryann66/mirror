@@ -25,18 +25,8 @@ class Scene {
 	virtual void onLoad() = 0;
 	virtual void onUnload() = 0;
 
-	/**
-	 * returns true if the scene should be destroyed by the window manager on returning
-	*/
-	bool destroyable() const { return destroy; }
-
-	/**
-	 * returns what kind of scene this is
-	*/
-	SceneType getType() const { return type; }
-
- protected:
 	const SceneType type;
+	
+ protected:
 	void (*displayFunction)();
-	bool destroy = false;
 };

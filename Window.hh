@@ -24,17 +24,29 @@ class Window {
 
 	/**
 	 * loads the given scene
-	 * throws logic error if scene is not created
+	 * throws logic error if scene is not defined
 	*/
 	void loadScene(SceneType);
 
 	/**
 	 * adds the given scene, taking over memory management as well
 	 * throws logic error if the scene type is already defined
-	 * NOTE: it is scene's responsibility to mark themselves as deletable
-	 *       so they can be removed and replaced
 	*/
 	void addScene(Scene*);
+
+	/**
+	 * Deletes the given scene, freeing all memory associated with it
+	 * throws logic error if the scene is not defined
+	 * throws logic error if this is the loaded scene
+	*/
+	void deleteScene(SceneType);
+
+	/**
+	 * Deletes the current scene (freeing memory) and loads the given scene
+	 * throws logic error if the scene is not defined
+	 * throws logic error if the scene type is currently loaded
+	*/
+	void replaceScene(SceneType);
 
 	vector::Vector2 size;	
 

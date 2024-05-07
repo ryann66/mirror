@@ -7,6 +7,8 @@
 
 namespace menu {
 
+const vector::Vector2 DEFAULT_BUTTON_SIZE(160, 40);
+
 void menuSceneDisplayFunc();
 
 /**

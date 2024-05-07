@@ -11,7 +11,6 @@
 #include "Window.hh"
 #include "MenuScene.hh"
 #include "Vector2.hh"
-#include "timings.hh"
 
 using vector::Vector2;
 
