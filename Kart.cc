@@ -23,9 +23,9 @@ void Kart::move() {
 	vel += Vector2f(rotation) * (speed * TIRE_FRICTION);
 
 	// gas pedal
-	if (control.gas == GAS) {
+	if (control.gas == control.GAS) {
 		vel += Vector2f(rotation) * ACTUAL_GAS_ACCELERATION;
-	} else if (control.gas = BRAKE) {
+	} else if (control.gas = control.BRAKE) {
 		vel += Vector2f(rotation) * -ACTUAL_BRAKE_DECCELERATION;
 	}
 	// drag
@@ -41,8 +41,8 @@ void Kart::move() {
 	}
 
 	// steering wheel
-	if (control.steering == LEFT) rotVel = ACTUAL_TURN_RATE;
-	else if (control.steering == RIGHT) rotVel = -ACTUAL_TURN_RATE;
+	if (control.steering == control.LEFT) rotVel = ACTUAL_TURN_RATE;
+	else if (control.steering == control.RIGHT) rotVel = -ACTUAL_TURN_RATE;
 	else rotVel = 0;
 }
 

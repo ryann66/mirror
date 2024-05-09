@@ -7,8 +7,8 @@
 namespace game {
 
 // inputs
-const unsigned int FRAME_RATE = 60;
-const unsigned int TICKS_PER_FRAME = 10;
+constexpr const unsigned int FRAME_RATE = 60;
+constexpr const unsigned int TICKS_PER_FRAME = 10;
 
 // derived timings
 constexpr const int TICK_RATE = FRAME_RATE * TICKS_PER_FRAME;

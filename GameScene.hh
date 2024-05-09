@@ -30,8 +30,9 @@ class GameScene : public Scene {
 	friend void gameSceneDisplayFunc();
 	friend void gameTick(int);
 
- private:
 	Map* map;
+	
+ private:
 	std::vector<Kart*> karts;
 	int frameCount = 0;
 };

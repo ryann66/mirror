@@ -5,34 +5,34 @@
 namespace game {
 
 // controls percentage of velocity that is conformed to rotation
-const float TIRE_FRICTION = 1.;
+constexpr const float TIRE_FRICTION = 1.;
 
 // in deg/s (idealized), rate at which kart turns
-const float TURN_RATE = 45.;
+constexpr const float TURN_RATE = 45.;
 
 // deg/tick rate at which kart turns
 constexpr const float ACTUAL_TURN_RATE = TURN_RATE / TICK_RATE;
 
 // percentage of speed above terrain cap that is lost per second
-const float ROUGHNESS_SLOWDOWN = 0.5;
+constexpr const float ROUGHNESS_SLOWDOWN = 0.5;
 
 // percentage of speed above terrain cap that is lost per tick
 constexpr const float ACTUAL_ROUGHNESS_SLOWDOWN = powf(ROUGHNESS_SLOWDOWN, 1. / TICKS_PER_FRAME);
 
 // acceleration per second from gas pedal
-const float GAS_ACCELERATION = 4;
+constexpr const float GAS_ACCELERATION = 4;
 
 // acceleration per tick
 constexpr const float ACTUAL_GAS_ACCELERATION = GAS_ACCELERATION / TICK_RATE;
 
 // decceleration per second from brake pedal
-const float BRAKE_DECCELERATION = 3;
+constexpr const float BRAKE_DECCELERATION = 3;
 
 // decceleration per tick
 constexpr const float ACTUAL_BRAKE_DECCELERATION = BRAKE_DECCELERATION / TICK_RATE;
 
 // decceleration from drag per second
-const float DRAG = 1;
+constexpr const float DRAG = 1;
 
 // decceleration from drag per tick
 constexpr const float ACTUAL_DRAG = DRAG / TICK_RATE;
