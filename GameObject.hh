@@ -24,7 +24,7 @@ class GameObject {
 	/**
 	 * Checks for collision and imparts force/movement onto kart if collides
 	*/
-	virtual bool onCollision(Kart&) = 0;
+	virtual void onCollision(Kart&) = 0;
 
  protected:
 	// in map coords
@@ -52,7 +52,7 @@ class StaticGameObject : public GameObject {
 	/**
 	 * Checks for collision and imparts force/movement onto kart if collides
 	*/
-	virtual bool onCollision(Kart&) = 0;
+	virtual void onCollision(Kart&) = 0;
 };
 
 }  // namespace game

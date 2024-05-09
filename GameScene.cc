@@ -14,8 +14,6 @@
 
 namespace game {
 
-GameScene* curScene;
-
 void gameSceneDisplayFunc() {
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	curScene->map->display();

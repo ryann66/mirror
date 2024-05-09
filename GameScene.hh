@@ -36,4 +36,6 @@ class GameScene : public Scene {
 	int frameCount = 0;
 };
 
+inline GameScene* curScene;
+
 }  // namespace game

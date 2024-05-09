@@ -14,13 +14,16 @@ build: all
 
 all: racer
 
-racer: racer.o Button.o GameScene.o MenuElement.o MenuScene.o utils.o Window.o
+racer: racer.o Button.o GameScene.o Kart.o MenuElement.o MenuScene.o utils.o Window.o
 	$(CXX) $(LFLAGS) -o $@ $^ $(LIBS)
 
 Button.o: Button.cc Button.hh MenuElement.hh Vector2.hh Window.hh Scene.hh utils.hh colors.hh
 	$(CXX) $(CFLAGS) -c -o $@ $<
 
 GameScene.o: GameScene.cc GameScene.hh Scene.hh Map.hh GameObject.hh Vector2.hh Kart.hh Window.hh timings.hh
+	$(CXX) $(CFLAGS) -c -o $@ $<
+
+Kart.o: Kart.cc Kart.hh GameObject.hh Vector2.hh
 	$(CXX) $(CFLAGS) -c -o $@ $<
 
 MenuElement.o: MenuElement.cc MenuElement.hh Vector2.hh Window.hh Scene.hh

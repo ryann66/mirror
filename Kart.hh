@@ -46,7 +46,7 @@ class Kart : public GameObject {
 	/**
 	 * Checks for collision and imparts force/movement onto both karts if collides
 	*/
-	virtual bool onCollision(Kart&);
+	virtual void onCollision(Kart&);
 
 	int lapCount = 0;
 
