@@ -50,6 +50,8 @@ class Kart : public GameObject {
 
 	int lapCount = 0;
 
+	const vector::Vector2f boundingSize = {3., 5.};
+
  protected:
 	vector::Vector2f vel;
 	float rotVel;
