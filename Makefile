@@ -20,7 +20,7 @@ mirror: mirror.o Button.o GameScene.o MenuElement.o MenuScene.o utils.o Window.o
 Button.o: Button.cc Button.hh MenuElement.hh Vector2.hh Window.hh Scene.hh utils.hh colors.hh
 	$(CXX) $(CFLAGS) -c -o $@ $<
 
-GameScene.o: GameScene.cc GameScene.hh Scene.hh Window.hh Vector2.hh
+GameScene.o: GameScene.cc GameScene.hh Scene.hh Level.hh Vector2.hh GameComponent.hh Window.hh
 	$(CXX) $(CFLAGS) -c -o $@ $<
 
 MenuElement.o: MenuElement.cc MenuElement.hh Vector2.hh Window.hh Scene.hh

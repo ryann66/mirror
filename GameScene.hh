@@ -3,6 +3,7 @@
 #include <vector>
 
 #include "Scene.hh"
+#include "Level.hh"
 
 namespace game {
 
@@ -17,7 +18,7 @@ class GameScene : public Scene {
 	 * Constructs a new game scene
 	 * Takes ownership of map
 	*/
-	GameScene();
+	GameScene(Level level) : Scene(GAME, gameSceneDisplayFunc), level(level) { }
 	GameScene(const GameScene&) = delete;
 	GameScene& operator=(const GameScene&) = delete;
 	virtual ~GameScene();
@@ -26,9 +27,9 @@ class GameScene : public Scene {
 	virtual void onUnload();
 
 	friend void gameSceneDisplayFunc();
-	friend void gameTick(int);
 
  private:
+	Level level;
 };
 
 inline GameScene* curScene;
