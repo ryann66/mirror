@@ -3,8 +3,6 @@
 #include <vector>
 
 #include "Scene.hh"
-#include "Map.hh"
-#include "Kart.hh"
 
 namespace game {
 
@@ -19,7 +17,7 @@ class GameScene : public Scene {
 	 * Constructs a new game scene
 	 * Takes ownership of map
 	*/
-	GameScene(Map* map, std::vector<Kart*> karts) : Scene(GAME, gameSceneDisplayFunc), map(map), karts(karts) { }
+	GameScene();
 	GameScene(const GameScene&) = delete;
 	GameScene& operator=(const GameScene&) = delete;
 	virtual ~GameScene();
@@ -30,11 +28,7 @@ class GameScene : public Scene {
 	friend void gameSceneDisplayFunc();
 	friend void gameTick(int);
 
-	Map* map;
-	
  private:
-	std::vector<Kart*> karts;
-	int frameCount = 0;
 };
 
 inline GameScene* curScene;
