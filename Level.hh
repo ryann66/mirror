@@ -11,6 +11,7 @@ namespace game {
  * Game level
 */
 struct Level {
+	// w, h size of level
 	vector::Vector2 size;
 
 	std::vector<GameComponent> components;

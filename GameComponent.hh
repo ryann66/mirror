@@ -1,25 +1,21 @@
 #pragma once
 
+#include "Vector2.hh"
+
 namespace game {
 
-class GameComponent {
-
+enum GameComponentType {
+	LASER, TARGET, MIRROR, BLOCKER
 };
 
-class Laser : public GameComponent {
+struct GameComponent final {
+	// x, y position of center of object
+	vector::Vector2 pos;
+	
+	// rotation clockwise from straight up
+	float rotation;
 
-};
-
-class Target : public GameComponent {
-
-};
-
-class Blocker : public GameComponent {
-
-};
-
-class Mirror : public GameComponent {
-
+	GameComponentType type;
 };
 
 }  // namespace game

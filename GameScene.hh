@@ -29,7 +29,7 @@ class GameScene : public Scene {
 	friend void gameSceneDisplayFunc();
 
  private:
-	Level level;
+	Level* level;
 };
 
 inline GameScene* curScene;
