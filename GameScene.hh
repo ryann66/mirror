@@ -32,6 +32,4 @@ class GameScene : public Scene {
 	Level* level;
 };
 
-inline GameScene* curScene;
-
 }  // namespace game

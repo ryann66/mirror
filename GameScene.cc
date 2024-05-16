@@ -12,13 +12,28 @@
 
 #include "GameScene.hh"
 #include "Window.hh"
+#include "game.hh"
 
 using std::list;
 
 namespace game {
 
+GameScene* curScene;
+
+int changeCount = 0;
+
+void gameWinCheckFunc(int value) {
+	if (value != changeCount) return;
+	curScene->level->setBeat();
+	window->replaceScene(LEVEL_SELECTOR);
+}
+
 void gameSceneDisplayFunc() {
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+	// reset targets
+	for (auto& target : curScene->level->targets) {
+		target->lasersHit = 0;
+	}
 	for (auto& laser : curScene->level->lasers) {
 		// trace laser
 		list<LineSegment> path(curScene->level->traceLaser(laser));
@@ -39,9 +54,14 @@ void gameSceneDisplayFunc() {
 		}
 	}
 	if (complete) {
-		// start some timer for winning
+		// start win timer
+		glutTimerFunc(MS_WIN_DELAY, gameWinCheckFunc, changeCount);
 	}
 	glutSwapBuffers();
+}
+
+GameScene::~GameScene() {
+	delete Level;
 }
 
 void GameScene::onLoad() {
@@ -51,6 +71,7 @@ void GameScene::onLoad() {
 }
 
 void GameScene::onUnload() {
+	curScene = nullptr;
 	glutDisplayFunc(unregisteredDisplayFunc);
 }
 

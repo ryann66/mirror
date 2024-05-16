@@ -12,7 +12,14 @@ namespace game {
 /**
  * Game level
 */
-struct Level {
+class Level {
+ public:
+	// TODO figure out ctor args
+	Level();
+	Level(const Level&) = delete;
+	Level& operator=(const Level&) = delete;
+	~Level();
+	
 	// w, h size of level
 	vector::Vector2 size;
 
@@ -33,10 +40,16 @@ struct Level {
 	// adds one laser to any targets it collides with
 	std::list<LineSegment> traceLaser(Laser*);
 
+	// sets this level to beaten
+	void setBeat() { beaten = true; }
+
  private:
 	// traces a ray through the map
 	// adds one laser to any targets it collides with
 	std::list<LineSegment> traceLaser(vector::Vector2 origin, float direction);
+
+	// marks whether the level has been beat or not
+	bool beaten;
 };
 
 }  // namespace game
