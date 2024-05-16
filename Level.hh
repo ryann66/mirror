@@ -12,7 +12,7 @@ namespace game {
 /**
  * Game level
 */
-class Level {
+class Level final {
  public:
 	// TODO figure out ctor args
 	Level();

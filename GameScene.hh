@@ -8,7 +8,7 @@
 namespace game {
 
 /**
- * Displays the game scene
+ * Displays the game scene, checks win condition
 */
 void gameSceneDisplayFunc();
 
@@ -26,10 +26,7 @@ class GameScene : public Scene {
 	virtual void onLoad();
 	virtual void onUnload();
 
-	friend void gameSceneDisplayFunc();
-
- private:
-	Level* level;
+	Level* const level;
 };
 
 }  // namespace game

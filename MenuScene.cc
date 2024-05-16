@@ -16,7 +16,6 @@ using vector::Vector2;
 
 namespace menu {
 
-int menuSceneCounter = 0;
 MenuScene* curMenu;
 
 MenuScene::~MenuScene() {
@@ -67,7 +66,6 @@ void MenuScene::onLoad() {
 }
 
 void MenuScene::onUnload() {
-	menuSceneCounter++;
 	glutMotionFunc(nullptr);
 	glutPassiveMotionFunc(nullptr);
 	glutMouseFunc(nullptr);

@@ -13,10 +13,15 @@ struct GameComponent {
 	// x, y position of center of object
 	vector::Vector2 pos;
 	
-	// rotation clockwise from straight up
+	// degrees rotation clockwise from straight up
 	float rotation;
 
 	GameComponentType type;
+
+	/**
+	 * Returns true if the given coordinates are inside the hitbox of this
+	*/
+	bool hitboxClicked(int x, int y);
 };
 
 struct Laser : public GameComponent {
