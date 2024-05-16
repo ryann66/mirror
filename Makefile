@@ -14,13 +14,16 @@ build: all
 
 all: mirror
 
-mirror: mirror.o Button.o GameScene.o MenuElement.o MenuScene.o utils.o Window.o
+mirror: mirror.o Button.o GameScene.o Level.o MenuElement.o MenuScene.o utils.o Window.o
 	$(CXX) $(LFLAGS) -o $@ $^ $(LIBS)
 
 Button.o: Button.cc Button.hh MenuElement.hh Vector2.hh Window.hh Scene.hh utils.hh colors.hh
 	$(CXX) $(CFLAGS) -c -o $@ $<
 
-GameScene.o: GameScene.cc GameScene.hh Scene.hh Level.hh Vector2.hh GameComponent.hh Window.hh
+GameScene.o: GameScene.cc GameScene.hh Scene.hh Level.hh Vector2.hh LineSegment.hh GameComponent.hh Window.hh
+	$(CXX) $(CFLAGS) -c -o $@ $<
+
+Level.o: Level.cc Level.hh Vector2.hh LineSegment.hh GameComponent.hh
 	$(CXX) $(CFLAGS) -c -o $@ $<
 
 MenuElement.o: MenuElement.cc MenuElement.hh Vector2.hh Window.hh Scene.hh

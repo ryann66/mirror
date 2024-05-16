@@ -18,7 +18,7 @@ class GameScene : public Scene {
 	 * Constructs a new game scene
 	 * Takes ownership of map
 	*/
-	GameScene(Level level) : Scene(GAME, gameSceneDisplayFunc), level(level) { }
+	GameScene(Level* level) : Scene(GAME, gameSceneDisplayFunc), level(level) { }
 	GameScene(const GameScene&) = delete;
 	GameScene& operator=(const GameScene&) = delete;
 	virtual ~GameScene();
