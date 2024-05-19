@@ -18,7 +18,7 @@ class Level final {
 	Level();
 	Level(const Level&) = delete;
 	Level& operator=(const Level&) = delete;
-	~Level();
+	~Level() = default;
 	
 	// w, h size of level
 	vector::Vector2 size;
@@ -46,7 +46,7 @@ class Level final {
  private:
 	// traces a ray through the map
 	// adds one laser to any targets it collides with
-	std::list<LineSegment> traceLaser(vector::Vector2 origin, float direction);
+	void traceLaser(vector::Vector2 origin, float direction, std::list<LineSegment>*);
 
 	// marks whether the level has been beat or not
 	bool beaten;

@@ -1,15 +1,35 @@
 #include "Level.hh"
 
 using std::list;
+using vector::Vector2;
 
 namespace game {
 
 list<LineSegment> Level::traceLaser(Laser* laser) {
-	// TODO
+	list<LineSegment> lines;
+	traceLaser(laser->pos, laser->rotation, &lines);
+	return lines;
 }
 
-list<LineSegment> Level::traceLaser(vector::Vector2 origin, float direction) {
-	// TODO
+void Level::traceLaser(Vector2 origin, float direction, list<LineSegment>* rays) {
+	GameComponent* collide = nullptr;
+	bool reflect = false;
+	float distance = 0;
+	// check collision distances
+	for (GameComponent* component : this->immovables) {
+		
+	}
+	for (GameComponent* component : this->movables) {
+		
+	}
+
+	if (collide == nullptr) {
+		// calculate hit on wall
+	}
+
+	// add line segment to list of segments
+
+	// do something based on type of collision
 }
 
 }  // namespace game

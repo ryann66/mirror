@@ -98,6 +98,7 @@ void gameSceneClickLogger(int button, int state, int x, int y) {
  * Callback to update the position of an element when moving the mouse
 */
 void gameSceneDragLogger(int x, int y) {
+	// TODO prevent dragging out of scene and prevent overlap (?)
 	if (selected == nullptr) return;
 	if (MOVE_BUTTON) {
 		Vector2 offset(x - originalX, y - originalY);
