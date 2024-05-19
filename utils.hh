@@ -1,5 +1,7 @@
 #pragma once
 
+#include <cmath>
+
 #include "Window.hh"
 
 /**
@@ -33,4 +35,42 @@ inline float glCoordSpaceX(int glutCoordX) {
 }
 inline float glCoordSpaceY(int glutCoordY) {
 	return (((float)(glutCoordY * -2)) / window->size.y) + 1.;
+}
+
+/**
+ * Converts between radians and degrees
+*/
+inline float radToDeg(float rad) {
+	return rad * 180. / M_PI;
+}
+inline float degToRad(float deg) {
+	return deg / 180. * M_PI;
+}
+
+/**
+ * Converts a float direction to a vector
+*/
+inline vector::Vector2f directionToVector(float direction) {
+	return vector::Vector2f(sinf(degToRad(direction)), cosf(degToRad(direction)));
+}
+
+/**
+ * Converts a vector to a float direction
+*/
+inline float vectorToDirection(vector::Vector2f vector) {
+	float rad;
+	if (vector.x >= 0) {
+		if (vector.y >= 0) {
+			rad = atan2f(vector.x, vector.y);
+		} else {
+			rad = 180. - atan2f(vector.x, vector.y);
+		}
+	} else {
+		if (vector.y >= 0) {
+			rad = 180. + atan2f(vector.x, vector.y);
+		} else {
+			rad = 360. - atan2f(vector.x, vector.y);
+		}
+	}
+	return radToDeg(rad);
 }

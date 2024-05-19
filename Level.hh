@@ -46,7 +46,8 @@ class Level final {
  private:
 	// traces a ray through the map
 	// adds one laser to any targets it collides with
-	void traceLaser(vector::Vector2 origin, float direction, std::list<LineSegment>*);
+	// modifies ray
+	void traceLaser(Ray&, std::list<LineSegment>*);
 
 	// marks whether the level has been beat or not
 	bool beaten;

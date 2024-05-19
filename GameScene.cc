@@ -16,6 +16,7 @@
 
 using std::list;
 using vector::Vector2;
+using vector::Vector2f;
 
 namespace game {
 
@@ -66,7 +67,7 @@ void gameSceneDisplayFunc() {
 
 bool moveComponent = false, rotateComponent = false;
 GameComponent* selected = nullptr;
-Vector2 originalPosition;
+Vector2f originalPosition;
 float originalRotation;
 int originalX, originalY;
 
@@ -101,7 +102,7 @@ void gameSceneDragLogger(int x, int y) {
 	// TODO prevent dragging out of scene and prevent overlap (?)
 	if (selected == nullptr) return;
 	if (MOVE_BUTTON) {
-		Vector2 offset(x - originalX, y - originalY);
+		Vector2f offset(x - originalX, y - originalY);
 		selected->pos = originalPosition + offset;
 		glutPostRedisplay();
 	}
