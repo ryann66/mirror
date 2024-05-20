@@ -47,6 +47,7 @@ struct Laser : public GameComponent {
 };
 
 struct Target : public GameComponent {
+	const GLfloat* colorNeeded;
 	unsigned int lasersNeeded;
 	unsigned int lasersHit;
 	

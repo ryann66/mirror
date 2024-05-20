@@ -3,7 +3,8 @@
         "unordered_map": "cpp",
         "vector": "cpp",
         "stdexcept": "cpp",
-        "list": "cpp"
+        "list": "cpp",
+        "iosfwd": "cpp"
     },
     "C_Cpp.errorSquiggles": "disabled"
 }

@@ -1,0 +1,15 @@
+This document defines the structure of a level file.  Each file can be thought of as a series of commands
+sent to a state machine (similar to gcode).  Thus, the command "COLOR,MIRROR,255,255,255,1" would set the color
+of all subsequent mirrors to pure white.  All level files should start with a SIZE field.
+
+Available commands
+SIZE,<width>,<height>
+COLOR,<component>,<red>,<green>,<blue>
+MIRROR,<x>,<y>,<rotation>,<width>,<height>
+BLOCKER,<x>,<y>,<rotation>,<width>,<height>
+TARGET,<x>,<y>,<rotation>
+LASER,<x>,<y>,<rotation>
+
+The COLOR command is special as it can set several values based on <component>.  This field can be set to any of the main
+components on the board (MIRROR,BLOCKER,LASER,TARGET) but it can also be set to WALL or BACKGROUND.  Like size, the wall
+and background colors should only be set once.

@@ -2,6 +2,7 @@
 
 #include <vector>
 #include <list>
+#include <iostream>
 
 #include "Vector2.hh"
 #include "LineSegment.hh"
@@ -14,8 +15,7 @@ namespace game {
 */
 class Level final {
  public:
-	// TODO figure out ctor args
-	Level();
+	Level(std::istream& levelfile);
 	Level(const Level&) = delete;
 	Level& operator=(const Level&) = delete;
 	~Level() = default;

@@ -1,21 +1,36 @@
+#ifdef __APPLE_CC__
+#include <GLUT/gl.h>
+#include <GLUT/glu.h>
+#include <GLUT/freeglut.h>
+#else
+#include <GL/gl.h>
+#include <GL/glu.h>
+#include <GL/freeglut.h>
+#endif
+
 #include "Level.hh"
 #include "utils.hh"
 #include "game.hh"
 
 using std::list;
+using std::istream;
 using vector::Vector2;
 using vector::Vector2f;
 
 namespace game {
 
+Level::Level(istream& levelfile) {
+
+}
+
 list<LineSegment> Level::traceLaser(Laser* laser) {
 	list<LineSegment> lines;
 	Ray ray(laser->pos, laser->pos + directionToVector(laser->rotation));
-	traceLaser(ray, &lines);
+	traceLaser(ray, &lines, laser->color);
 	return lines;
 }
 
-void Level::traceLaser(Ray& ray, list<LineSegment>* rays) {
+void Level::traceLaser(Ray& ray, list<LineSegment>* rays, const GFloat* laserColor) {
 	Collision newCol, shortCol;
 	bool col;
 	// check collision distances
@@ -65,13 +80,20 @@ void Level::traceLaser(Ray& ray, list<LineSegment>* rays) {
 				Vector2f v(ray.end - ray.start);
 				ray.start = shortCol.location;
 				ray.end = (2. * vector::dot(v, shortCol.normal) * shortCol.normal) - v;
-				traceLaser(ray, rays);
+				traceLaser(ray, rays, laserColor);
 				return;
 			}
 		case TARGET:
-			// add laser hit to target
-			dynamic_cast<Target*>(shortCol.collider)->lasersHit++;
-			return;
+			{
+				// add laser hit to target
+				Target* target = dynamic_cast<Target*>(shortCol.collider);
+				if (target->colorNeeded[0] == laserColor[0] &&
+					target->colorNeeded[1] == laserColor[1] &&
+					target->colorNeeded[2] == laserColor[2]) {
+						target->lasersHit++;
+				}
+				return;
+			}
 		case BLOCK:
 			return;
 	}
