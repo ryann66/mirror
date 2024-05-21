@@ -1,5 +1,5 @@
 This document defines the structure of a level file.  Each file can be thought of as a series of commands
-sent to a state machine (similar to gcode).  Thus, the command "COLOR,MIRROR,255,255,255,1" would set the color
+sent to a state machine (similar to gcode).  Thus, the command "COLOR,MIRROR,255,255,255" would set the color
 of all subsequent mirrors to pure white.  All level files should start with a SIZE field.
 
 Available commands
@@ -11,5 +11,5 @@ TARGET,<x>,<y>,<rotation>
 LASER,<x>,<y>,<rotation>
 
 The COLOR command is special as it can set several values based on <component>.  This field can be set to any of the main
-components on the board (MIRROR,BLOCKER,LASER,TARGET) but it can also be set to WALL or BACKGROUND.  Like size, the wall
-and background colors should only be set once.
+components on the board (MIRROR,BLOCKER,LASER,TARGET) but it can also be set to BEAM, WALL, or BACKGROUND. BEAM sets the
+color of both laser beams and target recievers. Except BEAM, colors should only be set once.

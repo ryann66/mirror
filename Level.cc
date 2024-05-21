@@ -8,29 +8,42 @@
 #include <GL/freeglut.h>
 #endif
 
+#include <algorithm>
+
 #include "Level.hh"
 #include "utils.hh"
 #include "game.hh"
 
 using std::list;
 using std::istream;
+using std::copy;
+using std::begin;
+using std::end;
 using vector::Vector2;
 using vector::Vector2f;
 
 namespace game {
 
 Level::Level(istream& levelfile) {
+	// load default colors
+	copy(begin(DefaultMirrorColor), end(DefaultMirrorColor), begin(mirrorColor));
+	copy(begin(DefaultBlockerColor), end(DefaultBlockerColor), begin(blockerColor));
+	copy(begin(DefaultLaserColor), end(DefaultLaserColor), begin(laserColor));
+	copy(begin(DefaultTargetColor), end(DefaultTargetColor), begin(targetColor));
+	copy(begin(DefaultBackgroundColor), end(DefaultBackgroundColor), begin(backgroundColor));
+	copy(begin(DefaultWallColor), end(DefaultWallColor), begin(wallColor));
 
+	// read file
 }
 
 list<LineSegment> Level::traceLaser(Laser* laser) {
 	list<LineSegment> lines;
 	Ray ray(laser->pos, laser->pos + directionToVector(laser->rotation));
-	traceLaser(ray, &lines, laser->color);
+	traceLaser(ray, laser->color, &lines);
 	return lines;
 }
 
-void Level::traceLaser(Ray& ray, list<LineSegment>* rays, const GFloat* laserColor) {
+void Level::traceLaser(Ray& ray, const GLfloat* laserColor, list<LineSegment>* rays) {
 	Collision newCol, shortCol;
 	bool col;
 	// check collision distances
@@ -80,7 +93,7 @@ void Level::traceLaser(Ray& ray, list<LineSegment>* rays, const GFloat* laserCol
 				Vector2f v(ray.end - ray.start);
 				ray.start = shortCol.location;
 				ray.end = (2. * vector::dot(v, shortCol.normal) * shortCol.normal) - v;
-				traceLaser(ray, rays, laserColor);
+				traceLaser(ray, laserColor, rays);
 				return;
 			}
 		case TARGET:

@@ -23,7 +23,8 @@ const float ROTATION_SENSITIVITY = 2.;
 
 const int MAX_LASER_DEPTH = 20;
 
-const constexpr vector::Vector2 LASER_SIZE();
-const constexpr vector::Vector2 TARGET_SIZE();
+const vector::Vector2 LASER_SIZE(2, 6);
+const vector::Vector2 TARGET_SIZE(4, 4);
+const vector::Vector2 DEFAULT_BOARD_SIZE(50, 50);
 
 }  // namespace game
