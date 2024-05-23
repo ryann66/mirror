@@ -9,6 +9,9 @@
 #endif
 
 #include <algorithm>
+#include <sstream>
+#include <string>
+#include <stdexcept>
 
 #include "Level.hh"
 #include "utils.hh"
@@ -16,9 +19,13 @@
 
 using std::list;
 using std::istream;
+using std::string;
+using std::stringstream;
 using std::copy;
 using std::begin;
 using std::end;
+using std::getline;
+using std::invalid_argument;
 using vector::Vector2;
 using vector::Vector2f;
 
@@ -33,7 +40,31 @@ Level::Level(istream& levelfile) {
 	copy(begin(DefaultBackgroundColor), end(DefaultBackgroundColor), begin(backgroundColor));
 	copy(begin(DefaultWallColor), end(DefaultWallColor), begin(wallColor));
 
+	GLfloat* curBeamColor = DefaultLaserBeamColor;
+	GLfloat* curRecieverColor = DefaultTargetRecieverColor;
+
 	// read file
+	string line;
+	while (getline(levelfile, line)) {
+		stringstream ss(line);
+		string token;
+		getline(ss, token, ',');
+		if (token == "SIZE") {
+			
+		} else if (token == "COLOR") {
+
+		} else if (token == "MIRROR") {
+			
+		} else if (token == "BLOCKER") {
+			
+		} else if (token == "TARGET") {
+			
+		} else if (token == "LASER") {
+			
+		} else {
+			throw new std::invalid_argument(line);
+		}
+	}
 }
 
 list<LineSegment> Level::traceLaser(Laser* laser) {

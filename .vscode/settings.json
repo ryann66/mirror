@@ -4,7 +4,8 @@
         "vector": "cpp",
         "stdexcept": "cpp",
         "list": "cpp",
-        "iosfwd": "cpp"
+        "iosfwd": "cpp",
+        "string": "cpp"
     },
     "C_Cpp.errorSquiggles": "disabled"
 }

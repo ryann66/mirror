@@ -15,6 +15,10 @@ namespace game {
 */
 class Level final {
  public:
+	/**
+	 * reads the level in from file, may produce argument_error* 
+	 * if file format is incorrect
+	*/
 	Level(std::istream& levelfile);
 	Level(const Level&) = delete;
 	Level& operator=(const Level&) = delete;

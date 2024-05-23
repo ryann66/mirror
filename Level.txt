@@ -7,7 +7,7 @@ SIZE,<width>,<height>
 COLOR,<component>,<red>,<green>,<blue>
 MIRROR,<x>,<y>,<rotation>,<width>,<height>
 BLOCKER,<x>,<y>,<rotation>,<width>,<height>
-TARGET,<x>,<y>,<rotation>
+TARGET,<x>,<y>,<rotation>,<needed>
 LASER,<x>,<y>,<rotation>
 
 The COLOR command is special as it can set several values based on <component>.  This field can be set to any of the main
