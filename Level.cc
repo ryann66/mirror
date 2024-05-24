@@ -134,6 +134,11 @@ Level::Level(istream& levelfile) {
 		} else {
 			throw new std::invalid_argument(line);
 		}
+		// premature eof
+		if (ss.eof()) throw new std::invalid_argument(line);
+		ss.peek();
+		// remaining characters in string
+		if (!ss.eof()) throw new std::invalid_argument(line);
 	}
 }
 
