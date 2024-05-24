@@ -67,7 +67,7 @@ Level::Level(istream& levelfile) {
 			color[2] = static_cast<float>(tmp) / 255;
 			if (token == "BEAM") {
 				GLfloat* beamColors = new GLfloat[8];
-				heapColors.push_back(beamColors);
+				heapPointers.push_back(beamColors);
 				beamColors[0] = color[0];
 				beamColors[1] = color[1];
 				beamColors[2] = color[2];

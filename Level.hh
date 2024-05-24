@@ -52,8 +52,8 @@ class Level final {
 	GLfloat backgroundColor[4];
 	GLfloat wallColor[4];
 
-	// all colors loaded onto the heap that need to be freed
-	std::vector<GLfloat*> heapColors;
+	// vector for arbitrary pointers that need to be freed
+	std::vector<void*> heapPointers;
 
 	// sets this level to beaten
 	void setBeat() { beaten = true; }
