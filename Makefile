@@ -32,7 +32,7 @@ Level.o: Level.cc Level.hh Vector2.hh LineSegment.hh GameComponent.hh colors.hh 
 MenuElement.o: MenuElement.cc MenuElement.hh Vector2.hh Window.hh Scene.hh
 	$(CXX) $(CFLAGS) -c -o $@ $<
 
-MenuScene.o: MenuScene.cc Window.hh Scene.hh Vector2.hh MenuScene.hh Button.hh MenuElement.hh
+MenuScene.o: MenuScene.cc Window.hh Scene.hh Vector2.hh MenuScene.hh Button.hh MenuElement.hh GameScene.hh Level.hh LineSegment.hh GameComponent.hh colors.hh
 	$(CXX) $(CFLAGS) -c -o $@ $<
 
 mirror.o: mirror.cc Window.hh Scene.hh Vector2.hh MenuScene.hh Button.hh MenuElement.hh

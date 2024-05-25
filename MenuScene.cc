@@ -8,9 +8,13 @@
 #include <GL/freeglut.h>
 #endif
 
+#include <fstream>
+
 #include "Window.hh"
 #include "MenuScene.hh"
 #include "Vector2.hh"
+#include "GameScene.hh"
+#include "Level.hh"
 
 using vector::Vector2;
 
@@ -90,6 +94,8 @@ void PauseMenuScene::onUnload() {
 }
 
 void playButtonClickFunc() {
+	std::ifstream gamefile("templevel.txt");
+	window->addScene(new game::GameScene(new game::Level(gamefile)));
 	window->loadScene(GAME);
 }
 

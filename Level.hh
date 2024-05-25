@@ -2,6 +2,7 @@
 
 #include <vector>
 #include <list>
+#include <iostream>
 
 #include "Vector2.hh"
 #include "LineSegment.hh"
@@ -14,8 +15,11 @@ namespace game {
 */
 class Level final {
  public:
-	// TODO figure out ctor args
-	Level();
+	/**
+	 * reads the level in from file, may produce argument_error* 
+	 * if file format is incorrect
+	*/
+	Level(std::istream& levelfile);
 	Level(const Level&) = delete;
 	Level& operator=(const Level&) = delete;
 	~Level() = default;
@@ -40,6 +44,17 @@ class Level final {
 	// adds one laser to any targets it collides with
 	std::list<LineSegment> traceLaser(Laser*);
 
+	// level colors
+	GLfloat mirrorColor[4];
+	GLfloat blockerColor[4];
+	GLfloat laserColor[4];
+	GLfloat targetColor[4];
+	GLfloat backgroundColor[4];
+	GLfloat wallColor[4];
+
+	// vector for arbitrary pointers that need to be freed
+	std::vector<void*> heapPointers;
+
 	// sets this level to beaten
 	void setBeat() { beaten = true; }
 
@@ -47,7 +62,7 @@ class Level final {
 	// traces a ray through the map
 	// adds one laser to any targets it collides with
 	// modifies ray
-	void traceLaser(Ray&, std::list<LineSegment>*);
+	void traceLaser(Ray&, const GLfloat*, std::list<LineSegment>*);
 
 	// marks whether the level has been beat or not
 	bool beaten;
