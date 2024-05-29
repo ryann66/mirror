@@ -24,6 +24,8 @@ int main(int argc, char** argv) {
 
 	// create window with main menu scene
 	window = new Window(menu::mainMenu());
+	window->addScene(menu::levelSelectorMenu());
+	window->addScene(menu::pauseMenu());
 
 	// start main loop
 	glutMainLoop();

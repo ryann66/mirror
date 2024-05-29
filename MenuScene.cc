@@ -109,4 +109,8 @@ Scene* pauseMenu() {
 	return nullptr;
 }
 
+Scene* levelSelectorMenu() {
+	return nullptr;
+}
+
 }  // namespace menu

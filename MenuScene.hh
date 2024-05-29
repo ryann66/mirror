@@ -61,4 +61,6 @@ Scene* mainMenu();
 */
 Scene* pauseMenu();
 
+Scene* levelSelectorMenu();
+
 }  // namespace menu
