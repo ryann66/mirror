@@ -8,6 +8,7 @@
 namespace menu {
 
 const vector::Vector2 DEFAULT_BUTTON_SIZE(160, 40);
+const int DEFAULT_BUTTON_SPACING = 20;
 
 void menuSceneDisplayFunc();
 
@@ -42,6 +43,7 @@ class MenuScene : public Scene {
  * Written in the fixed function style of openGL
 */
 class PauseMenuScene : public MenuScene {
+ public:
 	PauseMenuScene() : MenuScene(PAUSE_MENU) { }
 	PauseMenuScene(const PauseMenuScene&) = delete;
 	PauseMenuScene& operator=(const PauseMenuScene&) = delete;

@@ -9,6 +9,7 @@
 #endif
 
 #include <fstream>
+#include <stdexcept>
 
 #include "Window.hh"
 #include "MenuScene.hh"
@@ -17,6 +18,8 @@
 #include "Level.hh"
 
 using vector::Vector2;
+using std::ifstream;
+using std::exception;
 
 namespace menu {
 
@@ -94,9 +97,7 @@ void PauseMenuScene::onUnload() {
 }
 
 void playButtonClickFunc() {
-	std::ifstream gamefile("templevel.txt");
-	window->addScene(new game::GameScene(new game::Level(gamefile)));
-	window->loadScene(GAME);
+	window->loadScene(LEVEL_SELECTOR);
 }
 
 Scene* mainMenu() {
@@ -105,12 +106,37 @@ Scene* mainMenu() {
 	return main;
 }
 
+void resumeButtonClickFunc() {
+	window->loadScene(GAME);
+}
+
+void exitButtonClickFunc() {
+	window->deleteScene(GAME);
+	window->loadScene(MAIN_MENU);
+}
+
 Scene* pauseMenu() {
-	return nullptr;
+	PauseMenuScene* pause = new PauseMenuScene();
+	pause->addButton(new EasyButton(CENTER, Vector2(0, (DEFAULT_BUTTON_SIZE.y + DEFAULT_BUTTON_SPACING) / 2), DEFAULT_BUTTON_SIZE, "Resume", resumeButtonClickFunc));
+	pause->addButton(new EasyButton(CENTER, Vector2(0, (DEFAULT_BUTTON_SIZE.y + DEFAULT_BUTTON_SPACING) / -2), DEFAULT_BUTTON_SIZE, "Exit", exitButtonClickFunc));
+	return pause;
+}
+
+void firstLevelPlayClickFunc() {
+	try {
+		ifstream levelfile("./levels/level1.txt");
+		window->addScene(new game::GameScene(new game::Level(levelfile)));
+	} catch (exception* e) {
+		std::cerr << e->what() << std::endl;
+		window->replaceScene(MAIN_MENU);
+	}
 }
 
 Scene* levelSelectorMenu() {
-	return nullptr;
+	// TODO actually write a level selector menu scene
+	MenuScene* menu = new MenuScene(LEVEL_SELECTOR);
+	menu->addButton(new EasyButton(CENTER, Vector2(), DEFAULT_BUTTON_SIZE, "level1", firstLevelPlayClickFunc));
+	return menu;
 }
 
 }  // namespace menu
