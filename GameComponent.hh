@@ -37,6 +37,11 @@ struct GameComponent {
 	 * NOTE: rays cannot collide in reverse, out.distance will always be positive
 	*/
 	virtual bool collide(Ray& ray, Collision* out) = 0;
+
+	/**
+	 * Draws the object on the screen
+	*/
+	virtual void display() = 0;
 };
 
 struct Laser : public GameComponent {
@@ -44,6 +49,7 @@ struct Laser : public GameComponent {
 
 	virtual bool hitboxClicked(int x, int y);
 	virtual bool collide(Ray& ray, Collision* out);
+	virtual void display();
 };
 
 struct Target : public GameComponent {
@@ -53,6 +59,7 @@ struct Target : public GameComponent {
 	
 	virtual bool hitboxClicked(int x, int y);
 	virtual bool collide(Ray& ray, Collision* out);
+	virtual void display();
 };
 
 struct Blocker : public GameComponent {
@@ -60,6 +67,7 @@ struct Blocker : public GameComponent {
 	
 	virtual bool hitboxClicked(int x, int y);
 	virtual bool collide(Ray& ray, Collision* out);
+	virtual void display();
 };
 
 struct Mirror : public GameComponent {
@@ -67,6 +75,7 @@ struct Mirror : public GameComponent {
 	
 	virtual bool hitboxClicked(int x, int y);
 	virtual bool collide(Ray& ray, Collision* out);
+	virtual void display();
 };
 
 struct Collision {

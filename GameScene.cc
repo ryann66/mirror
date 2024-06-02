@@ -13,6 +13,7 @@
 #include "GameScene.hh"
 #include "Window.hh"
 #include "game.hh"
+#include "utils.hh"
 
 using std::list;
 using vector::Vector2;
@@ -42,13 +43,25 @@ void gameSceneDisplayFunc() {
 	for (auto laser : curScene->level->lasers) {
 		// trace laser
 		list<LineSegment> path(curScene->level->traceLaser(laser));
-		// draw path (TODO)
-	}
-	for (auto component : curScene->level->movables) {
-		// draw movable objects (TODO)
+		for (LineSegment& l : path) {
+			Vector2f l1 = l.start - l.end;
+			l1 *= LASER_WIDTH / l1.magnitude();
+			Vector2f l2(l1.y, l1.x);
+			l.start -= l1;
+			l.end += l1;
+			glBegin(GL_QUADS);
+				glVertex2f(glCoordSpaceX((l.start - l2).x), glCoordSpaceY((l.start - l2).y));
+				glVertex2f(glCoordSpaceX((l.start + l2).x), glCoordSpaceY((l.start + l2).y));
+				glVertex2f(glCoordSpaceX((l.end + l2).x), glCoordSpaceY((l.end + l2).y));
+				glVertex2f(glCoordSpaceX((l.end - l2).x), glCoordSpaceY((l.end - l2).y));
+			glEnd();
+		}
 	}
 	for (auto component : curScene->level->immovables) {
-		// draw immovable objects (TODO)
+		component->display();
+	}
+	for (auto component : curScene->level->movables) {
+		component->display();
 	}
 	// check if all the targets are satisfied
 	bool complete = true;
