@@ -46,8 +46,10 @@ Level::Level(istream& levelfile) {
 	// read file
 	string line;
 	while (getline(levelfile, line)) {
+		line.append(1, '\r');
 		istringstream ss(line);
 		string token;
+		int movementEnabled;
 		getline(ss, token, ',');
 		if (token == "SIZE") {
 			ss >> size.x;
@@ -91,54 +93,70 @@ Level::Level(istream& levelfile) {
 			} else if (token == "TARGET") {
 				copy(begin(color), end(color), begin(targetColor));
 			} else {
-				throw new std::invalid_argument(line);
+				throw new std::invalid_argument("Unknown mirror argument" + line);
 			}
 		} else if (token == "MIRROR") {
-			Mirror m;
-			ss >> m.pos.x;
+			Mirror* m = new Mirror();
+			ss >> m->pos.x;
 			ss.get();
-			ss >> m.pos.y;
+			ss >> m->pos.y;
 			ss.get();
-			ss >> m.rotation;
+			ss >> m->rotation;
 			ss.get();
-			ss >> m.size.x;
+			ss >> m->size.x;
 			ss.get();
-			ss >> m.size.y;
+			ss >> m->size.y;
+			ss.get();
+			ss >> movementEnabled;
+			if (movementEnabled) this->movables.push_back(m);
+			else this->immovables.push_back(m);
 		} else if (token == "BLOCKER") {
-			Blocker b;
-			ss >> b.pos.x;
+			Blocker* b = new Blocker;
+			ss >> b->pos.x;
 			ss.get();
-			ss >> b.pos.y;
+			ss >> b->pos.y;
 			ss.get();
-			ss >> b.rotation;
+			ss >> b->rotation;
 			ss.get();
-			ss >> b.size.x;
+			ss >> b->size.x;
 			ss.get();
-			ss >> b.size.y;
+			ss >> b->size.y;
+			ss.get();
+			ss >> movementEnabled;
+			if (movementEnabled) this->movables.push_back(b);
+			else this->immovables.push_back(b);
 		} else if (token == "TARGET") {
-			Target t;
-			ss >> t.pos.x;
+			Target* t = new Target();
+			ss >> t->pos.x;
 			ss.get();
-			ss >> t.pos.y;
+			ss >> t->pos.y;
 			ss.get();
-			ss >> t.lasersNeeded;
-			t.colorNeeded = curRecieverColor;
+			ss >> t->lasersNeeded;
+			t->colorNeeded = curRecieverColor;
+			ss.get();
+			ss >> movementEnabled;
+			if (movementEnabled) this->movables.push_back(t);
+			else this->immovables.push_back(t);
 		} else if (token == "LASER") {
-			Laser l;
-			ss >> l.pos.x;
+			Laser* l = new Laser();
+			ss >> l->pos.x;
 			ss.get();
-			ss >> l.pos.y;
+			ss >> l->pos.y;
 			ss.get();
-			ss >> l.rotation;
-			l.color = curBeamColor;
+			ss >> l->rotation;
+			l->color = curBeamColor;
+			ss.get();
+			ss >> movementEnabled;
+			if (movementEnabled) this->movables.push_back(l);
+			else this->immovables.push_back(l);
 		} else {
-			throw new std::invalid_argument(line);
+			throw new std::invalid_argument("Unknown argument " + line);
 		}
 		// premature eof
-		if (ss.eof()) throw new std::invalid_argument(line);
-		ss.peek();
+		if (ss.eof()) throw new std::invalid_argument("Line incomplete: " + line);
+		while (ss.peek() == '\r') ss.get();
 		// remaining characters in string
-		if (!ss.eof()) throw new std::invalid_argument(line);
+		if (!ss.eof()) throw new std::invalid_argument("Extra characters in line: " + line);
 	}
 }
 

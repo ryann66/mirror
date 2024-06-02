@@ -2,15 +2,16 @@ This document defines the structure of a level file.  Each file can be thought o
 sent to a state machine (similar to gcode).  Thus, the command "COLOR,MIRROR,255,255,255" would set the color
 of all subsequent mirrors to pure white.  All level files should start with a SIZE field.  All sizes/positions
 are integer arguments.  Rotations may be represented as floating point and are measure in degrees. 
-Elements may not be placed outside of the board.
+Elements may not be placed outside of the board.  Movement enabled should be an integer, where anything
+but 0 is interpreted as true (movement enabled)
 
 Available commands
 SIZE,<width>,<height>
 COLOR,<component>,<red>,<green>,<blue>
-MIRROR,<x>,<y>,<rotation>,<width>,<height>
-BLOCKER,<x>,<y>,<rotation>,<width>,<height>
-TARGET,<x>,<y>,<needed>
-LASER,<x>,<y>,<rotation>
+MIRROR,<x>,<y>,<rotation>,<width>,<height>,<movement_enabled>
+BLOCKER,<x>,<y>,<rotation>,<width>,<height>,<movement_enabled>
+TARGET,<x>,<y>,<needed>,<movement_enabled>
+LASER,<x>,<y>,<rotation>,<movement_enabled>
 
 The COLOR command is special as it can set several values based on <component>.  This field can be set to any of the main
 components on the board (MIRROR,BLOCKER,LASER,TARGET) but it can also be set to BEAM, WALL, or BACKGROUND. BEAM sets the
