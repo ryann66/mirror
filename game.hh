@@ -23,8 +23,8 @@ const float ROTATION_SENSITIVITY = 2.;
 
 const int MAX_LASER_DEPTH = 20;
 
-const vector::Vector2 LASER_SIZE(2, 6);
-const vector::Vector2 TARGET_SIZE(4, 4);
+const vector::Vector2 LASER_SIZE(10, 30);
+const vector::Vector2 TARGET_SIZE(50, 15);
 const vector::Vector2 DEFAULT_BOARD_SIZE(50, 50);
 
 const float LASER_WIDTH = 0.25f;
