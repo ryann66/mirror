@@ -2,6 +2,8 @@
 
 #include <cmath>
 
+#include "utils.hh"
+
 namespace vector {
 
 struct Vector2 {
@@ -89,6 +91,16 @@ struct Vector2f {
 		return *this;
 	}
 
+	inline Vector2f& rotate(float deg) {
+		float theta = degToRad(deg);
+		float cos = cosf(theta);
+		float sin = sinf(theta);
+		float ox = x, oy = y;
+		x = cos * ox - sin * oy;
+		y = sin * ox + cos * oy;
+		return *this;
+	}
+
 	float x, y;
 };
 
@@ -114,6 +126,34 @@ inline Vector2f operator*(const float l, const Vector2f& r) {
 
 inline float dot(const Vector2f& l, const Vector2f& r) {
 	return l.x * r.x + l.y * r.y;
+}
+
+/**
+ * Converts a float direction to a vector
+*/
+inline Vector2f directionToVector(float direction) {
+	return Vector2f(sinf(degToRad(direction)), cosf(degToRad(direction)));
+}
+
+/**
+ * Converts a vector to a float direction
+*/
+inline float vectorToDirection(Vector2f vector) {
+	float rad;
+	if (vector.x >= 0) {
+		if (vector.y >= 0) {
+			rad = atan2f(vector.x, vector.y);
+		} else {
+			rad = 180. - atan2f(vector.x, vector.y);
+		}
+	} else {
+		if (vector.y >= 0) {
+			rad = 180. + atan2f(vector.x, vector.y);
+		} else {
+			rad = 360. - atan2f(vector.x, vector.y);
+		}
+	}
+	return radToDeg(rad);
 }
 
 }  // namespace vector

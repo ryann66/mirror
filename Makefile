@@ -17,31 +17,31 @@ all: mirror
 mirror: mirror.o Button.o GameComponent.o GameScene.o Level.o MenuElement.o MenuScene.o utils.o Window.o
 	$(CXX) $(LFLAGS) -o $@ $^ $(LIBS)
 
-Button.o: Button.cc Button.hh MenuElement.hh Vector2.hh Window.hh Scene.hh utils.hh colors.hh
+Button.o: Button.cc Button.hh MenuElement.hh Vector2.hh utils.hh Window.hh Scene.hh colors.hh
 	$(CXX) $(CFLAGS) -c -o $@ $<
 
-GameComponent.o: GameComponent.cc GameComponent.hh Vector2.hh colors.hh LineSegment.hh GameScene.hh Scene.hh Level.hh utils.hh Window.hh
+GameComponent.o: GameComponent.cc GameComponent.hh Vector2.hh utils.hh colors.hh LineSegment.hh GameScene.hh Scene.hh Level.hh game.hh
 	$(CXX) $(CFLAGS) -c -o $@ $<
 
-GameScene.o: GameScene.cc GameScene.hh Scene.hh Level.hh Vector2.hh LineSegment.hh GameComponent.hh colors.hh Window.hh game.hh utils.hh
+GameScene.o: GameScene.cc GameScene.hh Scene.hh Level.hh Vector2.hh utils.hh LineSegment.hh GameComponent.hh colors.hh Window.hh game.hh
 	$(CXX) $(CFLAGS) -c -o $@ $<
 
-Level.o: Level.cc Level.hh Vector2.hh LineSegment.hh GameComponent.hh colors.hh utils.hh Window.hh Scene.hh game.hh
+Level.o: Level.cc Level.hh Vector2.hh utils.hh LineSegment.hh GameComponent.hh colors.hh game.hh
 	$(CXX) $(CFLAGS) -c -o $@ $<
 
-MenuElement.o: MenuElement.cc MenuElement.hh Vector2.hh Window.hh Scene.hh
+MenuElement.o: MenuElement.cc MenuElement.hh Vector2.hh utils.hh Window.hh Scene.hh
 	$(CXX) $(CFLAGS) -c -o $@ $<
 
-MenuScene.o: MenuScene.cc Window.hh Scene.hh Vector2.hh MenuScene.hh Button.hh MenuElement.hh GameScene.hh Level.hh LineSegment.hh GameComponent.hh colors.hh
+MenuScene.o: MenuScene.cc Window.hh Scene.hh Vector2.hh utils.hh MenuScene.hh Button.hh MenuElement.hh GameScene.hh Level.hh LineSegment.hh GameComponent.hh colors.hh
 	$(CXX) $(CFLAGS) -c -o $@ $<
 
-mirror.o: mirror.cc Window.hh Scene.hh Vector2.hh MenuScene.hh Button.hh MenuElement.hh
+mirror.o: mirror.cc Window.hh Scene.hh Vector2.hh utils.hh MenuScene.hh Button.hh MenuElement.hh
 	$(CXX) $(CFLAGS) -c -o $@ $<
 
-utils.o: utils.cc utils.hh Window.hh Scene.hh Vector2.hh
+utils.o: utils.cc utils.hh Vector2.hh
 	$(CXX) $(CFLAGS) -c -o $@ $<
 
-Window.o: Window.cc Window.hh Scene.hh Vector2.hh
+Window.o: Window.cc Window.hh Scene.hh Vector2.hh utils.hh
 	$(CXX) $(CFLAGS) -c -o $@ $<
 
 clean:

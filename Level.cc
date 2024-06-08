@@ -28,6 +28,7 @@ using std::getline;
 using std::invalid_argument;
 using vector::Vector2;
 using vector::Vector2f;
+using vector::directionToVector;
 
 namespace game {
 
@@ -129,6 +130,8 @@ Level::Level(istream& levelfile) {
 			ss >> t->pos.x;
 			ss.get();
 			ss >> t->pos.y;
+			ss.get();
+			ss >> t->rotation;
 			ss.get();
 			ss >> t->lasersNeeded;
 			t->colorNeeded = curRecieverColor;

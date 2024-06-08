@@ -2,10 +2,9 @@
 #include "GameScene.hh"
 #include "Level.hh"
 #include "utils.hh"
+#include "game.hh"
 
-#include <iostream>
-using std::cerr;
-using std::endl;
+using vector::Vector2f;
 
 namespace game {
 
@@ -53,19 +52,25 @@ bool Blocker::collide(Ray& ray, Collision* out) {
 }
 
 void Blocker::display() {
-	float theta = degToRad(-rotation);
-	float cos = cosf(theta);
-	float sin = sinf(theta);
-	int halfWidth = size.x / 2;
-	int halfHeight = size.y / 2;
-	float newWidth = cos * halfWidth - sin * halfHeight;
-	float newHeight = sin * halfWidth + cos * halfHeight;
+	float theta = -rotation;
+	Vector2f halfSize(size.x / 2, size.y / 2);
 	glColor4fv(color);
 	glBegin(GL_QUADS);
-		glVertex2f(levelGlCoordX(pos.x + newWidth), levelGlCoordY(pos.y + newHeight));
-		glVertex2f(levelGlCoordX(pos.x + newWidth), levelGlCoordY(pos.y - newHeight));
-		glVertex2f(levelGlCoordX(pos.x - newWidth), levelGlCoordY(pos.y - newHeight));
-		glVertex2f(levelGlCoordX(pos.x - newWidth), levelGlCoordY(pos.y + newHeight));
+		Vector2f temp(halfSize);
+		temp.rotate(theta);
+		glVertex2f(levelGlCoordX(pos.x + temp.x), levelGlCoordY(pos.y + temp.y));
+		temp.x = -halfSize.x;
+		temp.y = halfSize.y;
+		temp.rotate(theta);
+		glVertex2f(levelGlCoordX(pos.x + temp.x), levelGlCoordY(pos.y + temp.y));
+		temp.x = -halfSize.x;
+		temp.y = -halfSize.y;
+		temp.rotate(theta);
+		glVertex2f(levelGlCoordX(pos.x + temp.x), levelGlCoordY(pos.y + temp.y));
+		temp.x = halfSize.x;
+		temp.y = -halfSize.y;
+		temp.rotate(theta);
+		glVertex2f(levelGlCoordX(pos.x + temp.x), levelGlCoordY(pos.y + temp.y));
 	glEnd();
 }
 
@@ -80,19 +85,25 @@ bool Mirror::collide(Ray& ray, Collision* out) {
 }
 
 void Mirror::display() {
-	float theta = degToRad(-rotation);
-	float cos = cosf(theta);
-	float sin = sinf(theta);
-	int halfWidth = size.x / 2;
-	int halfHeight = size.y / 2;
-	float newWidth = cos * halfWidth - sin * halfHeight;
-	float newHeight = sin * halfWidth + cos * halfHeight;
+	float theta = -rotation;
+	Vector2f halfSize(size.x / 2, size.y / 2);
 	glColor4fv(color);
 	glBegin(GL_QUADS);
-		glVertex2f(levelGlCoordX(pos.x + newWidth), levelGlCoordY(pos.y + newHeight));
-		glVertex2f(levelGlCoordX(pos.x + newWidth), levelGlCoordY(pos.y - newHeight));
-		glVertex2f(levelGlCoordX(pos.x - newWidth), levelGlCoordY(pos.y - newHeight));
-		glVertex2f(levelGlCoordX(pos.x - newWidth), levelGlCoordY(pos.y + newHeight));
+		Vector2f temp(halfSize);
+		temp.rotate(theta);
+		glVertex2f(levelGlCoordX(pos.x + temp.x), levelGlCoordY(pos.y + temp.y));
+		temp.x = -halfSize.x;
+		temp.y = halfSize.y;
+		temp.rotate(theta);
+		glVertex2f(levelGlCoordX(pos.x + temp.x), levelGlCoordY(pos.y + temp.y));
+		temp.x = -halfSize.x;
+		temp.y = -halfSize.y;
+		temp.rotate(theta);
+		glVertex2f(levelGlCoordX(pos.x + temp.x), levelGlCoordY(pos.y + temp.y));
+		temp.x = halfSize.x;
+		temp.y = -halfSize.y;
+		temp.rotate(theta);
+		glVertex2f(levelGlCoordX(pos.x + temp.x), levelGlCoordY(pos.y + temp.y));
 	glEnd();
 }
 

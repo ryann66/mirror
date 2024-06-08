@@ -29,4 +29,9 @@ const vector::Vector2 DEFAULT_BOARD_SIZE(50, 50);
 
 const float LASER_WIDTH = 0.25f;
 
+const constexpr float RECIEVER_OPENING_WIDTH = 0.8f;
+const constexpr float RECIEVER_OPENING_DEPTH = 0.5f;
+
+const constexpr float RECIEVER_EDGE_WIDTH = (1.0f - RECIEVER_OPENING_WIDTH) / 2.0f;
+
 }  // namespace game

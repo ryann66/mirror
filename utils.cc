@@ -9,6 +9,7 @@
 #endif
 
 #include "utils.hh"
+#include "Window.hh"
 
 int stringWidth(void* font, const char* str) {
 	int len = 0;
