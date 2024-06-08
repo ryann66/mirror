@@ -38,7 +38,7 @@ MenuScene.o: MenuScene.cc Window.hh Scene.hh Vector2.hh utils.hh MenuScene.hh Bu
 mirror.o: mirror.cc Window.hh Scene.hh Vector2.hh utils.hh MenuScene.hh Button.hh MenuElement.hh
 	$(CXX) $(CFLAGS) -c -o $@ $<
 
-utils.o: utils.cc utils.hh Vector2.hh
+utils.o: utils.cc utils.hh Window.hh Scene.hh Vector2.hh
 	$(CXX) $(CFLAGS) -c -o $@ $<
 
 Window.o: Window.cc Window.hh Scene.hh Vector2.hh utils.hh

@@ -24,7 +24,20 @@ bool Laser::collide(Ray& ray, Collision* out) {
 }
 
 void Laser::display() {
-
+	float theta = rotation;
+	Vector2f v3(LASER_SIZE.x / 2, LASER_SIZE.y * (2.0f * LASER_EMITTER_BACKSET - 1.0f));
+	Vector2f v1(-v3.x, v3.y - LASER_SIZE.y), v2(-v3.x, v3.y), v4(v3.x, v3.y - LASER_SIZE.y);
+	v1.rotate(theta);
+	v2.rotate(theta);
+	v3.rotate(theta);
+	v4.rotate(theta);
+	glColor4fv(color);
+	glBegin(GL_QUADS);
+		glVertex2f(levelGlCoordX(pos.x + v1.x), levelGlCoordY(pos.y + v1.y));
+		glVertex2f(levelGlCoordX(pos.x + v2.x), levelGlCoordY(pos.y + v2.y));
+		glVertex2f(levelGlCoordX(pos.x + v3.x), levelGlCoordY(pos.y + v3.y));
+		glVertex2f(levelGlCoordX(pos.x + v4.x), levelGlCoordY(pos.y + v4.y));
+	glEnd();
 }
 
 bool Target::hitboxClicked(int x, int y) {

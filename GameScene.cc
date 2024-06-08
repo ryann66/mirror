@@ -16,6 +16,11 @@
 #include "game.hh"
 #include "utils.hh"
 
+// tmp
+#include <iostream>
+using std::endl;
+using std::cerr;
+
 using std::list;
 using vector::Vector2;
 using vector::Vector2f;
@@ -46,17 +51,15 @@ void gameSceneDisplayFunc() {
 	for (auto laser : curGameScene->level->lasers) {
 		// trace laser
 		list<LineSegment> path(curGameScene->level->traceLaser(laser));
+		glColor4fv(laser->beamColor);
 		for (LineSegment& l : path) {
-			Vector2f l1 = l.start - l.end;
-			l1 *= LASER_WIDTH / l1.magnitude();
-			Vector2f l2(l1.y, l1.x);
-			l.start -= l1;
-			l.end += l1;
+			Vector2f n(l.start.y - l.end.y, l.end.x - l.start.x);
+			n *= LASER_WIDTH * 0.5f / n.magnitude();
 			glBegin(GL_QUADS);
-				glVertex2f(glCoordSpaceX((l.start - l2).x), glCoordSpaceY((l.start - l2).y));
-				glVertex2f(glCoordSpaceX((l.start + l2).x), glCoordSpaceY((l.start + l2).y));
-				glVertex2f(glCoordSpaceX((l.end + l2).x), glCoordSpaceY((l.end + l2).y));
-				glVertex2f(glCoordSpaceX((l.end - l2).x), glCoordSpaceY((l.end - l2).y));
+				glVertex2f(levelGlCoordX(l.start.x - n.x), levelGlCoordY(l.start.y - n.y));
+				glVertex2f(levelGlCoordX(l.start.x + n.x), levelGlCoordY(l.start.y + n.y));
+				glVertex2f(levelGlCoordX(l.end.x - n.x), levelGlCoordY(l.end.y - n.y));
+				glVertex2f(levelGlCoordX(l.end.x + n.x), levelGlCoordY(l.end.y + n.y));
 			glEnd();
 		}
 	}

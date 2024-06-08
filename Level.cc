@@ -140,6 +140,7 @@ Level::Level(istream& levelfile) {
 			ss >> movementEnabled;
 			if (movementEnabled) this->movables.push_back(t);
 			else this->immovables.push_back(t);
+			this->targets.push_back(t);
 		} else if (token == "LASER") {
 			Laser* l = new Laser();
 			ss >> l->pos.x;
@@ -153,6 +154,7 @@ Level::Level(istream& levelfile) {
 			ss >> movementEnabled;
 			if (movementEnabled) this->movables.push_back(l);
 			else this->immovables.push_back(l);
+			this->lasers.push_back(l);
 		} else {
 			throw new std::invalid_argument("Unknown argument " + line);
 		}
