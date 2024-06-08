@@ -29,4 +29,10 @@ class GameScene : public Scene {
 	Level* const level;
 };
 
+/**
+ * Converts level X/Y coords into gl coordinates
+*/
+float levelGlCoordX(float levelCoordX);
+float levelGlCoordY(float levelCoordY);
+
 }  // namespace game

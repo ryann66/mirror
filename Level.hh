@@ -44,14 +44,6 @@ class Level final {
 	// adds one laser to any targets it collides with
 	std::list<LineSegment> traceLaser(Laser*);
 
-	// level colors
-	GLfloat mirrorColor[4];
-	GLfloat blockerColor[4];
-	GLfloat laserColor[4];
-	GLfloat targetColor[4];
-	GLfloat backgroundColor[4];
-	GLfloat wallColor[4];
-
 	// vector for arbitrary pointers that need to be freed
 	std::vector<void*> heapPointers;
 

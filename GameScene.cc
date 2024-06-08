@@ -11,6 +11,7 @@
 #include <list>
 
 #include "GameScene.hh"
+#include "GameComponent.hh"
 #include "Window.hh"
 #include "game.hh"
 #include "utils.hh"
@@ -21,7 +22,7 @@ using vector::Vector2f;
 
 namespace game {
 
-GameScene* curScene;
+GameScene* curGameScene;
 
 int changeCount = 0;
 
@@ -30,19 +31,21 @@ int changeCount = 0;
 */
 void gameSceneWinCheckFunc(int value) {
 	if (value != changeCount) return;
-	curScene->level->setBeat();
+	if (!curGameScene) return;
+	curGameScene->level->setBeat();
+	// TODO replace with a win screen
 	window->replaceScene(LEVEL_SELECTOR);
 }
 
 void gameSceneDisplayFunc() {
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	// reset targets
-	for (auto target : curScene->level->targets) {
+	for (auto target : curGameScene->level->targets) {
 		target->lasersHit = 0;
 	}
-	for (auto laser : curScene->level->lasers) {
+	for (auto laser : curGameScene->level->lasers) {
 		// trace laser
-		list<LineSegment> path(curScene->level->traceLaser(laser));
+		list<LineSegment> path(curGameScene->level->traceLaser(laser));
 		for (LineSegment& l : path) {
 			Vector2f l1 = l.start - l.end;
 			l1 *= LASER_WIDTH / l1.magnitude();
@@ -57,15 +60,15 @@ void gameSceneDisplayFunc() {
 			glEnd();
 		}
 	}
-	for (auto component : curScene->level->immovables) {
+	for (auto component : curGameScene->level->immovables) {
 		component->display();
 	}
-	for (auto component : curScene->level->movables) {
+	for (auto component : curGameScene->level->movables) {
 		component->display();
 	}
 	// check if all the targets are satisfied
 	bool complete = true;
-	for (auto target : curScene->level->targets) {
+	for (auto target : curGameScene->level->targets) {
 		if (target->lasersHit != target->lasersNeeded) {
 			complete = false;
 			break;
@@ -97,7 +100,7 @@ void gameSceneClickLogger(int button, int state, int x, int y) {
 		// select component
 		originalX = x;
 		originalY = y;
-		for (auto movable : curScene->level->movables) {
+		for (auto movable : curGameScene->level->movables) {
 			if (movable->hitboxClicked(x, y)) {
 				originalPosition = movable->pos;
 				originalRotation = movable->rotation;
@@ -144,7 +147,7 @@ GameScene::~GameScene() {
 }
 
 void GameScene::onLoad() {
-	curScene = this;
+	curGameScene = this;
 	glutDisplayFunc(displayFunction);
 	glutMouseFunc(gameSceneClickLogger);
 	glutMotionFunc(gameSceneDragLogger);
@@ -153,13 +156,21 @@ void GameScene::onLoad() {
 }
 
 void GameScene::onUnload() {
-	curScene = nullptr;
+	curGameScene = nullptr;
 	selected = nullptr;
 	moveComponent = rotateComponent = false;
 	glutMouseFunc(nullptr);
 	glutMotionFunc(nullptr);
 	glutKeyboardFunc(nullptr);
 	glutDisplayFunc(unregisteredDisplayFunc);
+}
+
+float levelGlCoordX(float levelCoordX) {
+	return ((levelCoordX * 2) / curGameScene->level->size.x) - 1.;
+}
+
+float levelGlCoordY(float levelCoordY) {
+	return ((levelCoordY * -2) / curGameScene->level->size.y) + 1.;
 }
 
 }  // namespace game

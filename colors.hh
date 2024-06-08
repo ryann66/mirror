@@ -28,6 +28,10 @@ const GLfloat MirrorAlpha = 0.7;
 const GLfloat BlockerAlpha = 1.0;
 const GLfloat LaserBeamAlpha = 0.9;
 const GLfloat TargetRecieverAlpha = 1.0;
+const GLfloat LaserAlpha = 1.0;
+const GLfloat TargetAlpha = 1.0;
+const GLfloat BackgroundAlpha = 1.0;
+const GLfloat WallAlpha = 1.0;
 
 const GLfloat DefaultMirrorColor[] = {0.65, 0.7, 0.8, MirrorAlpha};
 const GLfloat DefaultBlockerColor[] = {0.5, 0.5, 0.5, BlockerAlpha};

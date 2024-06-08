@@ -33,13 +33,12 @@ namespace game {
 
 Level::Level(istream& levelfile) {
 	// load default colors
-	copy(begin(DefaultMirrorColor), end(DefaultMirrorColor), begin(mirrorColor));
-	copy(begin(DefaultBlockerColor), end(DefaultBlockerColor), begin(blockerColor));
-	copy(begin(DefaultLaserColor), end(DefaultLaserColor), begin(laserColor));
-	copy(begin(DefaultTargetColor), end(DefaultTargetColor), begin(targetColor));
-	copy(begin(DefaultBackgroundColor), end(DefaultBackgroundColor), begin(backgroundColor));
-	copy(begin(DefaultWallColor), end(DefaultWallColor), begin(wallColor));
-
+	const GLfloat* curMirrorColor = DefaultMirrorColor;
+	const GLfloat* curBlockerColor = DefaultBlockerColor;
+	const GLfloat* curLaserColor = DefaultLaserColor;
+	const GLfloat* curTargetColor = DefaultTargetColor;
+	const GLfloat* curBackgroundColor = DefaultBackgroundColor;
+	const GLfloat* curWallColor = DefaultWallColor;
 	const GLfloat* curBeamColor = DefaultLaserBeamColor;
 	const GLfloat* curRecieverColor = DefaultTargetRecieverColor;
 
@@ -57,7 +56,8 @@ Level::Level(istream& levelfile) {
 			ss >> size.y;
 		} else if (token == "COLOR") {
 			getline(ss, token, ',');
-			float color[3];
+			float* color = new float[4];
+			heapPointers.push_back(color);
 			int tmp;
 			ss >> tmp;
 			color[0] = static_cast<float>(tmp) / 255;
@@ -68,30 +68,31 @@ Level::Level(istream& levelfile) {
 			ss >> tmp;
 			color[2] = static_cast<float>(tmp) / 255;
 			if (token == "BEAM") {
-				GLfloat* beamColors = new GLfloat[8];
-				heapPointers.push_back(beamColors);
-				beamColors[0] = color[0];
-				beamColors[1] = color[1];
-				beamColors[2] = color[2];
-				beamColors[3] = LaserBeamAlpha;
-				beamColors[4] = color[0];
-				beamColors[5] = color[1];
-				beamColors[6] = color[2];
-				beamColors[7] = TargetRecieverAlpha;
-				curBeamColor = beamColors;
-				curRecieverColor = beamColors + 4;
+				float* color2 = new float[4];
+				for (int i = 0; i < 3; i++) color2[i] = color[i];
+				heapPointers.push_back(color2);
+				color[3] = LaserBeamAlpha;
+				curBeamColor = color;
+				color2[3] = TargetRecieverAlpha;
+				curRecieverColor = color2;
 			} else if (token == "WALL") {
-				copy(begin(color), end(color), begin(wallColor));
+				color[3] = WallAlpha;
+				curWallColor = color;
 			} else if (token == "BACKGROUND") {
-				copy(begin(color), end(color), begin(backgroundColor));
+				color[3] = BackgroundAlpha;
+				curBackgroundColor = color;
 			} else if (token == "MIRROR") {
-				copy(begin(color), end(color), begin(mirrorColor));
+				color[3] = MirrorAlpha;
+				curMirrorColor = color;
 			} else if (token == "BLOCKER") {
-				copy(begin(color), end(color), begin(blockerColor));
+				color[3] = BlockerAlpha;
+				curBlockerColor = color;
 			} else if (token == "LASER") {
-				copy(begin(color), end(color), begin(laserColor));
+				color[3] = LaserAlpha;
+				curLaserColor = color;
 			} else if (token == "TARGET") {
-				copy(begin(color), end(color), begin(targetColor));
+				color[3] = TargetAlpha;
+				curTargetColor = color;
 			} else {
 				throw new std::invalid_argument("Unknown mirror argument" + line);
 			}
@@ -108,6 +109,7 @@ Level::Level(istream& levelfile) {
 			ss >> m->size.y;
 			ss.get();
 			ss >> movementEnabled;
+			m->color = curMirrorColor;
 			if (movementEnabled) this->movables.push_back(m);
 			else this->immovables.push_back(m);
 		} else if (token == "BLOCKER") {
@@ -123,6 +125,7 @@ Level::Level(istream& levelfile) {
 			ss >> b->size.y;
 			ss.get();
 			ss >> movementEnabled;
+			b->color = curBlockerColor;
 			if (movementEnabled) this->movables.push_back(b);
 			else this->immovables.push_back(b);
 		} else if (token == "TARGET") {
@@ -133,6 +136,7 @@ Level::Level(istream& levelfile) {
 			ss.get();
 			ss >> t->lasersNeeded;
 			t->colorNeeded = curRecieverColor;
+			t->color = curTargetColor;
 			ss.get();
 			ss >> movementEnabled;
 			if (movementEnabled) this->movables.push_back(t);
@@ -144,7 +148,8 @@ Level::Level(istream& levelfile) {
 			ss >> l->pos.y;
 			ss.get();
 			ss >> l->rotation;
-			l->color = curBeamColor;
+			l->beamColor = curBeamColor;
+			l->color = curLaserColor;
 			ss.get();
 			ss >> movementEnabled;
 			if (movementEnabled) this->movables.push_back(l);

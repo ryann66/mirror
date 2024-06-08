@@ -46,6 +46,7 @@ struct GameComponent {
 
 struct Laser : public GameComponent {
 	const GLfloat* color;
+	const GLfloat* beamColor;
 
 	virtual bool hitboxClicked(int x, int y);
 	virtual bool collide(Ray& ray, Collision* out);
@@ -53,6 +54,7 @@ struct Laser : public GameComponent {
 };
 
 struct Target : public GameComponent {
+	const GLfloat* color;
 	const GLfloat* colorNeeded;
 	unsigned int lasersNeeded;
 	unsigned int lasersHit;
@@ -63,6 +65,7 @@ struct Target : public GameComponent {
 };
 
 struct Blocker : public GameComponent {
+	const GLfloat* color;
 	vector::Vector2 size;
 	
 	virtual bool hitboxClicked(int x, int y);
@@ -71,6 +74,7 @@ struct Blocker : public GameComponent {
 };
 
 struct Mirror : public GameComponent {
+	const GLfloat* color;
 	vector::Vector2 size;
 	
 	virtual bool hitboxClicked(int x, int y);

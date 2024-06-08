@@ -126,6 +126,7 @@ void firstLevelPlayClickFunc() {
 	try {
 		ifstream levelfile("./levels/level1.txt");
 		window->addScene(new game::GameScene(new game::Level(levelfile)));
+		window->loadScene(GAME);
 	} catch (exception* e) {
 		std::cerr << e->what() << std::endl;
 		window->replaceScene(MAIN_MENU);

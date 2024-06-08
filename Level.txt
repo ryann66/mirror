@@ -15,4 +15,4 @@ LASER,<x>,<y>,<rotation>,<movement_enabled>
 
 The COLOR command is special as it can set several values based on <component>.  This field can be set to any of the main
 components on the board (MIRROR,BLOCKER,LASER,TARGET) but it can also be set to BEAM, WALL, or BACKGROUND. BEAM sets the
-color of both laser beams and target recievers. Except BEAM, colors should only be set once.
+color of both laser beams and target recievers.

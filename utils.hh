@@ -36,6 +36,12 @@ inline float glCoordSpaceX(int glutCoordX) {
 inline float glCoordSpaceY(int glutCoordY) {
 	return (((float)(glutCoordY * -2)) / window->size.y) + 1.;
 }
+inline float glCoordSpaceX(float glutCoordX) {
+	return ((glutCoordX * 2) / window->size.x) - 1.;
+}
+inline float glCoordSpaceY(float glutCoordY) {
+	return ((glutCoordY * -2) / window->size.y) + 1.;
+}
 
 /**
  * Converts between radians and degrees
