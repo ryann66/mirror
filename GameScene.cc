@@ -67,17 +67,14 @@ void gameSceneDisplayFunc() {
 		component->display();
 	}
 	// check if all the targets are satisfied
-	bool complete = true;
 	for (auto target : curGameScene->level->targets) {
 		if (target->lasersHit != target->lasersNeeded) {
-			complete = false;
-			break;
+			goto incomplete;
 		}
 	}
-	if (complete) {
-		// start win timer
-		glutTimerFunc(MS_WIN_DELAY, gameSceneWinCheckFunc, changeCount);
-	}
+	// start win timer
+	glutTimerFunc(MS_WIN_DELAY, gameSceneWinCheckFunc, changeCount);
+ incomplete:
 	glutSwapBuffers();
 }
 
