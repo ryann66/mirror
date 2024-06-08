@@ -38,7 +38,6 @@ Level::Level(istream& levelfile) {
 	const GLfloat* curLaserColor = DefaultLaserColor;
 	const GLfloat* curTargetColor = DefaultTargetColor;
 	const GLfloat* curBackgroundColor = DefaultBackgroundColor;
-	const GLfloat* curWallColor = DefaultWallColor;
 	const GLfloat* curBeamColor = DefaultLaserBeamColor;
 	const GLfloat* curRecieverColor = DefaultTargetRecieverColor;
 
@@ -75,9 +74,6 @@ Level::Level(istream& levelfile) {
 				curBeamColor = color;
 				color2[3] = TargetRecieverAlpha;
 				curRecieverColor = color2;
-			} else if (token == "WALL") {
-				color[3] = WallAlpha;
-				curWallColor = color;
 			} else if (token == "BACKGROUND") {
 				color[3] = BackgroundAlpha;
 				curBackgroundColor = color;
