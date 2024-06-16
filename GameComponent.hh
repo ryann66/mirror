@@ -33,6 +33,11 @@ struct GameComponent {
 	virtual bool hitboxClicked(int x, int y) = 0;
 
 	/**
+	 * Returns the maximum distance from the origin that this component extends
+	*/
+	virtual float hitboxRadius() = 0;
+
+	/**
 	 * Returns true if the ray originating at origin with direction rot will collide with this
 	 * If true, then collision output parameter will be filled out, else it is undefined
 	*/
@@ -50,6 +55,7 @@ struct Laser : public GameComponent {
 
 	virtual bool hitboxClicked(int x, int y);
 	virtual bool collide(Ray& ray, Collision* out);
+	virtual float hitboxRadius();
 	virtual void display();
 };
 
@@ -61,6 +67,7 @@ struct Target : public GameComponent {
 	
 	virtual bool hitboxClicked(int x, int y);
 	virtual bool collide(Ray& ray, Collision* out);
+	virtual float hitboxRadius();
 	virtual void display();
 };
 
@@ -70,6 +77,7 @@ struct Blocker : public GameComponent {
 	
 	virtual bool hitboxClicked(int x, int y);
 	virtual bool collide(Ray& ray, Collision* out);
+	virtual float hitboxRadius();
 	virtual void display();
 };
 
@@ -79,6 +87,7 @@ struct Mirror : public GameComponent {
 	
 	virtual bool hitboxClicked(int x, int y);
 	virtual bool collide(Ray& ray, Collision* out);
+	virtual float hitboxRadius();
 	virtual void display();
 };
 

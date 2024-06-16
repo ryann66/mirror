@@ -67,6 +67,11 @@ bool Laser::collide(Ray& ray, Collision* out) {
 	return false;
 }
 
+float Laser::hitboxRadius() {
+	float height = LASER_SIZE.y * LASER_EMITTER_BACKSET;
+	return sqrtf(LASER_SIZE.x * LASER_SIZE.x + height * height);
+}
+
 void Laser::display() {
 	float theta = rotation;
 	Vector2f v3(LASER_SIZE.x / 2 * ELEMENT_DRAW_SCALE, LASER_SIZE.y * (2.0f * LASER_EMITTER_BACKSET - 1.0f) * ELEMENT_DRAW_SCALE);
@@ -142,6 +147,10 @@ bool Target::collide(Ray& ray, Collision* out) {
 	// don't check inner wall outside target (can't hit anyways)
 
 	return !isinf(out->distance);
+}
+
+float Target::hitboxRadius() {
+	return sqrtf(TARGET_SIZE.x * TARGET_SIZE.x + TARGET_SIZE.y * TARGET_SIZE.y);
 }
 
 void Target::display() {
@@ -238,6 +247,10 @@ bool Blocker::collide(Ray& ray, Collision* out) {
 	return !isinf(out->distance);
 }
 
+float Blocker::hitboxRadius() {
+	return sqrtf(size.x * size.x + size.y * size.y);
+}
+
 void Blocker::display() {
 	float theta = rotation;
 	Vector2f halfSize(size.x / 2 * ELEMENT_DRAW_SCALE, size.y / 2 * ELEMENT_DRAW_SCALE);
@@ -313,6 +326,10 @@ bool Mirror::collide(Ray& ray, Collision* out) {
 	}
 
 	return !isinf(out->distance);
+}
+
+float Mirror::hitboxRadius() {
+	return sqrtf(size.x * size.x + size.y * size.y);
 }
 
 void Mirror::display() {
