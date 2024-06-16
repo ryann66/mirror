@@ -69,8 +69,8 @@ bool Laser::collide(Ray& ray, Collision* out) {
 
 void Laser::display() {
 	float theta = rotation;
-	Vector2f v3(LASER_SIZE.x / 2, LASER_SIZE.y * (2.0f * LASER_EMITTER_BACKSET - 1.0f));
-	Vector2f v1(-v3.x, v3.y - LASER_SIZE.y), v2(-v3.x, v3.y), v4(v3.x, v3.y - LASER_SIZE.y);
+	Vector2f v3(LASER_SIZE.x / 2 * ELEMENT_DRAW_SCALE, LASER_SIZE.y * (2.0f * LASER_EMITTER_BACKSET - 1.0f) * ELEMENT_DRAW_SCALE);
+	Vector2f v1(-v3.x, v3.y - LASER_SIZE.y * ELEMENT_DRAW_SCALE), v2(-v3.x, v3.y), v4(v3.x, v3.y - LASER_SIZE.y * ELEMENT_DRAW_SCALE);
 	v1.rotate(theta);
 	v2.rotate(theta);
 	v3.rotate(theta);
@@ -146,7 +146,7 @@ bool Target::collide(Ray& ray, Collision* out) {
 
 void Target::display() {
 	float theta = rotation;
-	Vector2f v3(TARGET_SIZE.x / 2, TARGET_SIZE.y / 2);
+	Vector2f v3(TARGET_SIZE.x / 2 * ELEMENT_DRAW_SCALE, TARGET_SIZE.y / 2 * ELEMENT_DRAW_SCALE);
 	Vector2f v1(-v3.x, -v3.y), v2(-v3.x, v3.y), v4(v3.x, -v3.y);
 	v1.rotate(theta);
 	v2.rotate(theta);
@@ -240,7 +240,7 @@ bool Blocker::collide(Ray& ray, Collision* out) {
 
 void Blocker::display() {
 	float theta = rotation;
-	Vector2f halfSize(size.x / 2, size.y / 2);
+	Vector2f halfSize(size.x / 2 * ELEMENT_DRAW_SCALE, size.y / 2 * ELEMENT_DRAW_SCALE);
 	glColor4fv(color);
 	glBegin(GL_QUADS);
 		Vector2f temp(halfSize);
@@ -317,7 +317,7 @@ bool Mirror::collide(Ray& ray, Collision* out) {
 
 void Mirror::display() {
 	float theta = rotation;
-	Vector2f halfSize(size.x / 2, size.y / 2);
+	Vector2f halfSize(size.x / 2 * ELEMENT_DRAW_SCALE, size.y / 2 * ELEMENT_DRAW_SCALE);
 	glColor4fv(color);
 	glBegin(GL_QUADS);
 		Vector2f temp(halfSize);

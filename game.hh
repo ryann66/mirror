@@ -44,6 +44,7 @@ const constexpr float RECIEVER_EDGE_WIDTH = (1.0f - RECIEVER_OPENING_WIDTH) / 2.
 // percentage of laser emitter that is behind the pivot
 const float LASER_EMITTER_BACKSET = 0.8f;
 
-const float ELEMENT_DRAW_SCALE = 1.1f;
+// scale to render drawn elements at (does not affect reflections!)
+const float ELEMENT_DRAW_SCALE = 1.25f;
 
 }  // namespace game
