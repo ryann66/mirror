@@ -45,6 +45,7 @@ Level::Level(istream& levelfile) {
 	// read file
 	string line;
 	while (getline(levelfile, line)) {
+		if (line[0] == '#') continue;
 		line.append(1, '\r');
 		istringstream ss(line);
 		string token;
@@ -160,6 +161,7 @@ Level::Level(istream& levelfile) {
 		}
 		// premature eof
 		if (ss.eof()) throw new std::invalid_argument("Line incomplete: " + line);
+		// pop \r characters to support CRLF newlines
 		while (ss.peek() == '\r') ss.get();
 		// remaining characters in string
 		if (!ss.eof()) throw new std::invalid_argument("Extra characters in line: " + line);
@@ -175,7 +177,7 @@ list<LineSegment> Level::traceLaser(Laser* laser) {
 
 void Level::traceLaser(Ray& ray, const GLfloat* laserColor, list<LineSegment>* rays) {
 	Collision newCol, shortCol;
-	bool col;
+	bool col = false;
 	// check collision distances
 	for (GameComponent* component : this->immovables) {
 		if (col) {
@@ -199,6 +201,7 @@ void Level::traceLaser(Ray& ray, const GLfloat* laserColor, list<LineSegment>* r
 	if (!col) {
 		// calculate hit on wall
 		LineSegment wall(Vector2f(0, 0), Vector2f(size.x, 0));
+		shortCol.type = BLOCK;
 		if (!collide(ray, wall, &shortCol)) {
 			wall.end = Vector2f(0, size.y);
 			if (!collide(ray, wall, &shortCol)) {
@@ -220,9 +223,12 @@ void Level::traceLaser(Ray& ray, const GLfloat* laserColor, list<LineSegment>* r
 			if (rays->size() == MAX_LASER_DEPTH) return;
 			{
 				// spawn a recursive call to trace the laser back
-				Vector2f v(ray.end - ray.start);
+				// direction back towards where current ray was
+				Vector2f l(ray.start - ray.end);
+				l.normalize();
+				shortCol.normal.normalize();
 				ray.start = shortCol.location;
-				ray.end = (2. * vector::dot(v, shortCol.normal) * shortCol.normal) - v;
+				ray.end = (2. * vector::dot(l, shortCol.normal) * shortCol.normal) - l + ray.start;
 				traceLaser(ray, laserColor, rays);
 				return;
 			}

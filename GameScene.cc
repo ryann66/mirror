@@ -58,8 +58,8 @@ void gameSceneDisplayFunc() {
 			glBegin(GL_QUADS);
 				glVertex2f(levelGlCoordX(l.start.x - n.x), levelGlCoordY(l.start.y - n.y));
 				glVertex2f(levelGlCoordX(l.start.x + n.x), levelGlCoordY(l.start.y + n.y));
-				glVertex2f(levelGlCoordX(l.end.x - n.x), levelGlCoordY(l.end.y - n.y));
 				glVertex2f(levelGlCoordX(l.end.x + n.x), levelGlCoordY(l.end.y + n.y));
+				glVertex2f(levelGlCoordX(l.end.x - n.x), levelGlCoordY(l.end.y - n.y));
 			glEnd();
 		}
 	}

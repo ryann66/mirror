@@ -73,6 +73,12 @@ struct Vector2f {
 		return sqrtf(x * x + y * y);
 	}
 
+	inline void normalize() {
+		float mag = magnitude();
+		x /= mag;
+		y /= mag;
+	}
+
 	inline Vector2f& operator+=(const Vector2f& r) {
 		x += r.x;
 		y += r.y;
@@ -129,10 +135,10 @@ inline float dot(const Vector2f& l, const Vector2f& r) {
 }
 
 /**
- * Converts a float direction to a vector
+ * Converts a float direction (0 degrees as north) to a vector in glut coordinates (inverted y axis)
 */
 inline Vector2f directionToVector(float direction) {
-	return Vector2f(sinf(degToRad(direction)), cosf(degToRad(direction)));
+	return Vector2f(sinf(degToRad(direction)), -cosf(degToRad(direction)));
 }
 
 /**

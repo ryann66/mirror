@@ -1,16 +1,60 @@
+#include <limits>
+#include <cmath>
+
 #include "GameComponent.hh"
 #include "GameScene.hh"
 #include "Level.hh"
 #include "utils.hh"
 #include "game.hh"
 
+using std::isinf;
+using std::abs;
+using std::copysignf;
+using std::numeric_limits;
 using vector::Vector2f;
 
 namespace game {
 
 bool collide(Ray& ray, LineSegment& line, Collision* out) {
-	// TODO
-	return false;
+	float raySlope = (ray.end.y - ray.start.y) / (ray.end.x - ray.start.x);
+	float lineSlope = (line.end.y - line.start.y) / (line.end.x - line.start.x);
+	if ((isinf(raySlope) && isinf(lineSlope)) || abs(raySlope - lineSlope) < 0.0001) {
+		// parallel lines
+		return false;
+	}
+
+	float interceptX;
+	float interceptY;
+	if (isinf(raySlope)) {
+		interceptX = ray.start.x;
+		interceptY = line.start.y + lineSlope * (interceptX - line.start.x);
+	} else if (isinf(lineSlope)) {
+		interceptX = line.start.x;
+		interceptY = ray.start.y + raySlope * (interceptX - ray.start.x);
+	} else {
+		interceptX = (ray.start.y + lineSlope * line.start.x - line.start.y - raySlope * ray.start.x) / (lineSlope - raySlope);
+		interceptY = line.start.y + lineSlope * (interceptX - line.start.x);
+	}
+
+	if (!((interceptX < line.start.x ^ interceptX <= line.end.x) && (interceptY < line.start.y ^ interceptY <= line.end.y))) {
+		// out of bounds of line
+		return false;
+	}
+
+	if (!((interceptX <= ray.start.x ^ ray.start.x < ray.end.x) && (interceptY <= ray.start.y ^ ray.start.y < ray.end.y))) {
+		// out of bounds of ray
+		return false;
+	}
+
+	out->location.x = interceptX;
+	out->location.y = interceptY;
+	Vector2f normal(line.end);
+	normal -= line.start;
+	normal.rotate(90);
+	if (vector::dot(normal, ray.end - ray.start) > 0) normal *= -1;
+	out->normal = normal;
+	out->distance = (ray.start - out->location).magnitude();
+	return true;
 }
 
 bool Laser::hitboxClicked(int x, int y) {
@@ -46,8 +90,58 @@ bool Target::hitboxClicked(int x, int y) {
 }
 
 bool Target::collide(Ray& ray, Collision* out) {
-	// TODO
-	return false;
+	// setup corner points
+	float theta = rotation;
+	Vector2f v3(TARGET_SIZE.x / 2, TARGET_SIZE.y / 2);
+	Vector2f v1(-v3.x, -v3.y), v2(-v3.x, v3.y), v4(v3.x, -v3.y);
+	v1.rotate(theta);
+	v2.rotate(theta);
+	v3.rotate(theta);
+	v4.rotate(theta);
+	v1 += pos;
+	v2 += pos;
+	v3 += pos;
+	v4 += pos;
+	
+	// setup output param
+	out->distance = numeric_limits<float>::infinity();
+	out->collider = this;
+
+	// check line collisions
+	LineSegment l(v1, v2);
+	Collision tmp;
+	if (game::collide(ray, l, &tmp) && tmp.distance < out->distance) {
+		out->location = tmp.location;
+		out->distance = tmp.distance;
+		out->normal = tmp.normal;
+		out->type = BLOCK;
+	}
+	l.start = v3;
+	if (game::collide(ray, l, &tmp) && tmp.distance < out->distance) {
+		out->location = tmp.location;
+		out->distance = tmp.distance;
+		out->normal = tmp.normal;
+		out->type = BLOCK;
+	}
+	l.end = v4;
+	if (game::collide(ray, l, &tmp) && tmp.distance < out->distance) {
+		out->location = tmp.location;
+		out->distance = tmp.distance;
+		out->normal = tmp.normal;
+		out->type = BLOCK;
+	}
+	// check inner wall
+	l.start = v1 * (1 - RECIEVER_EDGE_WIDTH) + v4 * RECIEVER_EDGE_WIDTH;
+	l.end = v4 * (1 - RECIEVER_EDGE_WIDTH) + v1 * RECIEVER_EDGE_WIDTH;
+	if (game::collide(ray, l, &tmp) && tmp.distance < out->distance) {
+		out->location = tmp.location;
+		out->distance = tmp.distance;
+		out->normal = tmp.normal;
+		out->type = TARGET;
+	}
+	// don't check inner wall outside target (can't hit anyways)
+
+	return !isinf(out->distance);
 }
 
 void Target::display() {
@@ -96,8 +190,52 @@ bool Blocker::hitboxClicked(int x, int y) {
 }
 
 bool Blocker::collide(Ray& ray, Collision* out) {
-	// TODO
-	return false;
+	// setup corner points
+	float theta = rotation;
+	Vector2f v3(TARGET_SIZE.x / 2, TARGET_SIZE.y / 2);
+	Vector2f v1(-v3.x, -v3.y), v2(-v3.x, v3.y), v4(v3.x, -v3.y);
+	v1.rotate(theta);
+	v2.rotate(theta);
+	v3.rotate(theta);
+	v4.rotate(theta);
+	v1 += pos;
+	v2 += pos;
+	v3 += pos;
+	v4 += pos;
+	
+	// setup output param
+	out->distance = numeric_limits<float>::infinity();
+	out->collider = this;
+	out->type = BLOCK;
+
+	// check line collisions
+	LineSegment l(v1, v2);
+	Collision tmp;
+	if (game::collide(ray, l, &tmp) && tmp.distance < out->distance) {
+		out->location = tmp.location;
+		out->distance = tmp.distance;
+		out->normal = tmp.normal;
+	}
+	l.start = v3;
+	if (game::collide(ray, l, &tmp) && tmp.distance < out->distance) {
+		out->location = tmp.location;
+		out->distance = tmp.distance;
+		out->normal = tmp.normal;
+	}
+	l.end = v4;
+	if (game::collide(ray, l, &tmp) && tmp.distance < out->distance) {
+		out->location = tmp.location;
+		out->distance = tmp.distance;
+		out->normal = tmp.normal;
+	}
+	l.start = v1;
+	if (game::collide(ray, l, &tmp) && tmp.distance < out->distance) {
+		out->location = tmp.location;
+		out->distance = tmp.distance;
+		out->normal = tmp.normal;
+	}
+
+	return !isinf(out->distance);
 }
 
 void Blocker::display() {
@@ -129,8 +267,52 @@ bool Mirror::hitboxClicked(int x, int y) {
 }
 
 bool Mirror::collide(Ray& ray, Collision* out) {
-	// TODO
-	return false;
+	// setup corner points
+	float theta = rotation;
+	Vector2f v3(TARGET_SIZE.x / 2, TARGET_SIZE.y / 2);
+	Vector2f v1(-v3.x, -v3.y), v2(-v3.x, v3.y), v4(v3.x, -v3.y);
+	v1.rotate(theta);
+	v2.rotate(theta);
+	v3.rotate(theta);
+	v4.rotate(theta);
+	v1 += pos;
+	v2 += pos;
+	v3 += pos;
+	v4 += pos;
+	
+	// setup output param
+	out->distance = numeric_limits<float>::infinity();
+	out->collider = this;
+	out->type = MIRROR;
+
+	// check line collisions
+	LineSegment l(v1, v2);
+	Collision tmp;
+	if (game::collide(ray, l, &tmp) && tmp.distance < out->distance && tmp.distance > 0.001) {
+		out->location = tmp.location;
+		out->distance = tmp.distance;
+		out->normal = tmp.normal;
+	}
+	l.start = v3;
+	if (game::collide(ray, l, &tmp) && tmp.distance < out->distance && tmp.distance > 0.001) {
+		out->location = tmp.location;
+		out->distance = tmp.distance;
+		out->normal = tmp.normal;
+	}
+	l.end = v4;
+	if (game::collide(ray, l, &tmp) && tmp.distance < out->distance && tmp.distance > 0.001) {
+		out->location = tmp.location;
+		out->distance = tmp.distance;
+		out->normal = tmp.normal;
+	}
+	l.start = v1;
+	if (game::collide(ray, l, &tmp) && tmp.distance < out->distance && tmp.distance > 0.001) {
+		out->location = tmp.location;
+		out->distance = tmp.distance;
+		out->normal = tmp.normal;
+	}
+
+	return !isinf(out->distance);
 }
 
 void Mirror::display() {

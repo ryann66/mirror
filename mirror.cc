@@ -8,6 +8,8 @@
 #include <GL/freeglut.h>
 #endif
 
+#include <limits>
+
 #include "Window.hh"
 #include "MenuScene.hh"
 
@@ -15,6 +17,9 @@
 #define INIT_WINDOW_HEIGHT 900
 
 int main(int argc, char** argv) {
+	if (!std::numeric_limits<float>::is_iec559) {
+		exit(1);
+	}
 	// initialize glut
 	glutInit(&argc, argv);
 	glutInitWindowSize(INIT_WINDOW_WIDTH, INIT_WINDOW_HEIGHT);
