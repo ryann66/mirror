@@ -53,13 +53,16 @@ void gameSceneDisplayFunc() {
 		list<LineSegment> path(curGameScene->level->traceLaser(laser));
 		glColor4fv(laser->beamColor);
 		for (LineSegment& l : path) {
-			Vector2f n(l.start.y - l.end.y, l.end.x - l.start.x);
-			n *= LASER_WIDTH * 0.5f / n.magnitude();
+			Vector2f parallel(l.end.x - l.start.x, l.end.y - l.start.y);
+			parallel.normalize();
+			Vector2f normal(parallel.y, parallel.x);
+			parallel *= LASER_WIDTH * 0.5f;
+			normal *= LASER_WIDTH * 0.5f;
 			glBegin(GL_QUADS);
-				glVertex2f(levelGlCoordX(l.start.x - n.x), levelGlCoordY(l.start.y - n.y));
-				glVertex2f(levelGlCoordX(l.start.x + n.x), levelGlCoordY(l.start.y + n.y));
-				glVertex2f(levelGlCoordX(l.end.x + n.x), levelGlCoordY(l.end.y + n.y));
-				glVertex2f(levelGlCoordX(l.end.x - n.x), levelGlCoordY(l.end.y - n.y));
+				glVertex2f(levelGlCoordX(l.start.x - normal.x - parallel.x), levelGlCoordY(l.start.y - normal.y - parallel.y));
+				glVertex2f(levelGlCoordX(l.start.x + normal.x - parallel.x), levelGlCoordY(l.start.y + normal.y - parallel.y));
+				glVertex2f(levelGlCoordX(l.end.x + normal.x + parallel.x), levelGlCoordY(l.end.y + normal.y + parallel.y));
+				glVertex2f(levelGlCoordX(l.end.x - normal.x + parallel.x), levelGlCoordY(l.end.y - normal.y + parallel.y));
 			glEnd();
 		}
 	}

@@ -25,7 +25,7 @@ int main(int argc, char** argv) {
 	glutInitWindowSize(INIT_WINDOW_WIDTH, INIT_WINDOW_HEIGHT);
 	glutInitWindowPosition(100, 100);
 	glutInitDisplayMode(GLUT_RGBA | GLUT_DOUBLE | GLUT_ALPHA | GLUT_DEPTH);
-	glutCreateWindow("Racer");
+	glutCreateWindow("Mirror Game");
 
 	// create window with main menu scene
 	window = new Window(menu::mainMenu());
