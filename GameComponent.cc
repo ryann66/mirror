@@ -57,9 +57,12 @@ bool collide(Ray& ray, LineSegment& line, Collision* out) {
 	return true;
 }
 
-bool Laser::hitboxClicked(int x, int y) {
+bool Laser::hitboxClicked(float x, float y) {
+	x -= pos.x;
+	y -= pos.y;
+	if (x * x + y * y > hitboxRadius()) return false;
 	// TODO
-	return false;
+	return true;
 }
 
 bool Laser::collide(Ray& ray, Collision* out) {
@@ -69,7 +72,7 @@ bool Laser::collide(Ray& ray, Collision* out) {
 
 float Laser::hitboxRadius() {
 	float height = LASER_SIZE.y * LASER_EMITTER_BACKSET;
-	return sqrtf(LASER_SIZE.x * LASER_SIZE.x + height * height);
+	return sqrtf(LASER_SIZE.x * LASER_SIZE.x + height * height) * ELEMENT_DRAW_SCALE;
 }
 
 void Laser::display() {
@@ -89,9 +92,12 @@ void Laser::display() {
 	glEnd();
 }
 
-bool Target::hitboxClicked(int x, int y) {
+bool Target::hitboxClicked(float x, float y) {
+	x -= pos.x;
+	y -= pos.y;
+	if (x * x + y * y > hitboxRadius()) return false;
 	// TODO
-	return false;
+	return true;
 }
 
 bool Target::collide(Ray& ray, Collision* out) {
@@ -150,7 +156,7 @@ bool Target::collide(Ray& ray, Collision* out) {
 }
 
 float Target::hitboxRadius() {
-	return sqrtf(TARGET_SIZE.x * TARGET_SIZE.x + TARGET_SIZE.y * TARGET_SIZE.y);
+	return sqrtf(TARGET_SIZE.x * TARGET_SIZE.x + TARGET_SIZE.y * TARGET_SIZE.y) * ELEMENT_DRAW_SCALE;
 }
 
 void Target::display() {
@@ -193,9 +199,12 @@ void Target::display() {
 	glEnd();
 }
 
-bool Blocker::hitboxClicked(int x, int y) {
+bool Blocker::hitboxClicked(float x, float y) {
+	x -= pos.x;
+	y -= pos.y;
+	if (x * x + y * y > hitboxRadius()) return false;
 	// TODO
-	return false;
+	return true;
 }
 
 bool Blocker::collide(Ray& ray, Collision* out) {
@@ -248,7 +257,7 @@ bool Blocker::collide(Ray& ray, Collision* out) {
 }
 
 float Blocker::hitboxRadius() {
-	return sqrtf(size.x * size.x + size.y * size.y);
+	return sqrtf(size.x * size.x + size.y * size.y) * ELEMENT_DRAW_SCALE;
 }
 
 void Blocker::display() {
@@ -274,9 +283,12 @@ void Blocker::display() {
 	glEnd();
 }
 
-bool Mirror::hitboxClicked(int x, int y) {
+bool Mirror::hitboxClicked(float x, float y) {
+	x -= pos.x;
+	y -= pos.y;
+	if (x * x + y * y > hitboxRadius()) return false;
 	// TODO
-	return false;
+	return true;
 }
 
 bool Mirror::collide(Ray& ray, Collision* out) {
@@ -329,7 +341,7 @@ bool Mirror::collide(Ray& ray, Collision* out) {
 }
 
 float Mirror::hitboxRadius() {
-	return sqrtf(size.x * size.x + size.y * size.y);
+	return sqrtf(size.x * size.x + size.y * size.y) * ELEMENT_DRAW_SCALE;
 }
 
 void Mirror::display() {

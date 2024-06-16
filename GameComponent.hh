@@ -28,9 +28,9 @@ struct GameComponent {
 	float rotation;
 
 	/**
-	 * Returns true if the given coordinates are inside the hitbox of this
+	 * Returns true if the given level coordinates are inside the hitbox of this
 	*/
-	virtual bool hitboxClicked(int x, int y) = 0;
+	virtual bool hitboxClicked(float x, float y) = 0;
 
 	/**
 	 * Returns the maximum distance from the origin that this component extends
@@ -53,7 +53,7 @@ struct Laser : public GameComponent {
 	const GLfloat* color;
 	const GLfloat* beamColor;
 
-	virtual bool hitboxClicked(int x, int y);
+	virtual bool hitboxClicked(float x, float y);
 	virtual bool collide(Ray& ray, Collision* out);
 	virtual float hitboxRadius();
 	virtual void display();
@@ -65,7 +65,7 @@ struct Target : public GameComponent {
 	unsigned int lasersNeeded;
 	unsigned int lasersHit;
 	
-	virtual bool hitboxClicked(int x, int y);
+	virtual bool hitboxClicked(float x, float y);
 	virtual bool collide(Ray& ray, Collision* out);
 	virtual float hitboxRadius();
 	virtual void display();
@@ -75,7 +75,7 @@ struct Blocker : public GameComponent {
 	const GLfloat* color;
 	vector::Vector2 size;
 	
-	virtual bool hitboxClicked(int x, int y);
+	virtual bool hitboxClicked(float x, float y);
 	virtual bool collide(Ray& ray, Collision* out);
 	virtual float hitboxRadius();
 	virtual void display();
@@ -85,7 +85,7 @@ struct Mirror : public GameComponent {
 	const GLfloat* color;
 	vector::Vector2 size;
 	
-	virtual bool hitboxClicked(int x, int y);
+	virtual bool hitboxClicked(float x, float y);
 	virtual bool collide(Ray& ray, Collision* out);
 	virtual float hitboxRadius();
 	virtual void display();

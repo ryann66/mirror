@@ -88,7 +88,7 @@ bool moveComponent = false, rotateComponent = false;
 GameComponent* selected = nullptr;
 Vector2f originalPosition;
 float originalRotation;
-int originalX, originalY;
+float originalX, originalY;
 
 /**
  * Callback to set and unset which movable is currently being clicked
@@ -98,13 +98,17 @@ void gameSceneClickLogger(int button, int state, int x, int y) {
 	else if (button == ROTATE_BUTTON) rotateComponent = state == GLUT_DOWN;
 	else return;
 
+	// convert coordinates to level coordinates
+	float levelX = ((float) x) / window->size.x * curGameScene->level->size.x;
+	float levelY = ((float) y) / window->size.y * curGameScene->level->size.y;
+
 	if (moveComponent == false && rotateComponent == false) selected = nullptr;
 	else if (selected == nullptr) {
 		// select component
-		originalX = x;
-		originalY = y;
+		originalX = levelX;
+		originalY = levelY;
 		for (auto movable : curGameScene->level->movables) {
-			if (movable->hitboxClicked(x, y)) {
+			if (movable->hitboxClicked(levelX, levelY)) {
 				originalPosition = movable->pos;
 				originalRotation = movable->rotation;
 				selected = movable;
