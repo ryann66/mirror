@@ -87,8 +87,9 @@ void gameSceneDisplayFunc() {
 bool moveComponent = false, rotateComponent = false;
 GameComponent* selected = nullptr;
 Vector2f originalPosition;
+Vector2f clickPosition;
+Vector2f offset;
 float originalRotation;
-float originalX, originalY;
 
 /**
  * Callback to set and unset which movable is currently being clicked
@@ -105,13 +106,16 @@ void gameSceneClickLogger(int button, int state, int x, int y) {
 	if (moveComponent == false && rotateComponent == false) selected = nullptr;
 	else if (selected == nullptr) {
 		// select component
-		originalX = levelX;
-		originalY = levelY;
 		for (auto movable : curGameScene->level->movables) {
 			if (movable->hitboxClicked(levelX, levelY)) {
 				originalPosition = movable->pos;
 				originalRotation = movable->rotation;
 				selected = movable;
+				offset = movable->pos;
+				offset.x -= levelX;
+				offset.y -= levelY;
+				clickPosition.x = levelX;
+				clickPosition.y = levelY;
 				break;
 			}
 		}
@@ -129,12 +133,12 @@ void gameSceneDragLogger(int x, int y) {
 	float levelY = ((float) y) / window->size.y * curGameScene->level->size.y;
 
 	if (moveComponent) {
-		selected->pos.x = levelX;
-		selected->pos.y = levelY;
+		selected->pos.x = levelX + offset.x;
+		selected->pos.y = levelY + offset.y;
 		glutPostRedisplay();
 	}
 	if (rotateComponent) {
-		float rotation = originalRotation + (ROTATION_SENSITIVITY * (x - originalX));
+		float rotation = originalRotation + (ROTATION_SENSITIVITY * (levelX - clickPosition.x));
 		while (rotation > 360.) rotation -= 360.;
 		while (rotation < 0.) rotation += 360.;
 		selected->rotation = rotation;

@@ -19,7 +19,7 @@ const unsigned int MS_WIN_DELAY = 1500;
 const int MOVE_BUTTON = GLUT_LEFT_BUTTON;
 const int ROTATE_BUTTON = GLUT_RIGHT_BUTTON;
 
-const float ROTATION_SENSITIVITY = 0.5f;
+const float ROTATION_SENSITIVITY = 1.0f;
 
 // max recursive depth of lasers
 const int MAX_LASER_DEPTH = 20;
