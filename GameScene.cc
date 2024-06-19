@@ -55,9 +55,8 @@ void gameSceneDisplayFunc() {
 		for (LineSegment& l : path) {
 			Vector2f parallel(l.end.x - l.start.x, l.end.y - l.start.y);
 			parallel.normalize();
-			Vector2f normal(parallel.y, parallel.x);
 			parallel *= LASER_WIDTH * 0.5f;
-			normal *= LASER_WIDTH * 0.5f;
+			Vector2f normal = Vector2f(-parallel.y, parallel.x);
 			glBegin(GL_QUADS);
 				glVertex2f(levelGlCoordX(l.start.x - normal.x - parallel.x), levelGlCoordY(l.start.y - normal.y - parallel.y));
 				glVertex2f(levelGlCoordX(l.start.x + normal.x - parallel.x), levelGlCoordY(l.start.y + normal.y - parallel.y));
@@ -126,6 +125,7 @@ void gameSceneClickLogger(int button, int state, int x, int y) {
  * Callback to update the position of an element when moving the mouse
 */
 void gameSceneDragLogger(int x, int y) {
+	changeCount++;
 	// TODO prevent dragging out of scene and prevent overlap (?)
 	if (selected == nullptr) return;
 

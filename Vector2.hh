@@ -159,7 +159,10 @@ inline float vectorToDirection(Vector2f vector) {
 			rad = 360. - atan2f(vector.x, vector.y);
 		}
 	}
-	return radToDeg(rad);
+	float r = radToDeg(rad);
+	while (r >= 360) r -= 360;
+	while (r < 0) r += 360;
+	return r;
 }
 
 }  // namespace vector
