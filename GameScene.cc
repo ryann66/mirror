@@ -124,13 +124,17 @@ void gameSceneClickLogger(int button, int state, int x, int y) {
 void gameSceneDragLogger(int x, int y) {
 	// TODO prevent dragging out of scene and prevent overlap (?)
 	if (selected == nullptr) return;
-	if (MOVE_BUTTON) {
-		Vector2f offset(x - originalX, y - originalY);
-		selected->pos = originalPosition + offset;
+
+	float levelX = ((float) x) / window->size.x * curGameScene->level->size.x;
+	float levelY = ((float) y) / window->size.y * curGameScene->level->size.y;
+
+	if (moveComponent) {
+		selected->pos.x = levelX;
+		selected->pos.y = levelY;
 		glutPostRedisplay();
 	}
-	if (ROTATE_BUTTON) {
-		float rotation = originalRotation + (ROTATION_SENSITIVITY * (float)(x - originalX));
+	if (rotateComponent) {
+		float rotation = originalRotation + (ROTATION_SENSITIVITY * (x - originalX));
 		while (rotation > 360.) rotation -= 360.;
 		while (rotation < 0.) rotation += 360.;
 		selected->rotation = rotation;

@@ -60,7 +60,7 @@ bool collide(Ray& ray, LineSegment& line, Collision* out) {
 bool Laser::hitboxClicked(float x, float y) {
 	x -= pos.x;
 	y -= pos.y;
-	if (x * x + y * y > hitboxRadius()) return false;
+	if (sqrtf(x * x + y * y) > hitboxRadius()) return false;
 	// TODO
 	return true;
 }
@@ -95,7 +95,7 @@ void Laser::display() {
 bool Target::hitboxClicked(float x, float y) {
 	x -= pos.x;
 	y -= pos.y;
-	if (x * x + y * y > hitboxRadius()) return false;
+	if (sqrtf(x * x + y * y) > hitboxRadius()) return false;
 	// TODO
 	return true;
 }
@@ -156,7 +156,7 @@ bool Target::collide(Ray& ray, Collision* out) {
 }
 
 float Target::hitboxRadius() {
-	return sqrtf(TARGET_SIZE.x * TARGET_SIZE.x + TARGET_SIZE.y * TARGET_SIZE.y) * ELEMENT_DRAW_SCALE;
+	return sqrtf(TARGET_SIZE.x * TARGET_SIZE.x + TARGET_SIZE.y * TARGET_SIZE.y) * ELEMENT_DRAW_SCALE / 2.0f;
 }
 
 void Target::display() {
@@ -202,7 +202,7 @@ void Target::display() {
 bool Blocker::hitboxClicked(float x, float y) {
 	x -= pos.x;
 	y -= pos.y;
-	if (x * x + y * y > hitboxRadius()) return false;
+	if (sqrtf(x * x + y * y) > hitboxRadius()) return false;
 	// TODO
 	return true;
 }
@@ -257,7 +257,7 @@ bool Blocker::collide(Ray& ray, Collision* out) {
 }
 
 float Blocker::hitboxRadius() {
-	return sqrtf(size.x * size.x + size.y * size.y) * ELEMENT_DRAW_SCALE;
+	return sqrtf(size.x * size.x + size.y * size.y) * ELEMENT_DRAW_SCALE / 2.0f;
 }
 
 void Blocker::display() {
@@ -286,7 +286,7 @@ void Blocker::display() {
 bool Mirror::hitboxClicked(float x, float y) {
 	x -= pos.x;
 	y -= pos.y;
-	if (x * x + y * y > hitboxRadius()) return false;
+	if (sqrtf(x * x + y * y) > hitboxRadius()) return false;
 	// TODO
 	return true;
 }
@@ -341,7 +341,7 @@ bool Mirror::collide(Ray& ray, Collision* out) {
 }
 
 float Mirror::hitboxRadius() {
-	return sqrtf(size.x * size.x + size.y * size.y) * ELEMENT_DRAW_SCALE;
+	return sqrtf(size.x * size.x + size.y * size.y) * ELEMENT_DRAW_SCALE / 2.0f;
 }
 
 void Mirror::display() {
