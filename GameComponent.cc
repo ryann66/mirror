@@ -72,13 +72,13 @@ bool Laser::collide(Ray& ray, Collision* out) {
 
 float Laser::hitboxRadius() {
 	float height = LASER_SIZE.y * LASER_EMITTER_BACKSET;
-	return sqrtf(LASER_SIZE.x * LASER_SIZE.x + height * height) * ELEMENT_DRAW_SCALE;
+	return sqrtf(LASER_SIZE.x * LASER_SIZE.x + height * height);
 }
 
 void Laser::display() {
 	float theta = rotation;
-	Vector2f v3(LASER_SIZE.x / 2 * ELEMENT_DRAW_SCALE, LASER_SIZE.y * (2.0f * LASER_EMITTER_BACKSET - 1.0f) * ELEMENT_DRAW_SCALE);
-	Vector2f v1(-v3.x, v3.y - LASER_SIZE.y * ELEMENT_DRAW_SCALE), v2(-v3.x, v3.y), v4(v3.x, v3.y - LASER_SIZE.y * ELEMENT_DRAW_SCALE);
+	Vector2f v3(LASER_SIZE.x / 2, LASER_SIZE.y * (2.0f * LASER_EMITTER_BACKSET - 1.0f));
+	Vector2f v1(-v3.x, v3.y - LASER_SIZE.y), v2(-v3.x, v3.y), v4(v3.x, v3.y - LASER_SIZE.y);
 	v1.rotate(theta);
 	v2.rotate(theta);
 	v3.rotate(theta);
@@ -158,12 +158,12 @@ bool Target::collide(Ray& ray, Collision* out) {
 }
 
 float Target::hitboxRadius() {
-	return sqrtf(TARGET_SIZE.x * TARGET_SIZE.x + TARGET_SIZE.y * TARGET_SIZE.y) * ELEMENT_DRAW_SCALE / 2.0f;
+	return sqrtf(TARGET_SIZE.x * TARGET_SIZE.x + TARGET_SIZE.y * TARGET_SIZE.y) / 2.0f;
 }
 
 void Target::display() {
 	float theta = rotation;
-	Vector2f v3(TARGET_SIZE.x / 2 * ELEMENT_DRAW_SCALE, TARGET_SIZE.y / 2 * ELEMENT_DRAW_SCALE);
+	Vector2f v3(TARGET_SIZE.x / 2, TARGET_SIZE.y / 2);
 	Vector2f v1(-v3.x, -v3.y), v2(-v3.x, v3.y), v4(v3.x, -v3.y);
 	v1.rotate(theta);
 	v2.rotate(theta);
@@ -259,12 +259,12 @@ bool Blocker::collide(Ray& ray, Collision* out) {
 }
 
 float Blocker::hitboxRadius() {
-	return sqrtf(size.x * size.x + size.y * size.y) * ELEMENT_DRAW_SCALE / 2.0f;
+	return sqrtf(size.x * size.x + size.y * size.y) / 2.0f;
 }
 
 void Blocker::display() {
 	float theta = rotation;
-	Vector2f halfSize(size.x / 2 * ELEMENT_DRAW_SCALE, size.y / 2 * ELEMENT_DRAW_SCALE);
+	Vector2f halfSize(size.x / 2, size.y / 2);
 	glColor4fv(color);
 	glBegin(GL_QUADS);
 		Vector2f temp(halfSize);
@@ -343,12 +343,12 @@ bool Mirror::collide(Ray& ray, Collision* out) {
 }
 
 float Mirror::hitboxRadius() {
-	return sqrtf(size.x * size.x + size.y * size.y) * ELEMENT_DRAW_SCALE / 2.0f;
+	return sqrtf(size.x * size.x + size.y * size.y) / 2.0f;
 }
 
 void Mirror::display() {
 	float theta = rotation;
-	Vector2f halfSize(size.x / 2 * ELEMENT_DRAW_SCALE, size.y / 2 * ELEMENT_DRAW_SCALE);
+	Vector2f halfSize(size.x / 2, size.y / 2);
 	glColor4fv(color);
 	glBegin(GL_QUADS);
 		Vector2f temp(halfSize);
