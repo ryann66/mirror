@@ -222,7 +222,7 @@ bool Blocker::hitboxClicked(float x, float y) {
 bool Blocker::collide(Ray& ray, Collision* out) {
 	// setup corner points
 	float theta = rotation;
-	Vector2f v3(TARGET_SIZE.x / 2, TARGET_SIZE.y / 2);
+	Vector2f v3(size.x / 2, size.y / 2);
 	Vector2f v1(-v3.x, -v3.y), v2(-v3.x, v3.y), v4(v3.x, -v3.y);
 	v1.rotate(theta);
 	v2.rotate(theta);
@@ -306,7 +306,7 @@ bool Mirror::hitboxClicked(float x, float y) {
 bool Mirror::collide(Ray& ray, Collision* out) {
 	// setup corner points
 	float theta = rotation;
-	Vector2f v3(TARGET_SIZE.x / 2, TARGET_SIZE.y / 2);
+	Vector2f v3(size.x / 2, size.y / 2);
 	Vector2f v1(-v3.x, -v3.y), v2(-v3.x, v3.y), v4(v3.x, -v3.y);
 	v1.rotate(theta);
 	v2.rotate(theta);

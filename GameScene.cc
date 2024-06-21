@@ -16,11 +16,6 @@
 #include "game.hh"
 #include "utils.hh"
 
-// tmp
-#include <iostream>
-using std::endl;
-using std::cerr;
-
 using std::list;
 using vector::Vector2;
 using vector::Vector2f;
