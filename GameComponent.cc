@@ -175,29 +175,39 @@ void Target::display() {
 	Vector2f v10(v3 * (1 - RECIEVER_EDGE_WIDTH) + v2 * RECIEVER_EDGE_WIDTH);
 	Vector2f v7(v5 * (1 - RECIEVER_OPENING_DEPTH) + v9 * RECIEVER_OPENING_DEPTH);
 	Vector2f v8(v6 * (1 - RECIEVER_OPENING_DEPTH) + v10 * RECIEVER_OPENING_DEPTH);
+	v1 += pos;
+	v2 += pos;
+	v3 += pos;
+	v4 += pos;
+	v5 += pos;
+	v6 += pos;
+	v7 += pos;
+	v8 += pos;
+	v9 += pos;
+	v10 += pos;
 	glBegin(GL_QUADS);
 		glColor4fv(color);
 		// left wing
-		glVertex2f(levelGlCoordX(pos.x + v1.x), levelGlCoordY(pos.y + v1.y));
-		glVertex2f(levelGlCoordX(pos.x + v2.x), levelGlCoordY(pos.y + v2.y));
-		glVertex2f(levelGlCoordX(pos.x + v9.x), levelGlCoordY(pos.y + v9.y));
-		glVertex2f(levelGlCoordX(pos.x + v5.x), levelGlCoordY(pos.y + v5.y));
+		glVertex2f(levelGlCoordX(v1.x), levelGlCoordY(v1.y));
+		glVertex2f(levelGlCoordX(v2.x), levelGlCoordY(v2.y));
+		glVertex2f(levelGlCoordX(v9.x), levelGlCoordY(v9.y));
+		glVertex2f(levelGlCoordX(v5.x), levelGlCoordY(v5.y));
 		// bottom
-		glVertex2f(levelGlCoordX(pos.x + v7.x), levelGlCoordY(pos.y + v7.y));
-		glVertex2f(levelGlCoordX(pos.x + v8.x), levelGlCoordY(pos.y + v8.y));
-		glVertex2f(levelGlCoordX(pos.x + v10.x), levelGlCoordY(pos.y + v10.y));
-		glVertex2f(levelGlCoordX(pos.x + v9.x), levelGlCoordY(pos.y + v9.y));
+		glVertex2f(levelGlCoordX(v7.x), levelGlCoordY(v7.y));
+		glVertex2f(levelGlCoordX(v8.x), levelGlCoordY(v8.y));
+		glVertex2f(levelGlCoordX(v10.x), levelGlCoordY(v10.y));
+		glVertex2f(levelGlCoordX(v9.x), levelGlCoordY(v9.y));
 		// right wing
-		glVertex2f(levelGlCoordX(pos.x + v6.x), levelGlCoordY(pos.y + v6.y));
-		glVertex2f(levelGlCoordX(pos.x + v4.x), levelGlCoordY(pos.y + v4.y));
-		glVertex2f(levelGlCoordX(pos.x + v3.x), levelGlCoordY(pos.y + v3.y));
-		glVertex2f(levelGlCoordX(pos.x + v10.x), levelGlCoordY(pos.y + v10.y));
+		glVertex2f(levelGlCoordX(v6.x), levelGlCoordY(v6.y));
+		glVertex2f(levelGlCoordX(v4.x), levelGlCoordY(v4.y));
+		glVertex2f(levelGlCoordX(v3.x), levelGlCoordY(v3.y));
+		glVertex2f(levelGlCoordX(v10.x), levelGlCoordY(v10.y));
 		// reciever color center
 		glColor4fv(colorNeeded);
-		glVertex2f(levelGlCoordX(pos.x + v5.x), levelGlCoordY(pos.y + v5.y));
-		glVertex2f(levelGlCoordX(pos.x + v6.x), levelGlCoordY(pos.y + v6.y));
-		glVertex2f(levelGlCoordX(pos.x + v8.x), levelGlCoordY(pos.y + v8.y));
-		glVertex2f(levelGlCoordX(pos.x + v7.x), levelGlCoordY(pos.y + v7.y));
+		glVertex2f(levelGlCoordX(v5.x), levelGlCoordY(v5.y));
+		glVertex2f(levelGlCoordX(v6.x), levelGlCoordY(v6.y));
+		glVertex2f(levelGlCoordX(v8.x), levelGlCoordY(v8.y));
+		glVertex2f(levelGlCoordX(v7.x), levelGlCoordY(v7.y));
 	glEnd();
 }
 

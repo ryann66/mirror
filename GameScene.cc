@@ -52,7 +52,6 @@ void gameSceneDisplayFunc() {
 		// trace laser
 		list<LineSegment> path(curGameScene->level->traceLaser(laser));
 		glColor4fv(laser->beamColor);
-		cerr << path.size() << endl;
 		for (LineSegment& l : path) {
 			Vector2f parallel(l.end.x - l.start.x, l.end.y - l.start.y);
 			parallel.normalize();
