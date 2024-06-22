@@ -13,12 +13,12 @@ enum CollisionType {
 struct Collision;
 
 /**
- * Checks for a collision of the ray (origin/rot) with the line segment
+ * Checks for a collision of the ray with the line segment
  * Returns true and fills out parameter on collision, else returns false (out is undefined)
  * Never fills out collider and type fields of out!
  * NOTE: rays cannot collide in reverse, out.distance will always be positive
 */
-bool collide(Ray& ray, LineSegment& line, Collision* out);
+bool collideRay(Ray& ray, LineSegment& line, Collision* out);
 
 struct GameComponent {
 	// x, y position of center of object

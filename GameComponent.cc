@@ -15,7 +15,7 @@ using vector::Vector2f;
 
 namespace game {
 
-bool collide(Ray& ray, LineSegment& line, Collision* out) {
+bool collideRay(Ray& ray, LineSegment& line, Collision* out) {
 	float raySlope = (ray.end.y - ray.start.y) / (ray.end.x - ray.start.x);
 	float lineSlope = (line.end.y - line.start.y) / (line.end.x - line.start.x);
 	if ((isinf(raySlope) && isinf(lineSlope)) || abs(raySlope - lineSlope) < 0.0001) {
@@ -58,11 +58,10 @@ bool collide(Ray& ray, LineSegment& line, Collision* out) {
 }
 
 bool Laser::hitboxClicked(float x, float y) {
-	x -= pos.x;
-	y -= pos.y;
-	if (sqrtf(x * x + y * y) > hitboxRadius()) return false;
-	// TODO
-	return true;
+	Vector2f clickLocation(x, y);
+	clickLocation -= pos;
+	clickLocation.rotate(-this->rotation);
+	return fabsf(clickLocation.x) * 2 < LASER_SIZE.x && clickLocation.y > LASER_SIZE.y * -LASER_EMITTER_BACKSET && -clickLocation.y < LASER_SIZE.y * (1 - LASER_EMITTER_BACKSET);
 }
 
 bool Laser::collide(Ray& ray, Collision* out) {
@@ -93,11 +92,10 @@ void Laser::display() {
 }
 
 bool Target::hitboxClicked(float x, float y) {
-	x -= pos.x;
-	y -= pos.y;
-	if (sqrtf(x * x + y * y) > hitboxRadius()) return false;
-	// TODO
-	return true;
+	Vector2f clickLocation(x, y);
+	clickLocation -= pos;
+	clickLocation.rotate(-this->rotation);
+	return 2 * fabsf(clickLocation.x) < TARGET_SIZE.x && 2 * fabsf(clickLocation.y) < TARGET_SIZE.y;
 }
 
 bool Target::collide(Ray& ray, Collision* out) {
@@ -121,21 +119,21 @@ bool Target::collide(Ray& ray, Collision* out) {
 	// check line collisions
 	LineSegment l(v1, v2);
 	Collision tmp;
-	if (game::collide(ray, l, &tmp) && tmp.distance < out->distance) {
+	if (collideRay(ray, l, &tmp) && tmp.distance < out->distance) {
 		out->location = tmp.location;
 		out->distance = tmp.distance;
 		out->normal = tmp.normal;
 		out->type = BLOCK;
 	}
 	l.start = v3;
-	if (game::collide(ray, l, &tmp) && tmp.distance < out->distance) {
+	if (collideRay(ray, l, &tmp) && tmp.distance < out->distance) {
 		out->location = tmp.location;
 		out->distance = tmp.distance;
 		out->normal = tmp.normal;
 		out->type = BLOCK;
 	}
 	l.end = v4;
-	if (game::collide(ray, l, &tmp) && tmp.distance < out->distance) {
+	if (collideRay(ray, l, &tmp) && tmp.distance < out->distance) {
 		out->location = tmp.location;
 		out->distance = tmp.distance;
 		out->normal = tmp.normal;
@@ -144,7 +142,7 @@ bool Target::collide(Ray& ray, Collision* out) {
 	// check inner wall
 	l.start = v1 * (1 - RECIEVER_EDGE_WIDTH) + v4 * RECIEVER_EDGE_WIDTH;
 	l.end = v4 * (1 - RECIEVER_EDGE_WIDTH) + v1 * RECIEVER_EDGE_WIDTH;
-	if (game::collide(ray, l, &tmp) && tmp.distance < out->distance) {
+	if (collideRay(ray, l, &tmp) && tmp.distance < out->distance) {
 		out->location = tmp.location;
 		out->distance = tmp.distance;
 		out->normal = tmp.normal;
@@ -212,11 +210,10 @@ void Target::display() {
 }
 
 bool Blocker::hitboxClicked(float x, float y) {
-	x -= pos.x;
-	y -= pos.y;
-	if (sqrtf(x * x + y * y) > hitboxRadius()) return false;
-	// TODO
-	return true;
+	Vector2f clickLocation(x, y);
+	clickLocation -= pos;
+	clickLocation.rotate(-this->rotation);
+	return 2 * fabsf(clickLocation.x) < size.x && 2 * fabsf(clickLocation.y) < size.y;
 }
 
 bool Blocker::collide(Ray& ray, Collision* out) {
@@ -241,25 +238,25 @@ bool Blocker::collide(Ray& ray, Collision* out) {
 	// check line collisions
 	LineSegment l(v1, v2);
 	Collision tmp;
-	if (game::collide(ray, l, &tmp) && tmp.distance < out->distance) {
+	if (collideRay(ray, l, &tmp) && tmp.distance < out->distance) {
 		out->location = tmp.location;
 		out->distance = tmp.distance;
 		out->normal = tmp.normal;
 	}
 	l.start = v3;
-	if (game::collide(ray, l, &tmp) && tmp.distance < out->distance) {
+	if (collideRay(ray, l, &tmp) && tmp.distance < out->distance) {
 		out->location = tmp.location;
 		out->distance = tmp.distance;
 		out->normal = tmp.normal;
 	}
 	l.end = v4;
-	if (game::collide(ray, l, &tmp) && tmp.distance < out->distance) {
+	if (collideRay(ray, l, &tmp) && tmp.distance < out->distance) {
 		out->location = tmp.location;
 		out->distance = tmp.distance;
 		out->normal = tmp.normal;
 	}
 	l.start = v1;
-	if (game::collide(ray, l, &tmp) && tmp.distance < out->distance) {
+	if (collideRay(ray, l, &tmp) && tmp.distance < out->distance) {
 		out->location = tmp.location;
 		out->distance = tmp.distance;
 		out->normal = tmp.normal;
@@ -296,11 +293,10 @@ void Blocker::display() {
 }
 
 bool Mirror::hitboxClicked(float x, float y) {
-	x -= pos.x;
-	y -= pos.y;
-	if (sqrtf(x * x + y * y) > hitboxRadius()) return false;
-	// TODO
-	return true;
+	Vector2f clickLocation(x, y);
+	clickLocation -= pos;
+	clickLocation.rotate(-this->rotation);
+	return 2 * fabsf(clickLocation.x) < size.x && 2 * fabsf(clickLocation.y) < size.y;
 }
 
 bool Mirror::collide(Ray& ray, Collision* out) {
@@ -325,25 +321,25 @@ bool Mirror::collide(Ray& ray, Collision* out) {
 	// check line collisions
 	LineSegment l(v1, v2);
 	Collision tmp;
-	if (game::collide(ray, l, &tmp) && tmp.distance < out->distance && tmp.distance > 0.001) {
+	if (collideRay(ray, l, &tmp) && tmp.distance < out->distance && tmp.distance > 0.001) {
 		out->location = tmp.location;
 		out->distance = tmp.distance;
 		out->normal = tmp.normal;
 	}
 	l.start = v3;
-	if (game::collide(ray, l, &tmp) && tmp.distance < out->distance && tmp.distance > 0.001) {
+	if (collideRay(ray, l, &tmp) && tmp.distance < out->distance && tmp.distance > 0.001) {
 		out->location = tmp.location;
 		out->distance = tmp.distance;
 		out->normal = tmp.normal;
 	}
 	l.end = v4;
-	if (game::collide(ray, l, &tmp) && tmp.distance < out->distance && tmp.distance > 0.001) {
+	if (collideRay(ray, l, &tmp) && tmp.distance < out->distance && tmp.distance > 0.001) {
 		out->location = tmp.location;
 		out->distance = tmp.distance;
 		out->normal = tmp.normal;
 	}
 	l.start = v1;
-	if (game::collide(ray, l, &tmp) && tmp.distance < out->distance && tmp.distance > 0.001) {
+	if (collideRay(ray, l, &tmp) && tmp.distance < out->distance && tmp.distance > 0.001) {
 		out->location = tmp.location;
 		out->distance = tmp.distance;
 		out->normal = tmp.normal;

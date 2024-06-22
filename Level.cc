@@ -202,13 +202,13 @@ void Level::traceLaser(Ray& ray, const GLfloat* laserColor, list<LineSegment>* r
 		// calculate hit on wall
 		LineSegment wall(Vector2f(0, 0), Vector2f(size.x, 0));
 		shortCol.type = BLOCK;
-		if (!collide(ray, wall, &shortCol)) {
+		if (!collideRay(ray, wall, &shortCol)) {
 			wall.end = Vector2f(0, size.y);
-			if (!collide(ray, wall, &shortCol)) {
+			if (!collideRay(ray, wall, &shortCol)) {
 				wall.start = Vector2f(size.x, size.y);
-				if (!collide(ray, wall, &shortCol)) {
+				if (!collideRay(ray, wall, &shortCol)) {
 					wall.end = Vector2f(size.x, 0);
-					collide(ray, wall, &shortCol);
+					collideRay(ray, wall, &shortCol);
 				}
 			}
 		}

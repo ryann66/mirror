@@ -16,6 +16,7 @@ struct LineSegment {
 
 /**
  * Rename of line segment that suggests ray usage
- * Start and end become two points on the ray
+ * Start becomes origin of ray and end is any other point
+ * on the ray
 */
 typedef LineSegment Ray;
