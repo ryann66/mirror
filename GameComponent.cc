@@ -61,7 +61,7 @@ bool Laser::hitboxClicked(float x, float y) {
 	Vector2f clickLocation(x, y);
 	clickLocation -= pos;
 	clickLocation.rotate(-this->rotation);
-	return fabsf(clickLocation.x) * 2 < LASER_SIZE.x && clickLocation.y > LASER_SIZE.y * -LASER_EMITTER_BACKSET && -clickLocation.y < LASER_SIZE.y * (1 - LASER_EMITTER_BACKSET);
+	return fabsf(clickLocation.x) * 2 < LASER_SIZE.x && clickLocation.y > LASER_SIZE.y * (LASER_EMITTER_BACKSET - 1) && clickLocation.y < LASER_SIZE.y * LASER_EMITTER_BACKSET;
 }
 
 bool Laser::collide(Ray& ray, Collision* out) {
@@ -71,8 +71,9 @@ bool Laser::collide(Ray& ray, Collision* out) {
 
 void Laser::display() {
 	float theta = rotation;
-	Vector2f v3(LASER_SIZE.x / 2, LASER_SIZE.y * (2.0f * LASER_EMITTER_BACKSET - 1.0f));
-	Vector2f v1(-v3.x, v3.y - LASER_SIZE.y), v2(-v3.x, v3.y), v4(v3.x, v3.y - LASER_SIZE.y);
+	Vector2f v3(LASER_SIZE.x / 2, LASER_SIZE.y * LASER_EMITTER_BACKSET);
+	Vector2f v1(-v3.x, LASER_SIZE.y * (LASER_EMITTER_BACKSET - 1.0f));
+	Vector2f v2(v1.x, v3.y), v4(v3.x, v1.y);
 	v1.rotate(theta);
 	v2.rotate(theta);
 	v3.rotate(theta);
