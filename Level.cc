@@ -170,7 +170,10 @@ Level::Level(istream& levelfile) {
 
 list<LineSegment> Level::traceLaser(Laser* laser) {
 	list<LineSegment> lines;
-	Ray ray(laser->pos, laser->pos + directionToVector(laser->rotation));
+	Vector2f direction(directionToVector(laser->rotation));
+	direction.normalize();
+	direction *= LASER_SIZE.y * (1 - LASER_EMITTER_BACKSET);
+	Ray ray(laser->pos + direction, laser->pos + (2 * direction));
 	traceLaser(ray, laser->color, &lines);
 	return lines;
 }
