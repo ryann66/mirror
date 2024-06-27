@@ -82,7 +82,6 @@ bool moveComponent = false, rotateComponent = false;
 GameComponent* selected = nullptr;
 Vector2f originalPosition;
 Vector2f clickPosition;
-Vector2f offset;
 float originalRotation;
 
 /**
@@ -105,9 +104,6 @@ void gameSceneClickLogger(int button, int state, int x, int y) {
 				originalPosition = movable->pos;
 				originalRotation = movable->rotation;
 				selected = movable;
-				offset = movable->pos;
-				offset.x -= levelX;
-				offset.y -= levelY;
 				clickPosition.x = levelX;
 				clickPosition.y = levelY;
 				break;
@@ -121,24 +117,30 @@ void gameSceneClickLogger(int button, int state, int x, int y) {
 */
 void gameSceneDragLogger(int x, int y) {
 	changeCount++;
-	// TODO prevent dragging out of scene and prevent overlap (?)
 	if (selected == nullptr) return;
+	Vector2f mousePosition(((float) x) / window->size.x * curGameScene->level->size.x, ((float) y) / window->size.y * curGameScene->level->size.y);
 
-	float levelX = ((float) x) / window->size.x * curGameScene->level->size.x;
-	float levelY = ((float) y) / window->size.y * curGameScene->level->size.y;
-
+	// save current position to revert to
+	Vector2f revertPosition(selected->pos);
+	float revertRotation = selected->rotation;
+	
+	// move components
 	if (moveComponent) {
-		selected->pos.x = levelX + offset.x;
-		selected->pos.y = levelY + offset.y;
-		glutPostRedisplay();
+		selected->pos = originalPosition + mousePosition - clickPosition;
+		// clamp position to inside walls
+		if (selected->pos.x < 0) selected->pos.x = 0;
+		else if (selected->pos.x > curGameScene->level->size.x) selected->pos.x = curGameScene->level->size.x;
+		if (selected->pos.y < 0) selected->pos.y = 0;
+		else if (selected->pos.y > curGameScene->level->size.y) selected->pos.y = curGameScene->level->size.y;
 	}
 	if (rotateComponent) {
-		float rotation = originalRotation + (ROTATION_SENSITIVITY * (levelX - clickPosition.x));
+		float rotation = originalRotation + (ROTATION_SENSITIVITY * (mousePosition.x - clickPosition.x));
 		while (rotation > 360.) rotation -= 360.;
 		while (rotation < 0.) rotation += 360.;
 		selected->rotation = rotation;
-		glutPostRedisplay();
 	}
+
+	glutPostRedisplay();
 }
 
 /**
