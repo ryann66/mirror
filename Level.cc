@@ -174,7 +174,7 @@ list<LineSegment> Level::traceLaser(Laser* laser) {
 	list<LineSegment> lines;
 	Vector2f direction(directionToVector(laser->rotation));
 	direction.normalize();
-	direction *= LASER_SIZE.y * (1 - LASER_EMITTER_BACKSET);
+	direction *= LASER_SIZE.y * 0.5f;
 	Ray ray(laser->pos + direction, laser->pos + (2 * direction));
 	traceLaser(ray, laser->color, &lines);
 	return lines;
