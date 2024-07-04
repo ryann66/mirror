@@ -128,6 +128,7 @@ Level::Level(istream& levelfile) {
 			else this->immovables.push_back(b);
 		} else if (token == "TARGET") {
 			Target* t = new Target();
+			t->size = TARGET_SIZE;
 			ss >> t->pos.x;
 			ss.get();
 			ss >> t->pos.y;
@@ -144,6 +145,7 @@ Level::Level(istream& levelfile) {
 			this->targets.push_back(t);
 		} else if (token == "LASER") {
 			Laser* l = new Laser();
+			l->size = LASER_SIZE;
 			ss >> l->pos.x;
 			ss.get();
 			ss >> l->pos.y;

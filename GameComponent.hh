@@ -27,6 +27,9 @@ struct GameComponent {
 	// degrees rotation clockwise from straight up
 	float rotation;
 
+	// size of object (x, y) in level coords/scale
+	vector::Vector2 size;
+
 	/**
 	 * Returns true if the given level coordinates are inside the hitbox of this
 	*/
@@ -73,7 +76,6 @@ struct Target : public GameComponent {
 
 struct Blocker : public GameComponent {
 	const GLfloat* color;
-	vector::Vector2 size;
 	
 	virtual bool hitboxClicked(float x, float y);
 	virtual bool collide(Ray& ray, Collision* out);
@@ -83,7 +85,6 @@ struct Blocker : public GameComponent {
 
 struct Mirror : public GameComponent {
 	const GLfloat* color;
-	vector::Vector2 size;
 	
 	virtual bool hitboxClicked(float x, float y);
 	virtual bool collide(Ray& ray, Collision* out);
@@ -103,5 +104,11 @@ struct Collision {
 	// normal of collision plane
 	vector::Vector2f normal;
 };
+
+/**
+ * Returns true if the game components overlap
+ * Both components must not be null
+*/
+bool componentsCollide(GameComponent*, GameComponent*);
 
 }  // namespace game

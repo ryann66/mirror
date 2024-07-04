@@ -61,7 +61,7 @@ bool Laser::hitboxClicked(float x, float y) {
 	Vector2f clickLocation(x, y);
 	clickLocation -= pos;
 	clickLocation.rotate(-this->rotation);
-	return fabsf(clickLocation.x) * 2 < LASER_SIZE.x && clickLocation.y > LASER_SIZE.y * (LASER_EMITTER_BACKSET - 1) && clickLocation.y < LASER_SIZE.y * LASER_EMITTER_BACKSET;
+	return fabsf(clickLocation.x) * 2 < size.x && clickLocation.y > size.y * (LASER_EMITTER_BACKSET - 1) && clickLocation.y < size.y * LASER_EMITTER_BACKSET;
 }
 
 bool Laser::collide(Ray& ray, Collision* out) {
@@ -70,14 +70,14 @@ bool Laser::collide(Ray& ray, Collision* out) {
 }
 
 float Laser::hitboxRadius() {
-	float height = LASER_SIZE.y * LASER_EMITTER_BACKSET;
-	return sqrtf(LASER_SIZE.x * LASER_SIZE.x + height * height);
+	float height = size.y * LASER_EMITTER_BACKSET;
+	return sqrtf(size.x * size.x + height * height);
 }
 
 void Laser::display() {
 	float theta = rotation;
-	Vector2f v3(LASER_SIZE.x / 2, LASER_SIZE.y * LASER_EMITTER_BACKSET);
-	Vector2f v1(-v3.x, LASER_SIZE.y * (LASER_EMITTER_BACKSET - 1.0f));
+	Vector2f v3(size.x / 2, size.y * LASER_EMITTER_BACKSET);
+	Vector2f v1(-v3.x, size.y * (LASER_EMITTER_BACKSET - 1.0f));
 	Vector2f v2(v1.x, v3.y), v4(v3.x, v1.y);
 	v1.rotate(theta);
 	v2.rotate(theta);
@@ -96,13 +96,13 @@ bool Target::hitboxClicked(float x, float y) {
 	Vector2f clickLocation(x, y);
 	clickLocation -= pos;
 	clickLocation.rotate(-this->rotation);
-	return 2 * fabsf(clickLocation.x) < TARGET_SIZE.x && 2 * fabsf(clickLocation.y) < TARGET_SIZE.y;
+	return 2 * fabsf(clickLocation.x) < size.x && 2 * fabsf(clickLocation.y) < size.y;
 }
 
 bool Target::collide(Ray& ray, Collision* out) {
 	// setup corner points
 	float theta = rotation;
-	Vector2f v3(TARGET_SIZE.x / 2, TARGET_SIZE.y / 2);
+	Vector2f v3(size.x / 2, size.y / 2);
 	Vector2f v1(-v3.x, -v3.y), v2(-v3.x, v3.y), v4(v3.x, -v3.y);
 	v1.rotate(theta);
 	v2.rotate(theta);
@@ -157,12 +157,12 @@ bool Target::collide(Ray& ray, Collision* out) {
 }
 
 float Target::hitboxRadius() {
-	return sqrtf(TARGET_SIZE.x * TARGET_SIZE.x + TARGET_SIZE.y * TARGET_SIZE.y) / 2.0f;
+	return sqrtf(size.x * size.x + size.y * size.y) / 2.0f;
 }
 
 void Target::display() {
 	float theta = rotation;
-	Vector2f v3(TARGET_SIZE.x / 2, TARGET_SIZE.y / 2);
+	Vector2f v3(size.x / 2, size.y / 2);
 	Vector2f v1(-v3.x, -v3.y), v2(-v3.x, v3.y), v4(v3.x, -v3.y);
 	v1.rotate(theta);
 	v2.rotate(theta);
@@ -376,4 +376,82 @@ void Mirror::display() {
 	glEnd();
 }
 
+#include <iostream>
+using std::cout;
+using std::endl;
+
+/**
+ * Checks if two sets of line segments collide using a divider
+ * returns true if the shapes collide
+ * returns false if the shapes might not collide
+ * NOTE: false does not guarantee the shapes do not collide
+*/
+bool shapesCollide(LineSegment divider, Vector2f left[], Vector2f right[]) {
+	Vector2f projLine(divider.start.y - divider.end.y, divider.end.x - divider.start.x);
+	projLine.normalize();
+	float leftmax;
+	float leftmin = leftmax = vector::dot(left[0], projLine);
+	float tmp;
+	for (int i = 1; i < 4; i++) {
+		tmp = vector::dot(left[i], projLine);
+		leftmin = std::min(leftmin, tmp);
+		leftmax = std::max(leftmax, tmp);
+	}
+	
+	float rightmax;
+	float rightmin = rightmax = vector::dot(right[0], projLine);
+	for (int i = 1; i < 4; i++) {
+		tmp = vector::dot(right[i], projLine);
+		rightmin = std::min(rightmin, tmp);
+		rightmax = std::max(rightmax, tmp);
+	}
+
+	return !((leftmin < rightmin && leftmax < rightmin) || (leftmin > rightmax && leftmax > rightmax));
+}
+
+bool componentsCollide(GameComponent* left, GameComponent* right) {
+	if ((left->pos - right->pos).magnitude() >= left->hitboxRadius() + right->hitboxRadius()) return false;
+
+	Vector2f v3(left->size.x / 2, left->size.y / 2);
+	Vector2f v1(-v3.x, -v3.y), v2(-v3.x, v3.y), v4(v3.x, -v3.y);
+	v1.rotate(left->rotation);
+	v2.rotate(left->rotation);
+	v3.rotate(left->rotation);
+	v4.rotate(left->rotation);
+	v1 += left->pos;
+	v2 += left->pos;
+	v3 += left->pos;
+	v4 += left->pos;
+	Vector2f leftshape[4] = {v1, v2, v3, v4};
+
+	v3.x = right->size.x / 2;
+	v3.y = right->size.y / 2;
+	v1.x = -v3.x;
+	v1.y = -v3.y;
+	v2.x = -v3.x;
+	v2.y = v3.y;
+	v4.x = v3.x;
+	v4.y = -v3.y;
+	v1.rotate(right->rotation);
+	v2.rotate(right->rotation);
+	v3.rotate(right->rotation);
+	v4.rotate(right->rotation);
+	v1 += right->pos;
+	v2 += right->pos;
+	v3 += right->pos;
+	v4 += right->pos;
+	Vector2f rightshape[4] = {v1, v2, v3, v4};
+
+	if (!shapesCollide(LineSegment(leftshape[0], leftshape[1]), leftshape, rightshape)) return false;
+	if (!shapesCollide(LineSegment(leftshape[1], leftshape[2]), leftshape, rightshape)) return false;
+	if (!shapesCollide(LineSegment(leftshape[2], leftshape[3]), leftshape, rightshape)) return false;
+	if (!shapesCollide(LineSegment(leftshape[3], leftshape[0]), leftshape, rightshape)) return false;
+	if (!shapesCollide(LineSegment(rightshape[0], rightshape[1]), leftshape, rightshape)) return false;
+	if (!shapesCollide(LineSegment(rightshape[1], rightshape[2]), leftshape, rightshape)) return false;
+	if (!shapesCollide(LineSegment(rightshape[2], rightshape[3]), leftshape, rightshape)) return false;
+	if (!shapesCollide(LineSegment(rightshape[3], rightshape[0]), leftshape, rightshape)) return false;
+	return true;
+}
+
 }  // namespace game
+	

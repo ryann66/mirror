@@ -140,6 +140,23 @@ void gameSceneDragLogger(int x, int y) {
 		selected->rotation = rotation;
 	}
 
+	// check valid position
+	for (GameComponent* component : curGameScene->level->immovables) {
+		if (componentsCollide(component, selected)) {
+			selected->pos = revertPosition;
+			selected->rotation = revertRotation;
+			return;
+		}
+	}
+	for (GameComponent* component : curGameScene->level->movables) {
+		if (component == selected) continue;
+		if (componentsCollide(component, selected)) {
+			selected->pos = revertPosition;
+			selected->rotation = revertRotation;
+			return;
+		}
+	}
+
 	glutPostRedisplay();
 }
 
