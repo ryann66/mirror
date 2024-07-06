@@ -1,2 +1,2 @@
-# racer
-OpenGL Racing Game. Work in Progress.
+# Mirror Game
+Simple game about redirecting a laser with mirrors.
