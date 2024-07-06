@@ -134,7 +134,7 @@ void gameSceneDragLogger(int x, int y) {
 		else if (selected->pos.y > curGameScene->level->size.y) selected->pos.y = curGameScene->level->size.y;
 	}
 	if (rotateComponent) {
-		float rotation = originalRotation + (ROTATION_SENSITIVITY * (mousePosition.x - clickPosition.x));
+		float rotation = originalRotation + (ROTATION_SENSITIVITY * (mousePosition.x - clickPosition.x) + (SECONDARY_ROTATION_SENSITIVITY * (mousePosition.y - clickPosition.y)));
 		while (rotation > 360.) rotation -= 360.;
 		while (rotation < 0.) rotation += 360.;
 		selected->rotation = rotation;

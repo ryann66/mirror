@@ -20,6 +20,7 @@ const int MOVE_BUTTON = GLUT_LEFT_BUTTON;
 const int ROTATE_BUTTON = GLUT_RIGHT_BUTTON;
 
 const float ROTATION_SENSITIVITY = 1.0f;
+const float SECONDARY_ROTATION_SENSITIVITY = 0.25f;
 
 // max recursive depth of lasers
 const int MAX_LASER_DEPTH = 20;
