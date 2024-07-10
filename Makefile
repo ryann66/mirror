@@ -14,7 +14,7 @@ build: all
 
 all: mirror
 
-mirror: mirror.o Button.o GameComponent.o GameScene.o Level.o MenuElement.o MenuScene.o utils.o Window.o
+mirror: mirror.o Button.o GameComponent.o GameScene.o Level.o LevelSelectorScene.o MenuElement.o MenuScene.o utils.o Window.o
 	$(CXX) $(LFLAGS) -o $@ $^ $(LIBS)
 
 Button.o: Button.cc Button.hh MenuElement.hh Vector2.hh utils.hh Window.hh Scene.hh colors.hh
@@ -29,13 +29,16 @@ GameScene.o: GameScene.cc GameScene.hh Scene.hh Level.hh Vector2.hh utils.hh Lin
 Level.o: Level.cc Level.hh Vector2.hh utils.hh LineSegment.hh GameComponent.hh colors.hh game.hh
 	$(CXX) $(CFLAGS) -c -o $@ $<
 
+LevelSelectorScene.o: LevelSelectorScene.cc LevelSelectorScene.hh Scene.hh Button.hh MenuElement.hh Vector2.hh utils.hh MenuScene.hh Window.hh GameScene.hh Level.hh LineSegment.hh GameComponent.hh colors.hh
+	$(CXX) $(CFLAGS) -c -o $@ $<
+
 MenuElement.o: MenuElement.cc MenuElement.hh Vector2.hh utils.hh Window.hh Scene.hh
 	$(CXX) $(CFLAGS) -c -o $@ $<
 
 MenuScene.o: MenuScene.cc Window.hh Scene.hh Vector2.hh utils.hh MenuScene.hh Button.hh MenuElement.hh GameScene.hh Level.hh LineSegment.hh GameComponent.hh colors.hh
 	$(CXX) $(CFLAGS) -c -o $@ $<
 
-mirror.o: mirror.cc Window.hh Scene.hh Vector2.hh utils.hh MenuScene.hh Button.hh MenuElement.hh
+mirror.o: mirror.cc Window.hh Scene.hh Vector2.hh utils.hh MenuScene.hh Button.hh MenuElement.hh LevelSelectorScene.hh
 	$(CXX) $(CFLAGS) -c -o $@ $<
 
 utils.o: utils.cc utils.hh Window.hh Scene.hh Vector2.hh

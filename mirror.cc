@@ -12,6 +12,7 @@
 
 #include "Window.hh"
 #include "MenuScene.hh"
+#include "LevelSelectorScene.hh"
 
 #define INIT_WINDOW_WIDTH 900
 #define INIT_WINDOW_HEIGHT 900
