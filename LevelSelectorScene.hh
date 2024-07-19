@@ -15,17 +15,16 @@ namespace menu {
 */
 class LevelSelectorScene : public MenuScene {
  public:
-	LevelSelectorScene();
+	LevelSelectorScene(std::vector<Button*> scrollbarButtons);
 	LevelSelectorScene(const LevelSelectorScene&) = delete;
 	LevelSelectorScene& operator=(const LevelSelectorScene&) = delete;
 	virtual ~LevelSelectorScene();
 
 	virtual void onLoad();
-	virtual void onUnload();
 
  private:
 	Button* scrollbar;
-	std::vector<Button*> scrollbarButtons;
+	const std::vector<Button*> scrollbarButtons;
 };
 
 /**

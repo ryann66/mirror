@@ -9,24 +9,25 @@ using vector::Vector2;
 
 namespace menu {
 
-LevelSelectorScene::LevelSelectorScene() : MenuScene(LEVEL_SELECTOR) {
-	// todo
+// todo write function to get level name from filename
+
+LevelSelectorScene::LevelSelectorScene(const std::vector<Button*> scrollbarButtons) : MenuScene(LEVEL_SELECTOR), scrollbarButtons(scrollbarButtons) {
+	// todo require vector of filenames
+	// todo setup scrollbar (and fields)
 }
 
 LevelSelectorScene::~LevelSelectorScene() {
-	// todo
+	// todo (nothing?)
 }
 
 void LevelSelectorScene::onLoad() {
-	// todo
-}
-
-void LevelSelectorScene::onUnload() {
-	// todo
+	MenuScene::onLoad();
+	// todo override mouseFunc to force clicks withing scrollbox
 }
 
 Scene* levelSelectorMenu() {
-	return new LevelSelectorScene;
+	// get list of levels and make buttons
+	// use menu scene if not enough elements to warrant scrolling
 }
 
 }  // namespace menu
