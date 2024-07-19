@@ -3,7 +3,7 @@
 #include <vector>
 #include <string>
 
-#include "Scene.hh"
+#include "MenuScene.hh"
 #include "Button.hh"
 #include "MenuElement.hh"
 
@@ -13,21 +13,19 @@ namespace menu {
  * Scene for the level selection menu
  * Written in the fixed function style of openGL
 */
-class LevelSelectorScene : public Scene {
+class LevelSelectorScene : public MenuScene {
  public:
 	LevelSelectorScene();
 	LevelSelectorScene(const LevelSelectorScene&) = delete;
 	LevelSelectorScene& operator=(const LevelSelectorScene&) = delete;
 	virtual ~LevelSelectorScene();
 
-	virtual void onLoad() = 0;
-	virtual void onUnload() = 0;
-	
+	virtual void onLoad();
+	virtual void onUnload();
+
  private:
 	Button* scrollbar;
 	std::vector<Button*> scrollbarButtons;
-	std::vector<MenuElement*> elements;
-	std::vector<Button*> buttons;
 };
 
 /**

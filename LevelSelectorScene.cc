@@ -9,7 +9,7 @@ using vector::Vector2;
 
 namespace menu {
 
-LevelSelectorScene::LevelSelectorScene() {
+LevelSelectorScene::LevelSelectorScene() : MenuScene(LEVEL_SELECTOR) {
 	// todo
 }
 

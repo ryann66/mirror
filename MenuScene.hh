@@ -33,7 +33,7 @@ class MenuScene : public Scene {
 	friend void menuSceneDisplayFunc();
 	friend void menuSceneClickFunc(int, int, int, int);
 
- private:
+ protected:
 	std::vector<MenuElement*> elements;
 	std::vector<Button*> buttons;
 };

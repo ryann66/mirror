@@ -32,7 +32,7 @@ Level.o: Level.cc Level.hh Vector2.hh utils.hh LineSegment.hh GameComponent.hh c
 LevelButton.o: LevelButton.cc LevelButton.hh MenuScene.hh Scene.hh Button.hh MenuElement.hh Vector2.hh utils.hh Window.hh GameScene.hh Level.hh LineSegment.hh GameComponent.hh colors.hh
 	$(CXX) $(CFLAGS) -c -o $@ $<
 
-LevelSelectorScene.o: LevelSelectorScene.cc LevelSelectorScene.hh Scene.hh Button.hh MenuElement.hh Vector2.hh utils.hh MenuScene.hh LevelButton.hh
+LevelSelectorScene.o: LevelSelectorScene.cc LevelSelectorScene.hh MenuScene.hh Scene.hh Button.hh MenuElement.hh Vector2.hh utils.hh LevelButton.hh
 	$(CXX) $(CFLAGS) -c -o $@ $<
 
 MenuElement.o: MenuElement.cc MenuElement.hh Vector2.hh utils.hh Window.hh Scene.hh
