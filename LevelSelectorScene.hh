@@ -1,11 +1,11 @@
 #pragma once
 
-#include <list>
+#include <vector>
 #include <string>
 
 #include "Scene.hh"
 #include "Button.hh"
-#include "MenuScene.hh"
+#include "MenuElement.hh"
 
 namespace menu {
 
@@ -13,15 +13,21 @@ namespace menu {
  * Scene for the level selection menu
  * Written in the fixed function style of openGL
 */
-class LevelSelectorScene : public MenuScene {
+class LevelSelectorScene : public Scene {
  public:
 	LevelSelectorScene();
 	LevelSelectorScene(const LevelSelectorScene&) = delete;
 	LevelSelectorScene& operator=(const LevelSelectorScene&) = delete;
 	virtual ~LevelSelectorScene();
 
+	virtual void onLoad() = 0;
+	virtual void onUnload() = 0;
+	
  private:
-	std::list<std::string> levels;
+	Button* scrollbar;
+	std::vector<Button*> scrollbarButtons;
+	std::vector<MenuElement*> elements;
+	std::vector<Button*> buttons;
 };
 
 /**
