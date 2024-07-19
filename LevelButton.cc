@@ -23,6 +23,7 @@ void levelClickFunc() {
 		window->addScene(new game::GameScene(new game::Level(levelfile)));
 		window->loadScene(GAME);
 	} catch (exception* e) {
+		// todo: add error handling scene
 		std::cerr << e->what() << std::endl;
 		window->replaceScene(MAIN_MENU);
 	}
