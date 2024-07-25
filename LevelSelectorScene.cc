@@ -6,6 +6,7 @@
 #include "Vector2.hh"
 #include "Level.hh"
 #include "LevelButton.hh"
+#include "Label.hh"
 
 using std::string;
 using std::logic_error;
@@ -35,7 +36,6 @@ void LevelSelectorScene::onLoad() {
 
 Scene* levelSelectorMenu() {
 	// get list of levels and make buttons
-	// use menu scene if not enough elements to warrant scrolling
 	std::vector<Button*> levelButtons;
 	Vector2 offset(0, -(scrollbarHeight / 2) * DEFAULT_BUTTON_SIZE.y);
 	const int labelY = offset.y - DEFAULT_BUTTON_SIZE.y;
@@ -45,6 +45,8 @@ Scene* levelSelectorMenu() {
 		levelButtons.push_back(level);
 		offset.y += DEFAULT_BUTTON_SIZE.y;
 	}
+
+	// create scene to display (use menu scene if not enough to require scrollbar)
 	MenuScene* retscene;
 	if (levelButtons.size() <= scrollbarHeight) {
 		if (levelButtons.empty()) throw new logic_error("No levels found");
@@ -53,6 +55,11 @@ Scene* levelSelectorMenu() {
 	} else {
 		retscene = new LevelSelectorScene(levelButtons);
 	}
+
+	// add common labels
+	offset.y = labelY;
+	retscene->addElement(new Label(CENTER, offset, "Select a level", MenuLabelColor));
+
 	return retscene;
 }
 

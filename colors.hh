@@ -20,6 +20,8 @@ const GLfloat EasyButtonDefaultColor[] = {1., 1., 1., 1.};
 const GLfloat EasyButtonHoverColor[] = {0.75, 0.75, 0.75, 1.};
 const GLfloat EasyButtonTextColor[] = {0., 0., 0., 1.};
 
+const GLfloat MenuLabelColor[] = {1., 1., 1., 1.};
+
 }  // namespace menu
 
 namespace game {
