@@ -32,6 +32,10 @@ using vector::directionToVector;
 
 namespace game {
 
+std::string levelNameFromFilename(std::filesystem::path filename) {
+	return filename.stem().string();
+}
+
 Level::Level(istream& levelfile) {
 	// load default colors
 	const GLfloat* curMirrorColor = DefaultMirrorColor;

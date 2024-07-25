@@ -9,13 +9,16 @@
 
 namespace menu {
 
+// number of buttons visible at a time
+const int scrollbarHeight = 7;
+
 /**
  * Scene for the level selection menu
  * Written in the fixed function style of openGL
 */
 class LevelSelectorScene : public MenuScene {
  public:
-	LevelSelectorScene(std::vector<Button*> scrollbarButtons);
+	LevelSelectorScene(const std::vector<Button*>& scrollbarButtons);
 	LevelSelectorScene(const LevelSelectorScene&) = delete;
 	LevelSelectorScene& operator=(const LevelSelectorScene&) = delete;
 	virtual ~LevelSelectorScene();

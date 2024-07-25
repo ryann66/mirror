@@ -1,5 +1,7 @@
 #pragma once
 
+#include <string>
+#include <filesystem>
 #include <vector>
 #include <list>
 #include <iostream>
@@ -9,6 +11,11 @@
 #include "GameComponent.hh"
 
 namespace game {
+
+/**
+ * Returns the name of the level when given the filename
+ */
+std::string levelNameFromFilename(std::filesystem::path filename);
 
 /**
  * Game level
