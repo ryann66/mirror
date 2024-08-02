@@ -10,6 +10,9 @@ namespace menu {
 const vector::Vector2 DEFAULT_BUTTON_SIZE(160, 40);
 const int DEFAULT_BUTTON_SPACING = 20;
 
+const int SCROLLBAR_WIDTH = 20;
+const int SCROLLBAR_PADDING = 4;
+
 void menuSceneDisplayFunc();
 
 /**
@@ -62,5 +65,11 @@ Scene* mainMenu();
  * Creates a new instance of the pause menu
 */
 Scene* pauseMenu();
+
+/**
+ * Semi-internal function
+ * Handles highlighting menu buttons when hovered
+ */
+void hoverFunc(int x, int y);
 
 }  // namespace menu

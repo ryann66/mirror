@@ -27,7 +27,7 @@ struct MenuElement {
 	/**
 	 * Draws this on the current window
 	*/
-	virtual void display() = 0;
+	virtual void display() { }
 
 	/**
 	 * Returns the bottom left (smallest value) corner point
@@ -40,7 +40,8 @@ struct MenuElement {
 	vector::Vector2 destination();
 
 	const Anchor anchor;
-	const vector::Vector2 offset, size;
+	vector::Vector2 offset;
+	const vector::Vector2 size;
 };
 
 }  // namespace menu

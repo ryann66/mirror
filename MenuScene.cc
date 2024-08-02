@@ -27,9 +27,6 @@ MenuScene::~MenuScene() {
 	for (Button* b : buttons) delete b;
 }
 
-/**
- * Handles highlighting buttons when hovered
-*/
 void hoverFunc(int x, int y) {
 	for (Button* b : curMenu->buttons) {
 		bool before = b->hovered;

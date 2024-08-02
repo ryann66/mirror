@@ -18,16 +18,22 @@ const int scrollbarHeight = 7;
 */
 class LevelSelectorScene : public MenuScene {
  public:
-	LevelSelectorScene(const std::vector<Button*>& scrollbarButtons);
+	LevelSelectorScene(std::vector<Button*>& scrollbarButtons);
 	LevelSelectorScene(const LevelSelectorScene&) = delete;
 	LevelSelectorScene& operator=(const LevelSelectorScene&) = delete;
-	virtual ~LevelSelectorScene();
 
 	virtual void onLoad();
 
+	friend void levelSelectorSceneDisplayFunc();
+	friend void levelSelectorSceneClickFunc(int, int, int, int);
+	friend void scrollbarMotionFunc(int, int);
+
  private:
 	Button* scrollbar;
-	const std::vector<Button*> scrollbarButtons;
+	MenuElement selectorBox;
+	std::vector<Button*> scrollbarButtons;
+	float maxScrollbarY;
+	float maxScrollbarButtonsOffsetY;
 };
 
 /**
