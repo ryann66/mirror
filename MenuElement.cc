@@ -34,8 +34,6 @@ Vector2 anchorPoint(Anchor anchor) {
 		case TOP_RIGHT:
 			point.x = window->size.x;
 			break;
-		default:
-			throw new logic_error("Unrecognized anchor");
 	}
 	switch (anchor) {
 		case BOTTOM:
@@ -53,8 +51,6 @@ Vector2 anchorPoint(Anchor anchor) {
 		case TOP_RIGHT:
 			// point.y = 0;
 			break;
-		default:
-			throw new logic_error("Unrecognized anchor");
 	}
 	return point;
 }

@@ -18,6 +18,9 @@
 #include "LevelButton.hh"
 #include "Label.hh"
 #include "Window.hh"
+#include "ErrorScene.hh"
+
+#include "EmptyLevelSelectorScene.hh"
 
 using std::string;
 using std::logic_error;
@@ -139,7 +142,9 @@ Scene* levelSelectorMenu() {
 	// create scene to display (use menu scene if not enough to require scrollbar)
 	MenuScene* retscene;
 	if (levelButtons.size() <= scrollbarHeight) {
-		if (levelButtons.empty()) throw new logic_error("No levels found");
+		if (levelButtons.empty()) {
+			return new EmptyLevelSelectorScene();
+		}
 		retscene = new MenuScene(LEVEL_SELECTOR);
 		for (Button* lb : levelButtons) retscene->addButton(lb);
 	} else {

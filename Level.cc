@@ -16,6 +16,7 @@
 #include "Level.hh"
 #include "utils.hh"
 #include "game.hh"
+#include "ErrorScene.hh"
 
 using std::list;
 using std::istream;
@@ -29,6 +30,7 @@ using std::invalid_argument;
 using vector::Vector2;
 using vector::Vector2f;
 using vector::directionToVector;
+using menu::newErrorScene;
 
 namespace game {
 
@@ -96,7 +98,8 @@ Level::Level(istream& levelfile) {
 				color[3] = TargetAlpha;
 				curTargetColor = color;
 			} else {
-				throw new std::invalid_argument("Unknown mirror argument" + line);
+				newErrorScene("Unknown mirror argument: " + line);
+				return;
 			}
 		} else if (token == "MIRROR") {
 			Mirror* m = new Mirror();
@@ -163,14 +166,21 @@ Level::Level(istream& levelfile) {
 			else this->immovables.push_back(l);
 			this->lasers.push_back(l);
 		} else {
-			throw new std::invalid_argument("Unknown argument " + line);
+			newErrorScene("Unknown argument: " + line);
+			return;
 		}
 		// premature eof
-		if (ss.eof()) throw new std::invalid_argument("Line incomplete: " + line);
+		if (ss.eof()) {
+			newErrorScene("Line incomplete: " + line);
+			return;
+		}
 		// pop \r characters to support CRLF newlines
 		while (ss.peek() == '\r') ss.get();
 		// remaining characters in string
-		if (!ss.eof()) throw new std::invalid_argument("Extra characters in line: " + line);
+		if (!ss.eof()) {
+			newErrorScene("Extra characters in line: " + line);
+			return;
+		}
 	}
 }
 

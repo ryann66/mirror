@@ -7,6 +7,7 @@
 #include "Vector2.hh"
 #include "GameScene.hh"
 #include "Level.hh"
+#include "ErrorScene.hh"
 
 using std::string;
 using std::ifstream;
@@ -18,15 +19,9 @@ namespace menu {
 string* selectedLevelFilename;
 
 void levelClickFunc() {
-	try {
-		ifstream levelfile(*selectedLevelFilename);
-		window->addScene(new game::GameScene(new game::Level(levelfile)));
-		window->loadScene(GAME);
-	} catch (exception* e) {
-		// todo: add error handling scene
-		std::cerr << e->what() << std::endl;
-		window->replaceScene(MAIN_MENU);
-	}
+	ifstream levelfile(*selectedLevelFilename);
+	window->addScene(new game::GameScene(new game::Level(levelfile)));
+	window->loadScene(GAME);
 }
 
 void LevelButton::onClick() {
