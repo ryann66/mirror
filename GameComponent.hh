@@ -30,6 +30,9 @@ struct GameComponent {
 	// size of object (x, y) in level coords/scale
 	vector::Vector2 size;
 
+	// if the component can be moved or rotated by the player
+	bool canMove, canRotate;
+
 	/**
 	 * Returns true if the given level coordinates are inside the hitbox of this
 	*/

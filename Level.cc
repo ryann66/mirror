@@ -56,6 +56,7 @@ Level::Level(istream& levelfile) {
 		istringstream ss(line);
 		string token;
 		int movementEnabled;
+		int rotationEnabled;
 		getline(ss, token, ',');
 		if (token == "SIZE") {
 			ss >> size.x;
@@ -109,13 +110,17 @@ Level::Level(istream& levelfile) {
 			ss.get();
 			ss >> m->rotation;
 			ss.get();
+			ss >> movementEnabled;
+			ss.get();
+			ss >> rotationEnabled;
+			ss.get();
 			ss >> m->size.x;
 			ss.get();
 			ss >> m->size.y;
-			ss.get();
-			ss >> movementEnabled;
 			m->color = curMirrorColor;
-			if (movementEnabled) this->movables.push_back(m);
+			m->canMove = static_cast<bool>(movementEnabled);
+			m->canRotate = static_cast<bool>(rotationEnabled);
+			if (movementEnabled || rotationEnabled) this->movables.push_back(m);
 			else this->immovables.push_back(m);
 		} else if (token == "BLOCKER") {
 			Blocker* b = new Blocker;
@@ -125,13 +130,17 @@ Level::Level(istream& levelfile) {
 			ss.get();
 			ss >> b->rotation;
 			ss.get();
+			ss >> movementEnabled;
+			ss.get();
+			ss >> rotationEnabled;
+			ss.get();
 			ss >> b->size.x;
 			ss.get();
 			ss >> b->size.y;
-			ss.get();
-			ss >> movementEnabled;
 			b->color = curBlockerColor;
-			if (movementEnabled) this->movables.push_back(b);
+			b->canMove = static_cast<bool>(movementEnabled);
+			b->canRotate = static_cast<bool>(rotationEnabled);
+			if (movementEnabled || rotationEnabled) this->movables.push_back(b);
 			else this->immovables.push_back(b);
 		} else if (token == "TARGET") {
 			Target* t = new Target();
@@ -142,12 +151,16 @@ Level::Level(istream& levelfile) {
 			ss.get();
 			ss >> t->rotation;
 			ss.get();
+			ss >> movementEnabled;
+			ss.get();
+			ss >> rotationEnabled;
+			ss.get();
 			ss >> t->lasersNeeded;
 			t->colorNeeded = curRecieverColor;
 			t->color = curTargetColor;
-			ss.get();
-			ss >> movementEnabled;
-			if (movementEnabled) this->movables.push_back(t);
+			t->canMove = static_cast<bool>(movementEnabled);
+			t->canRotate = static_cast<bool>(rotationEnabled);
+			if (movementEnabled || rotationEnabled) this->movables.push_back(t);
 			else this->immovables.push_back(t);
 			this->targets.push_back(t);
 		} else if (token == "LASER") {
@@ -158,11 +171,15 @@ Level::Level(istream& levelfile) {
 			ss >> l->pos.y;
 			ss.get();
 			ss >> l->rotation;
-			l->beamColor = curBeamColor;
-			l->color = curLaserColor;
 			ss.get();
 			ss >> movementEnabled;
-			if (movementEnabled) this->movables.push_back(l);
+			ss.get();
+			ss >> rotationEnabled;
+			l->beamColor = curBeamColor;
+			l->color = curLaserColor;
+			l->canMove = static_cast<bool>(movementEnabled);
+			l->canRotate = static_cast<bool>(rotationEnabled);
+			if (movementEnabled || rotationEnabled) this->movables.push_back(l);
 			else this->immovables.push_back(l);
 			this->lasers.push_back(l);
 		} else {

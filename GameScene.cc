@@ -125,7 +125,7 @@ void gameSceneDragLogger(int x, int y) {
 	float revertRotation = selected->rotation;
 	
 	// move components
-	if (moveComponent) {
+	if (moveComponent && selected->canMove) {
 		selected->pos = originalPosition + mousePosition - clickPosition;
 		// clamp position to inside walls
 		if (selected->pos.x < 0) selected->pos.x = 0;
@@ -133,7 +133,7 @@ void gameSceneDragLogger(int x, int y) {
 		if (selected->pos.y < 0) selected->pos.y = 0;
 		else if (selected->pos.y > curGameScene->level->size.y) selected->pos.y = curGameScene->level->size.y;
 	}
-	if (rotateComponent) {
+	if (rotateComponent && selected->canRotate) {
 		float rotation = originalRotation + (ROTATION_SENSITIVITY * (mousePosition.x - clickPosition.x) + (SECONDARY_ROTATION_SENSITIVITY * (mousePosition.y - clickPosition.y)));
 		while (rotation > 360.) rotation -= 360.;
 		while (rotation < 0.) rotation += 360.;
