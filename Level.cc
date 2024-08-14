@@ -51,10 +51,10 @@ string levelNameFromFilename(const path& filename) {
 	for (; *cname; cname++) {
 		if (!isprint(*cname)) continue;
 		if (isupper(*cname)) {
-			*cretpnt++ = ' ';
+			if (cretpnt[-1] != ' ') *cretpnt++ = ' ';
 			*cretpnt++ = *cname;
 		} else if (isdigit(*cname)) {
-			*cretpnt++ = ' ';
+			if (cretpnt[-1] != ' ') *cretpnt++ = ' ';
 			do {
 				*cretpnt++ = *cname++;
 			} while (isdigit(*cname));
