@@ -28,6 +28,8 @@ using std::begin;
 using std::end;
 using std::getline;
 using std::isdigit;
+using std::isprint;
+using std::toupper;
 using std::invalid_argument;
 using std::filesystem::path;
 
@@ -39,7 +41,38 @@ using menu::newErrorScene;
 namespace menu {
 
 string levelNameFromFilename(const path& filename) {
-	return filename.stem().string();
+	// get name
+	string name(filename.stem().string());
+	
+	// add a space before each uppercase letter or number
+	const char* cname = name.c_str();
+	char* cret = new char[name.length() * 2];
+	char* cretpnt = cret;
+	for (; *cname; cname++) {
+		if (!isprint(*cname)) continue;
+		if (isupper(*cname)) {
+			*cretpnt++ = ' ';
+			*cretpnt++ = *cname;
+		} else if (isdigit(*cname)) {
+			*cretpnt++ = ' ';
+			do {
+				*cretpnt++ = *cname++;
+			} while (isdigit(*cname));
+			cname--;
+			continue;
+		} else {
+			*cretpnt++ = *cname;
+		}
+
+	}
+
+	// cleanup and convert back to string
+	*cretpnt = '\0';
+	cretpnt = *cret == ' ' ? cret + 1 : cret;
+	*cretpnt = toupper(*cretpnt);
+	string ret(cret);
+	delete[] cret;
+	return ret;
 }
 
 bool cmpAlphabetical(const string& lhs, const string& rhs) {
