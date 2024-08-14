@@ -12,6 +12,7 @@
 #include <sstream>
 #include <string>
 #include <stdexcept>
+#include <cctype>
 
 #include "Level.hh"
 #include "utils.hh"
@@ -26,17 +27,44 @@ using std::copy;
 using std::begin;
 using std::end;
 using std::getline;
+using std::isdigit;
 using std::invalid_argument;
+using std::filesystem::path;
+
 using vector::Vector2;
 using vector::Vector2f;
 using vector::directionToVector;
 using menu::newErrorScene;
 
-namespace game {
+namespace menu {
 
-std::string levelNameFromFilename(std::filesystem::path filename) {
+string levelNameFromFilename(const path& filename) {
 	return filename.stem().string();
 }
+
+bool cmpAlphabetical(const string& lhs, const string& rhs) {
+	// remove any identical leading characters
+	const char* lc = lhs.c_str(), *rc = rhs.c_str();
+	while (*lc == *rc) {
+		lc++;
+		rc++;
+	}
+
+	if (isdigit(*lc) && isdigit(*rc)) {
+		// sort by number value
+		unsigned long long int lint, rint;
+		sscanf(lc, "%llu", &lint);
+		sscanf(rc, "%llu", &rint);
+		return lint < rint;
+	} else {
+		// sort lexicographically
+		return *lc < *rc;
+	}
+}
+
+}  // namespace menu
+
+namespace game {
 
 Level::Level(istream& levelfile) {
 	// load default colors

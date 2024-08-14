@@ -12,6 +12,7 @@
 
 #include <filesystem>
 #include <stdexcept>
+#include <algorithm>
 
 #include "Vector2.hh"
 #include "Level.hh"
@@ -24,9 +25,12 @@
 
 using std::string;
 using std::logic_error;
+using std::pair;
+using std::sort;
 
 using std::filesystem::directory_iterator;
 using std::filesystem::directory_entry;
+using std::filesystem::path;
 
 using vector::Vector2;
 
@@ -128,13 +132,22 @@ void LevelSelectorScene::onLoad() {
 }
 
 Scene* levelSelectorMenu() {
-	// get list of levels and make buttons
+	// get list of levels 
+	std::vector<pair<path, string>> filepaths;
+	for (directory_entry file : directory_iterator("./levels")) {
+		if (!file.is_regular_file()) continue;
+		filepaths.emplace_back(file.path(), menu::levelNameFromFilename(file.path()));
+	}
+
+	// sort list of levels
+	sort(filepaths.begin(), filepaths.end(), [](pair<path, string>& lhs, pair<path, string>& rhs) { return menu::cmpAlphabetical(lhs.second, rhs.second); });
+
+	// make buttons
 	std::vector<Button*> levelButtons;
 	Vector2 offset(0, -(scrollbarHeight / 2) * DEFAULT_BUTTON_SIZE.y);
 	const int labelY = offset.y - DEFAULT_BUTTON_SIZE.y;
-	for (directory_entry file : directory_iterator("./levels")) {
-		if (!file.is_regular_file()) continue;
-		LevelButton* level = new LevelButton(offset, game::levelNameFromFilename(file.path()), file.path().string());
+	for (pair<path, string>& filepath : filepaths) {
+		LevelButton* level = new LevelButton(offset, filepath.second, filepath.first);
 		levelButtons.push_back(level);
 		offset.y += DEFAULT_BUTTON_SIZE.y;
 	}

@@ -10,12 +10,22 @@
 #include "LineSegment.hh"
 #include "GameComponent.hh"
 
-namespace game {
+namespace menu {
 
 /**
  * Returns the name of the level when given the filename
  */
-std::string levelNameFromFilename(std::filesystem::path filename);
+std::string levelNameFromFilename(const std::filesystem::path& filename);
+
+/**
+ * Comparision operator for comparing level names alphanumerically
+ * returns true if lhs < rhs, or if lhs is alphanumerically before rhs
+ */
+bool cmpAlphabetical(const std::string& lhs, const std::string& rhs);
+
+}
+
+namespace game {
 
 /**
  * Game level
