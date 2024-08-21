@@ -43,4 +43,7 @@ const GLfloat DefaultBackgroundColor[] = {0., 0., 0., 1.0};
 const GLfloat DefaultLaserBeamColor[] = {0.95, 0.05, 0.05, LaserBeamAlpha};
 const GLfloat DefaultTargetRecieverColor[] = {0.95, 0.05, 0.05, TargetRecieverAlpha};
 
+const GLfloat RotatableIndicatorColor[] = {0.7, 1.0, 0, 1.0};
+const GLfloat MovableIndicatorColor[] = {0.7, 1.0, 1.0, 1.0};
+
 }  // namespace game

@@ -51,8 +51,9 @@ struct GameComponent {
 
 	/**
 	 * Draws the object on the screen
+	 * Base method draws an indicator for if the component can be moved/rotated
 	*/
-	virtual void display() = 0;
+	virtual void display();
 };
 
 struct Laser : public GameComponent {

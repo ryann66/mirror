@@ -42,4 +42,8 @@ const constexpr float RECIEVER_OPENING_DEPTH = 0.5f;
 // Percentage of reciever front taken up by the side wall
 const constexpr float RECIEVER_EDGE_WIDTH = (1.0f - RECIEVER_OPENING_WIDTH) / 2.0f;
 
+// size of movable/rotatable indicators
+const constexpr float MOVABLE_INDICATOR_SIZE = 4.0f;
+const constexpr float ROTATABLE_INDICATOR_SIZE = 2.0f;
+
 }  // namespace game
