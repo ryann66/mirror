@@ -12,10 +12,12 @@
 #include <sstream>
 #include <string>
 #include <stdexcept>
+#include <cctype>
 
 #include "Level.hh"
 #include "utils.hh"
 #include "game.hh"
+#include "ErrorScene.hh"
 
 using std::list;
 using std::istream;
@@ -25,10 +27,75 @@ using std::copy;
 using std::begin;
 using std::end;
 using std::getline;
+using std::isdigit;
+using std::isprint;
+using std::toupper;
 using std::invalid_argument;
+using std::filesystem::path;
+
 using vector::Vector2;
 using vector::Vector2f;
 using vector::directionToVector;
+using menu::newErrorScene;
+
+namespace menu {
+
+string levelNameFromFilename(const path& filename) {
+	// get name
+	string name(filename.stem().string());
+	
+	// add a space before each uppercase letter or number
+	const char* cname = name.c_str();
+	char* cret = new char[name.length() * 2];
+	char* cretpnt = cret;
+	for (; *cname; cname++) {
+		if (!isprint(*cname)) continue;
+		if (isupper(*cname)) {
+			if (cretpnt[-1] != ' ') *cretpnt++ = ' ';
+			*cretpnt++ = *cname;
+		} else if (isdigit(*cname)) {
+			if (cretpnt[-1] != ' ') *cretpnt++ = ' ';
+			do {
+				*cretpnt++ = *cname++;
+			} while (isdigit(*cname));
+			cname--;
+			continue;
+		} else {
+			*cretpnt++ = *cname;
+		}
+
+	}
+
+	// cleanup and convert back to string
+	*cretpnt = '\0';
+	cretpnt = *cret == ' ' ? cret + 1 : cret;
+	*cretpnt = toupper(*cretpnt);
+	string ret(cret);
+	delete[] cret;
+	return ret;
+}
+
+bool cmpAlphabetical(const string& lhs, const string& rhs) {
+	// remove any identical leading characters
+	const char* lc = lhs.c_str(), *rc = rhs.c_str();
+	while (*lc == *rc) {
+		lc++;
+		rc++;
+	}
+
+	if (isdigit(*lc) && isdigit(*rc)) {
+		// sort by number value
+		unsigned long long int lint, rint;
+		sscanf(lc, "%llu", &lint);
+		sscanf(rc, "%llu", &rint);
+		return lint < rint;
+	} else {
+		// sort lexicographically
+		return *lc < *rc;
+	}
+}
+
+}  // namespace menu
 
 namespace game {
 
@@ -50,6 +117,7 @@ Level::Level(istream& levelfile) {
 		istringstream ss(line);
 		string token;
 		int movementEnabled;
+		int rotationEnabled;
 		getline(ss, token, ',');
 		if (token == "SIZE") {
 			ss >> size.x;
@@ -92,7 +160,8 @@ Level::Level(istream& levelfile) {
 				color[3] = TargetAlpha;
 				curTargetColor = color;
 			} else {
-				throw new std::invalid_argument("Unknown mirror argument" + line);
+				newErrorScene("Unknown mirror argument: " + line);
+				return;
 			}
 		} else if (token == "MIRROR") {
 			Mirror* m = new Mirror();
@@ -102,13 +171,17 @@ Level::Level(istream& levelfile) {
 			ss.get();
 			ss >> m->rotation;
 			ss.get();
+			ss >> movementEnabled;
+			ss.get();
+			ss >> rotationEnabled;
+			ss.get();
 			ss >> m->size.x;
 			ss.get();
 			ss >> m->size.y;
-			ss.get();
-			ss >> movementEnabled;
 			m->color = curMirrorColor;
-			if (movementEnabled) this->movables.push_back(m);
+			m->canMove = static_cast<bool>(movementEnabled);
+			m->canRotate = static_cast<bool>(rotationEnabled);
+			if (movementEnabled || rotationEnabled) this->movables.push_back(m);
 			else this->immovables.push_back(m);
 		} else if (token == "BLOCKER") {
 			Blocker* b = new Blocker;
@@ -118,13 +191,17 @@ Level::Level(istream& levelfile) {
 			ss.get();
 			ss >> b->rotation;
 			ss.get();
+			ss >> movementEnabled;
+			ss.get();
+			ss >> rotationEnabled;
+			ss.get();
 			ss >> b->size.x;
 			ss.get();
 			ss >> b->size.y;
-			ss.get();
-			ss >> movementEnabled;
 			b->color = curBlockerColor;
-			if (movementEnabled) this->movables.push_back(b);
+			b->canMove = static_cast<bool>(movementEnabled);
+			b->canRotate = static_cast<bool>(rotationEnabled);
+			if (movementEnabled || rotationEnabled) this->movables.push_back(b);
 			else this->immovables.push_back(b);
 		} else if (token == "TARGET") {
 			Target* t = new Target();
@@ -135,12 +212,16 @@ Level::Level(istream& levelfile) {
 			ss.get();
 			ss >> t->rotation;
 			ss.get();
+			ss >> movementEnabled;
+			ss.get();
+			ss >> rotationEnabled;
+			ss.get();
 			ss >> t->lasersNeeded;
 			t->colorNeeded = curRecieverColor;
 			t->color = curTargetColor;
-			ss.get();
-			ss >> movementEnabled;
-			if (movementEnabled) this->movables.push_back(t);
+			t->canMove = static_cast<bool>(movementEnabled);
+			t->canRotate = static_cast<bool>(rotationEnabled);
+			if (movementEnabled || rotationEnabled) this->movables.push_back(t);
 			else this->immovables.push_back(t);
 			this->targets.push_back(t);
 		} else if (token == "LASER") {
@@ -151,22 +232,33 @@ Level::Level(istream& levelfile) {
 			ss >> l->pos.y;
 			ss.get();
 			ss >> l->rotation;
-			l->beamColor = curBeamColor;
-			l->color = curLaserColor;
 			ss.get();
 			ss >> movementEnabled;
-			if (movementEnabled) this->movables.push_back(l);
+			ss.get();
+			ss >> rotationEnabled;
+			l->beamColor = curBeamColor;
+			l->color = curLaserColor;
+			l->canMove = static_cast<bool>(movementEnabled);
+			l->canRotate = static_cast<bool>(rotationEnabled);
+			if (movementEnabled || rotationEnabled) this->movables.push_back(l);
 			else this->immovables.push_back(l);
 			this->lasers.push_back(l);
 		} else {
-			throw new std::invalid_argument("Unknown argument " + line);
+			newErrorScene("Unknown argument: " + line);
+			return;
 		}
 		// premature eof
-		if (ss.eof()) throw new std::invalid_argument("Line incomplete: " + line);
+		if (ss.eof()) {
+			newErrorScene("Line incomplete: " + line);
+			return;
+		}
 		// pop \r characters to support CRLF newlines
 		while (ss.peek() == '\r') ss.get();
 		// remaining characters in string
-		if (!ss.eof()) throw new std::invalid_argument("Extra characters in line: " + line);
+		if (!ss.eof()) {
+			newErrorScene("Extra characters in line: " + line);
+			return;
+		}
 	}
 }
 

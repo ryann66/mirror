@@ -20,6 +20,8 @@ const GLfloat EasyButtonDefaultColor[] = {1., 1., 1., 1.};
 const GLfloat EasyButtonHoverColor[] = {0.75, 0.75, 0.75, 1.};
 const GLfloat EasyButtonTextColor[] = {0., 0., 0., 1.};
 
+const GLfloat MenuLabelColor[] = {1., 1., 1., 1.};
+
 }  // namespace menu
 
 namespace game {
@@ -40,5 +42,8 @@ const GLfloat DefaultBackgroundColor[] = {0., 0., 0., 1.0};
 
 const GLfloat DefaultLaserBeamColor[] = {0.95, 0.05, 0.05, LaserBeamAlpha};
 const GLfloat DefaultTargetRecieverColor[] = {0.95, 0.05, 0.05, TargetRecieverAlpha};
+
+const GLfloat RotatableIndicatorColor[] = {0.7, 1.0, 0, 1.0};
+const GLfloat MovableIndicatorColor[] = {0.7, 1.0, 1.0, 1.0};
 
 }  // namespace game

@@ -15,6 +15,41 @@ using vector::Vector2f;
 
 namespace game {
 
+void GameComponent::display() {
+	if (canMove) {
+		float theta = rotation;
+		Vector2f v3(MOVABLE_INDICATOR_SIZE, MOVABLE_INDICATOR_SIZE / 5.0f);
+		Vector2f v1(-v3.x, -v3.y), v2(-v3.x, v3.y), v4(v3.x, -v3.y);
+		glColor4fv(MovableIndicatorColor);
+		glBegin(GL_QUADS);
+			glVertex2f(levelGlCoordX(pos.x + v1.x), levelGlCoordY(pos.y + v1.y));
+			glVertex2f(levelGlCoordX(pos.x + v2.x), levelGlCoordY(pos.y + v2.y));
+			glVertex2f(levelGlCoordX(pos.x + v3.x), levelGlCoordY(pos.y + v3.y));
+			glVertex2f(levelGlCoordX(pos.x + v4.x), levelGlCoordY(pos.y + v4.y));
+			v1.rotate(90);
+			v2.rotate(90);
+			v3.rotate(90);
+			v4.rotate(90);
+			glVertex2f(levelGlCoordX(pos.x + v1.x), levelGlCoordY(pos.y + v1.y));
+			glVertex2f(levelGlCoordX(pos.x + v2.x), levelGlCoordY(pos.y + v2.y));
+			glVertex2f(levelGlCoordX(pos.x + v3.x), levelGlCoordY(pos.y + v3.y));
+			glVertex2f(levelGlCoordX(pos.x + v4.x), levelGlCoordY(pos.y + v4.y));
+		glEnd();
+	}
+	if (canRotate) {
+		glColor4fv(RotatableIndicatorColor);
+		glBegin(GL_TRIANGLE_FAN);
+			glVertex2f(levelGlCoordX(pos.x), levelGlCoordY(pos.y));
+			for(int i = 0; i <= 300; i++){
+				double angle = 2 * M_PI * i / 300;
+				double x = cos(angle) * ROTATABLE_INDICATOR_SIZE;
+				double y = sin(angle) * ROTATABLE_INDICATOR_SIZE;
+				glVertex2f(levelGlCoordX(pos.x + x), levelGlCoordY(pos.y + y));
+			}
+		glEnd();
+	}
+}
+
 bool collideRay(Ray& ray, LineSegment& line, Collision* out) {
 	float raySlope = (ray.end.y - ray.start.y) / (ray.end.x - ray.start.x);
 	float lineSlope = (line.end.y - line.start.y) / (line.end.x - line.start.x);
@@ -88,6 +123,7 @@ void Laser::display() {
 		glVertex2f(levelGlCoordX(pos.x + v3.x), levelGlCoordY(pos.y + v3.y));
 		glVertex2f(levelGlCoordX(pos.x + v4.x), levelGlCoordY(pos.y + v4.y));
 	glEnd();
+	GameComponent::display();
 }
 
 bool Target::hitboxClicked(float x, float y) {
@@ -206,6 +242,7 @@ void Target::display() {
 		glVertex2f(levelGlCoordX(v8.x), levelGlCoordY(v8.y));
 		glVertex2f(levelGlCoordX(v7.x), levelGlCoordY(v7.y));
 	glEnd();
+	GameComponent::display();
 }
 
 bool Blocker::hitboxClicked(float x, float y) {
@@ -289,6 +326,7 @@ void Blocker::display() {
 		temp.rotate(theta);
 		glVertex2f(levelGlCoordX(pos.x + temp.x), levelGlCoordY(pos.y + temp.y));
 	glEnd();
+	GameComponent::display();
 }
 
 bool Mirror::hitboxClicked(float x, float y) {
@@ -372,6 +410,7 @@ void Mirror::display() {
 		temp.rotate(theta);
 		glVertex2f(levelGlCoordX(pos.x + temp.x), levelGlCoordY(pos.y + temp.y));
 	glEnd();
+	GameComponent::display();
 }
 
 #include <iostream>

@@ -10,6 +10,9 @@ namespace menu {
 const vector::Vector2 DEFAULT_BUTTON_SIZE(160, 40);
 const int DEFAULT_BUTTON_SPACING = 20;
 
+const int SCROLLBAR_WIDTH = 20;
+const int SCROLLBAR_PADDING = 4;
+
 void menuSceneDisplayFunc();
 
 /**
@@ -33,7 +36,7 @@ class MenuScene : public Scene {
 	friend void menuSceneDisplayFunc();
 	friend void menuSceneClickFunc(int, int, int, int);
 
- private:
+ protected:
 	std::vector<MenuElement*> elements;
 	std::vector<Button*> buttons;
 };
@@ -63,6 +66,10 @@ Scene* mainMenu();
 */
 Scene* pauseMenu();
 
-Scene* levelSelectorMenu();
+/**
+ * Semi-internal function
+ * Handles highlighting menu buttons when hovered
+ */
+void hoverFunc(int x, int y);
 
 }  // namespace menu

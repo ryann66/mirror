@@ -30,6 +30,9 @@ struct GameComponent {
 	// size of object (x, y) in level coords/scale
 	vector::Vector2 size;
 
+	// if the component can be moved or rotated by the player
+	bool canMove, canRotate;
+
 	/**
 	 * Returns true if the given level coordinates are inside the hitbox of this
 	*/
@@ -48,8 +51,9 @@ struct GameComponent {
 
 	/**
 	 * Draws the object on the screen
+	 * Base method draws an indicator for if the component can be moved/rotated
 	*/
-	virtual void display() = 0;
+	virtual void display();
 };
 
 struct Laser : public GameComponent {
