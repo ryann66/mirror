@@ -138,8 +138,8 @@ Level::Level(istream& levelfile) {
 			color[2] = static_cast<float>(tmp) / 255;
 			if (token == "BEAM") {
 				float* color2 = new float[4];
-				for (int i = 0; i < 3; i++) color2[i] = color[i];
 				heapPointers.push_back(color2);
+				for (int i = 0; i < 3; i++) color2[i] = color[i];
 				color[3] = LaserBeamAlpha;
 				curBeamColor = color;
 				color2[3] = TargetRecieverAlpha;
