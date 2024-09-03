@@ -30,6 +30,12 @@ struct Vector2 {
 		return *this;
 	}
 
+	inline Vector2& operator/=(const int r) {
+		x /= r;
+		y /= r;
+		return *this;
+	}
+
 	int x, y;
 };
 
@@ -51,6 +57,11 @@ inline Vector2 operator*(const Vector2& l, const int r) {
 inline Vector2 operator*(const int l, const Vector2& r) {
 	Vector2 p(r);
 	return p *= l;
+}
+
+inline Vector2 operator/(const Vector2& l, const int r) {
+	Vector2 q(l);
+	return q /= r;
 }
 
 struct Vector2f {

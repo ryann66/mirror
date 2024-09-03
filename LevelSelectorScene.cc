@@ -106,6 +106,10 @@ void levelSelectorSceneClickFunc(int button, int state, int x, int y) {
 	}
 }
 
+void returnToMenuFunc() {
+	window->loadScene(MAIN_MENU);
+}
+
 LevelSelectorScene::LevelSelectorScene(std::vector<Button*>& scrollbarButtons) : 
 	MenuScene(LEVEL_SELECTOR), 
 	scrollbarButtons(scrollbarButtons), 
@@ -164,9 +168,10 @@ Scene* levelSelectorMenu() {
 		retscene = new LevelSelectorScene(levelButtons);
 	}
 
-	// add common labels
+	// add common elements
 	offset.y = labelY;
 	retscene->addElement(new Label(CENTER, offset, "Select a level", MenuLabelColor));
+	retscene->addButton(new EasyButton(TOP_LEFT, Vector2(DEFAULT_BUTTON_SPACING, DEFAULT_BUTTON_SPACING) + DEFAULT_BUTTON_SIZE / 2, DEFAULT_BUTTON_SIZE, "Back", returnToMenuFunc));
 
 	return retscene;
 }

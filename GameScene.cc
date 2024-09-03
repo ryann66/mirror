@@ -33,7 +33,6 @@ void gameSceneWinCheckFunc(int value) {
 	if (value != changeCount) return;
 	if (!curGameScene) return;
 	curGameScene->level->setBeat();
-	// TODO replace with a win screen
 	window->replaceScene(LEVEL_SELECTOR);
 }
 
