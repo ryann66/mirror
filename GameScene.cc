@@ -9,7 +9,6 @@
 #endif
 
 #include <list>
-#include <cmath>
 
 #include "GameScene.hh"
 #include "GameComponent.hh"
@@ -38,7 +37,7 @@ void gameSceneWinCheckFunc(int value) {
 }
 
 void gameSceneDisplayFunc() {
-	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+	glClear(GL_COLOR_BUFFER_BIT);
 	// reset targets
 	for (auto target : curGameScene->level->targets) {
 		target->lasersHit = 0;

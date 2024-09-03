@@ -73,7 +73,7 @@ void scrollbarClickFunc() {
  * Handles displaying menu elements for the level selector scene
 */
 void levelSelectorSceneDisplayFunc() {
-	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+	glClear(GL_COLOR_BUFFER_BIT);
 	for (Button* b : curScene->buttons) b->display();
 
 	// hide extra buttons

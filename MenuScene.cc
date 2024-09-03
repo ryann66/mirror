@@ -39,7 +39,7 @@ void hoverFunc(int x, int y) {
  * Handles displaying menu elements
 */
 void menuSceneDisplayFunc() {
-	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+	glClear(GL_COLOR_BUFFER_BIT);
 	for (MenuElement* e : curMenu->elements) e->display();
 	for (Button* b : curMenu->buttons) b->display();
 	glutSwapBuffers();
