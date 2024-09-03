@@ -182,8 +182,6 @@ bool Target::collide(Ray& ray, Collision* out) {
 		out->distance = tmp.distance;
 		out->normal = tmp.normal;
 		out->type = TARGET;
-		// increment lasers hit
-		this->lasersHit++;
 	}
 	// don't check inner wall outside target (can't hit anyways)
 

@@ -268,7 +268,7 @@ list<LineSegment> Level::traceLaser(Laser* laser) {
 	direction.normalize();
 	direction *= LASER_SIZE.y * 0.5f;
 	Ray ray(laser->pos + direction, laser->pos + (2 * direction));
-	traceLaser(ray, laser->color, &lines);
+	traceLaser(ray, laser->beamColor, &lines);
 	return lines;
 }
 
@@ -317,8 +317,8 @@ void Level::traceLaser(Ray& ray, const GLfloat* laserColor, list<LineSegment>* r
 	// do something based on type of collision
 	switch (shortCol.type) {
 		case MIRROR:
-			if (rays->size() == MAX_LASER_DEPTH) return;
 			{
+				if (rays->size() == MAX_LASER_DEPTH) return;
 				// spawn a recursive call to trace the laser back
 				// direction back towards where current ray was
 				Vector2f l(ray.start - ray.end);
