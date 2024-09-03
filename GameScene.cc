@@ -9,6 +9,7 @@
 #endif
 
 #include <list>
+#include <cmath>
 
 #include "GameScene.hh"
 #include "GameComponent.hh"
@@ -133,7 +134,8 @@ void gameSceneDragLogger(int x, int y) {
 		else if (selected->pos.y > curGameScene->level->size.y) selected->pos.y = curGameScene->level->size.y;
 	}
 	if (rotateComponent && selected->canRotate) {
-		float rotation = originalRotation + (ROTATION_SENSITIVITY * (mousePosition.x - clickPosition.x) + (SECONDARY_ROTATION_SENSITIVITY * (mousePosition.y - clickPosition.y)));
+		float v1r(vector::vectorToDirection(clickPosition - selected->pos)), v2r(vector::vectorToDirection(mousePosition - selected->pos));
+		float rotation = originalRotation + v2r - v1r;
 		while (rotation > 360.) rotation -= 360.;
 		while (rotation < 0.) rotation += 360.;
 		selected->rotation = rotation;
