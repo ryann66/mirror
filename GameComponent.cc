@@ -86,7 +86,7 @@ bool collideRay(Ray& ray, LineSegment& line, Collision* out) {
 	Vector2f normal(line.end);
 	normal -= line.start;
 	normal.rotate(90);
-	if (vector::dot(normal, ray.end - ray.start) > 0) normal *= -1;
+	if (vector::dot(normal, ray.start - ray.end) < 0) normal *= -1;
 	out->normal = normal;
 	out->distance = (ray.start - out->location).magnitude();
 	return true;
