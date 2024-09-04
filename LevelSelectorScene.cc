@@ -1,12 +1,8 @@
 #include "LevelSelectorScene.hh"
 
 #ifdef __APPLE_CC__
-#include <GLUT/gl.h>
-#include <GLUT/glu.h>
 #include <GLUT/freeglut.h>
 #else
-#include <GL/gl.h>
-#include <GL/glu.h>
 #include <GL/freeglut.h>
 #endif
 
@@ -139,7 +135,7 @@ void levelSelectorSceneClickFunc(int button, int state, int x, int y) {
 			glutMotionFunc(levelSelectorSceneHoverFunc);
 			levelSelectorSceneHoverFunc(x, y);
 		}
-	} else if (button == 3 /* mouse up */ || button == 4) {
+	} else if (state == GLUT_DOWN && (button == 3 /* mouse up */ || button == 4 /* mouse down */)) {
 		// catch scroll motion
 		int direction = (button - 3) * -2 + 1;
 		float newY = curScene->scrollbar->offset.y + MOUSE_WHEEL_SENSITIVITY * -direction;
@@ -188,6 +184,7 @@ void LevelSelectorScene::onLoad() {
 	glutMouseFunc(levelSelectorSceneClickFunc);
 	glutMotionFunc(levelSelectorSceneHoverFunc);
 	glutPassiveMotionFunc(levelSelectorSceneHoverFunc);
+	scrollbar->offset.y = -maxScrollbarY;
 }
 
 Scene* levelSelectorMenu() {
