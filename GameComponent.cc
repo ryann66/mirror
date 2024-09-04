@@ -86,7 +86,7 @@ bool collideRay(Ray& ray, LineSegment& line, Collision* out) {
 	Vector2f normal(line.end);
 	normal -= line.start;
 	normal.rotate(90);
-	if (vector::dot(normal, ray.end - ray.start) > 0) normal *= -1;
+	if (vector::dot(normal, ray.start - ray.end) < 0) normal *= -1;
 	out->normal = normal;
 	out->distance = (ray.start - out->location).magnitude();
 	return true;
@@ -182,8 +182,6 @@ bool Target::collide(Ray& ray, Collision* out) {
 		out->distance = tmp.distance;
 		out->normal = tmp.normal;
 		out->type = TARGET;
-		// increment lasers hit
-		this->lasersHit++;
 	}
 	// don't check inner wall outside target (can't hit anyways)
 

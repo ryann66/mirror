@@ -30,6 +30,12 @@ struct Vector2 {
 		return *this;
 	}
 
+	inline Vector2& operator/=(const int r) {
+		x /= r;
+		y /= r;
+		return *this;
+	}
+
 	int x, y;
 };
 
@@ -51,6 +57,11 @@ inline Vector2 operator*(const Vector2& l, const int r) {
 inline Vector2 operator*(const int l, const Vector2& r) {
 	Vector2 p(r);
 	return p *= l;
+}
+
+inline Vector2 operator/(const Vector2& l, const int r) {
+	Vector2 q(l);
+	return q /= r;
 }
 
 struct Vector2f {
@@ -142,27 +153,14 @@ inline Vector2f directionToVector(float direction) {
 }
 
 /**
- * Converts a vector to a float direction
-*/
-inline float vectorToDirection(Vector2f vector) {
-	float rad;
-	if (vector.x >= 0) {
-		if (vector.y >= 0) {
-			rad = atan2f(vector.x, vector.y);
-		} else {
-			rad = 180. - atan2f(vector.x, vector.y);
-		}
-	} else {
-		if (vector.y >= 0) {
-			rad = 180. + atan2f(vector.x, vector.y);
-		} else {
-			rad = 360. - atan2f(vector.x, vector.y);
-		}
-	}
-	float r = radToDeg(rad);
-	while (r >= 360) r -= 360;
-	while (r < 0) r += 360;
-	return r;
+ * Returns the float rotation corresponding to the vector
+ * Uses glut coords (inverted y axis)
+ */
+inline float vectorToDirection(Vector2f v) {
+	float theta = acosf(-(v.y) / v.magnitude());
+	// flip for vectors to the left
+	theta = copysignf(theta, v.x);
+	return radToDeg(theta);
 }
 
 }  // namespace vector

@@ -8,10 +8,10 @@ but 0 is interpreted as true (movement enabled)
 Available commands
 SIZE,<width>,<height>
 COLOR,<component>,<red>,<green>,<blue>
-MIRROR,<x>,<y>,<rotation>,<rotation_enabled>,<movement_enabled>,<width>,<height>
-BLOCKER,<x>,<y>,<rotation>,<rotation_enabled>,<movement_enabled>,<width>,<height>
-TARGET,<x>,<y>,<rotation>,<rotation_enabled>,<movement_enabled>,<needed>
-LASER,<x>,<y>,<rotation>,<rotation_enabled>,<movement_enabled>
+MIRROR,<x>,<y>,<rotation>,<movement_enabled>,<rotation_enabled>,<width>,<height>
+BLOCKER,<x>,<y>,<rotation>,<movement_enabled>,<rotation_enabled>,<width>,<height>
+TARGET,<x>,<y>,<rotation>,<movement_enabled>,<rotation_enabled>,<needed>
+LASER,<x>,<y>,<rotation>,<movement_enabled>,<rotation_enabled>
 
 The COLOR command is special as it can set several values based on <component>.  This field can be set to any of the main
 components on the board (MIRROR,BLOCKER,LASER,TARGET) but it can also be set to BEAM or BACKGROUND. BEAM sets the

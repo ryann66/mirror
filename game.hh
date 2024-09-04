@@ -1,12 +1,8 @@
 #pragma once
 
 #ifdef __APPLE_CC__
-#include <GLUT/gl.h>
-#include <GLUT/glu.h>
 #include <GLUT/freeglut.h>
 #else
-#include <GL/gl.h>
-#include <GL/glu.h>
 #include <GL/freeglut.h>
 #endif
 
@@ -18,9 +14,6 @@ const unsigned int MS_WIN_DELAY = 1500;
 
 const int MOVE_BUTTON = GLUT_LEFT_BUTTON;
 const int ROTATE_BUTTON = GLUT_RIGHT_BUTTON;
-
-const float ROTATION_SENSITIVITY = 1.0f;
-const float SECONDARY_ROTATION_SENSITIVITY = 0.25f;
 
 // max recursive depth of lasers
 const int MAX_LASER_DEPTH = 20;
