@@ -51,7 +51,10 @@ void menuSceneDisplayFunc() {
 void menuSceneClickFunc(int button, int state, int x, int y) {
 	if (button == GLUT_LEFT_BUTTON && state == GLUT_DOWN) {
 		for (Button* b : curMenu->buttons) {
-			if (b->inBounds(vector::Vector2(x, y))) b->onClick();
+			if (b->inBounds(vector::Vector2(x, y))) {
+				b->onClick();
+				return;
+			}
 		}
 	}
 }

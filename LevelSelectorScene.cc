@@ -74,7 +74,7 @@ void scrollbarClickFunc() {
 */
 void levelSelectorSceneDisplayFunc() {
 	glClear(GL_COLOR_BUFFER_BIT);
-	for (Button* b : curScene->buttons) b->display();
+	for (Button* b : curScene->scrollbarButtons) b->display();
 
 	// hide extra buttons
 	glColor4f(0., 0., 0., 0.);
@@ -84,24 +84,61 @@ void levelSelectorSceneDisplayFunc() {
 	glRectf(-1, -1, 1, glCoordSpaceY(ds.y));
 	glRectf(1, -1, glCoordSpaceX(ds.x), 1);
 
+	// display all normal elements
+	for (Button* b : curScene->buttons) b->display();
 	for (MenuElement* e : curScene->elements) e->display();
 	glutSwapBuffers();
+}
+
+/**
+ * Handles hovering over buttons in level selector menu
+ */
+void levelSelectorSceneHoverFunc(int x, int y) {
+	for (Button* b : curScene->buttons) {
+		bool before = b->hovered;
+		b->hovered = b->inBounds(vector::Vector2(x, y));
+		if (before ^ b->hovered) glutPostRedisplay();
+	}
+	for (Button* b : curScene->scrollbarButtons) {
+		bool before = b->hovered;
+		b->hovered = b->inBounds(vector::Vector2(x, y));
+		if (before ^ b->hovered) glutPostRedisplay();
+	}
 }
 
 /**
  * Handles clicking on buttons in level selector menu
 */
 void levelSelectorSceneClickFunc(int button, int state, int x, int y) {
-	if (curScene->selectorBox.inBounds(vector::Vector2(x, y)) && button == GLUT_LEFT_BUTTON) {
+	if (button == GLUT_LEFT_BUTTON) {
 		if (state == GLUT_DOWN) {
-			for (Button* b : curScene->buttons) {
-				if (b->inBounds(vector::Vector2(x, y))) b->onClick();
+			if (curScene->selectorBox.inBounds(vector::Vector2(x, y))) {
+				for (Button* b : curScene->scrollbarButtons) {
+					if (b->inBounds(vector::Vector2(x, y))) {
+						b->onClick();
+						return;
+					}
+				}
+				if (curScene->scrollbar->inBounds(vector::Vector2(x, y))) {
+					clickY = y;
+					originY = curScene->scrollbar->offset.y;
+					scrollbarClickFunc();
+					return;
+				}
+			} else {
+				for (Button* b : curScene->buttons) {
+					if (b->inBounds(vector::Vector2(x, y))) {
+						b->onClick();
+						return;
+					}
+				}
 			}
-			clickY = y;
-			originY = curScene->scrollbar->offset.y;
+			
+			
+			return;
 		} else if (state == GLUT_UP) {
-			glutMotionFunc(hoverFunc);
-			hoverFunc(x, y);
+			glutMotionFunc(levelSelectorSceneHoverFunc);
+			levelSelectorSceneHoverFunc(x, y);
 		}
 	}
 }
@@ -118,7 +155,6 @@ LevelSelectorScene::LevelSelectorScene(std::vector<Button*>& scrollbarButtons) :
 	const float offset = SCROLLBAR_WIDTH / -2;
 	for (Button* b : scrollbarButtons) {
 		b->offset.x = offset;
-		this->addButton(b);
 	}
 	scrollbar = new EasyButton(CENTER, Vector2(DEFAULT_BUTTON_SIZE.x / 2, 0),
 			Vector2(SCROLLBAR_WIDTH - SCROLLBAR_PADDING, (DEFAULT_BUTTON_SIZE.y * scrollbarHeight * scrollbarHeight / scrollbarButtons.size()) - SCROLLBAR_PADDING),
@@ -133,6 +169,8 @@ void LevelSelectorScene::onLoad() {
 	MenuScene::onLoad();
 	glutDisplayFunc(levelSelectorSceneDisplayFunc);
 	glutMouseFunc(levelSelectorSceneClickFunc);
+	glutMotionFunc(levelSelectorSceneHoverFunc);
+	glutPassiveMotionFunc(levelSelectorSceneHoverFunc);
 }
 
 Scene* levelSelectorMenu() {

@@ -21,11 +21,15 @@ class LevelSelectorScene : public MenuScene {
 	LevelSelectorScene(std::vector<Button*>& scrollbarButtons);
 	LevelSelectorScene(const LevelSelectorScene&) = delete;
 	LevelSelectorScene& operator=(const LevelSelectorScene&) = delete;
+	virtual ~LevelSelectorScene() {
+		for (Button* b : scrollbarButtons) delete b;
+	}
 
 	virtual void onLoad();
 
 	friend void levelSelectorSceneDisplayFunc();
 	friend void levelSelectorSceneClickFunc(int, int, int, int);
+	friend void levelSelectorSceneHoverFunc(int, int);
 	friend void scrollbarMotionFunc(int, int);
 
  private:
