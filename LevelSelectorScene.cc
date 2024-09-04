@@ -36,6 +36,8 @@ using vector::Vector2;
 
 namespace menu {
 
+const float MOUSE_WHEEL_SENSITIVITY = 15.0f;
+
 LevelSelectorScene* curScene;
 
 float originY;
@@ -132,14 +134,29 @@ void levelSelectorSceneClickFunc(int button, int state, int x, int y) {
 						return;
 					}
 				}
-			}
-			
-			
-			return;
+			}			
 		} else if (state == GLUT_UP) {
 			glutMotionFunc(levelSelectorSceneHoverFunc);
 			levelSelectorSceneHoverFunc(x, y);
 		}
+	} else if (button == 3 /* mouse up */ || button == 4) {
+		// catch scroll motion
+		int direction = (button - 3) * -2 + 1;
+		float newY = curScene->scrollbar->offset.y + MOUSE_WHEEL_SENSITIVITY * -direction;
+		if (newY > curScene->maxScrollbarY) newY = curScene->maxScrollbarY;
+		else if (newY < -curScene->maxScrollbarY) newY = -curScene->maxScrollbarY;
+		curScene->scrollbar->offset.y = newY;
+
+		// move buttons
+		float scrollbarProgression = (newY + curScene->maxScrollbarY) / (2 * curScene->maxScrollbarY);
+		float scrollbarButtonOffset = -curScene->maxScrollbarButtonsOffsetY * scrollbarProgression;
+		scrollbarButtonOffset -= (scrollbarHeight / 2) * DEFAULT_BUTTON_SIZE.y;
+		for (Button* b : curScene->scrollbarButtons) {
+			b->offset.y = scrollbarButtonOffset;
+			scrollbarButtonOffset += DEFAULT_BUTTON_SIZE.y;
+		}
+
+		glutPostRedisplay();
 	}
 }
 
