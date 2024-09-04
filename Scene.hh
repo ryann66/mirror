@@ -2,8 +2,8 @@
 
 #include <stdint.h>
 
-enum SceneType : uint8_t {
-	MAIN_MENU = 0, PAUSE_MENU, GAME, RESULTS, LEVEL_SELECTOR, ERROR
+enum SceneType {
+	MAIN_MENU = 0, PAUSE_MENU, GAME, RESULTS, LEVEL_SELECTOR, ERROR_SCENE
 };
 
 /**

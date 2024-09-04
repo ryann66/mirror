@@ -203,7 +203,7 @@ Scene* levelSelectorMenu() {
 	Vector2 offset(0, -(scrollbarHeight / 2) * DEFAULT_BUTTON_SIZE.y);
 	const int labelY = offset.y - DEFAULT_BUTTON_SIZE.y;
 	for (pair<path, string>& filepath : filepaths) {
-		LevelButton* level = new LevelButton(offset, filepath.second, filepath.first);
+		LevelButton* level = new LevelButton(offset, filepath.second, filepath.first.generic_string());
 		levelButtons.push_back(level);
 		offset.y += DEFAULT_BUTTON_SIZE.y;
 	}
