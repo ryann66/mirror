@@ -100,6 +100,7 @@ void playButtonClickFunc() {
 Scene* mainMenu() {
 	MenuScene* main = new MenuScene(MAIN_MENU);
 	main->addButton(new EasyButton(CENTER, Vector2(), DEFAULT_BUTTON_SIZE, "Play", playButtonClickFunc));
+	main->addButton(new EasyButton(CENTER, Vector2(0, DEFAULT_BUTTON_SIZE.y + DEFAULT_BUTTON_SPACING), DEFAULT_BUTTON_SIZE, "Exit", closeFunction));
 	return main;
 }
 
