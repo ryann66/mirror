@@ -1,10 +1,6 @@
 #ifdef __APPLE_CC__
-#include <GLUT/gl.h>
-#include <GLUT/glu.h>
 #include <GLUT/freeglut.h>
 #else
-#include <GL/gl.h>
-#include <GL/glu.h>
 #include <GL/freeglut.h>
 #endif
 
@@ -138,8 +134,8 @@ Level::Level(istream& levelfile) {
 			color[2] = static_cast<float>(tmp) / 255;
 			if (token == "BEAM") {
 				float* color2 = new float[4];
-				for (int i = 0; i < 3; i++) color2[i] = color[i];
 				heapPointers.push_back(color2);
+				for (int i = 0; i < 3; i++) color2[i] = color[i];
 				color[3] = LaserBeamAlpha;
 				curBeamColor = color;
 				color2[3] = TargetRecieverAlpha;
@@ -268,7 +264,7 @@ list<LineSegment> Level::traceLaser(Laser* laser) {
 	direction.normalize();
 	direction *= LASER_SIZE.y * 0.5f;
 	Ray ray(laser->pos + direction, laser->pos + (2 * direction));
-	traceLaser(ray, laser->color, &lines);
+	traceLaser(ray, laser->beamColor, &lines);
 	return lines;
 }
 
@@ -317,8 +313,8 @@ void Level::traceLaser(Ray& ray, const GLfloat* laserColor, list<LineSegment>* r
 	// do something based on type of collision
 	switch (shortCol.type) {
 		case MIRROR:
-			if (rays->size() == MAX_LASER_DEPTH) return;
 			{
+				if (rays->size() == MAX_LASER_DEPTH) return;
 				// spawn a recursive call to trace the laser back
 				// direction back towards where current ray was
 				Vector2f l(ray.start - ray.end);

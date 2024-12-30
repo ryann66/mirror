@@ -64,6 +64,7 @@ void Window::replaceScene(SceneType scene) {
 
 void closeFunction() {
 	delete window;
+	exit(0);
 }
 
 void unregisteredDisplayFunc() {

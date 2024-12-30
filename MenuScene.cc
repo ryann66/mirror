@@ -1,10 +1,6 @@
 #ifdef __APPLE_CC__
-#include <GLUT/gl.h>
-#include <GLUT/glu.h>
 #include <GLUT/freeglut.h>
 #else
-#include <GL/gl.h>
-#include <GL/glu.h>
 #include <GL/freeglut.h>
 #endif
 
@@ -39,7 +35,7 @@ void hoverFunc(int x, int y) {
  * Handles displaying menu elements
 */
 void menuSceneDisplayFunc() {
-	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+	glClear(GL_COLOR_BUFFER_BIT);
 	for (MenuElement* e : curMenu->elements) e->display();
 	for (Button* b : curMenu->buttons) b->display();
 	glutSwapBuffers();
@@ -51,7 +47,10 @@ void menuSceneDisplayFunc() {
 void menuSceneClickFunc(int button, int state, int x, int y) {
 	if (button == GLUT_LEFT_BUTTON && state == GLUT_DOWN) {
 		for (Button* b : curMenu->buttons) {
-			if (b->inBounds(vector::Vector2(x, y))) b->onClick();
+			if (b->inBounds(vector::Vector2(x, y))) {
+				b->onClick();
+				return;
+			}
 		}
 	}
 }
@@ -97,6 +96,7 @@ void playButtonClickFunc() {
 Scene* mainMenu() {
 	MenuScene* main = new MenuScene(MAIN_MENU);
 	main->addButton(new EasyButton(CENTER, Vector2(), DEFAULT_BUTTON_SIZE, "Play", playButtonClickFunc));
+	main->addButton(new EasyButton(CENTER, Vector2(0, DEFAULT_BUTTON_SIZE.y + DEFAULT_BUTTON_SPACING), DEFAULT_BUTTON_SIZE, "Exit", closeFunction));
 	return main;
 }
 

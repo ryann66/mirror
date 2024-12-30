@@ -1,10 +1,6 @@
 #ifdef __APPLE_CC__
-#include <GLUT/gl.h>
-#include <GLUT/glu.h>
 #include <GLUT/freeglut.h>
 #else
-#include <GL/gl.h>
-#include <GL/glu.h>
 #include <GL/freeglut.h>
 #endif
 
@@ -33,12 +29,11 @@ void gameSceneWinCheckFunc(int value) {
 	if (value != changeCount) return;
 	if (!curGameScene) return;
 	curGameScene->level->setBeat();
-	// TODO replace with a win screen
 	window->replaceScene(LEVEL_SELECTOR);
 }
 
 void gameSceneDisplayFunc() {
-	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+	glClear(GL_COLOR_BUFFER_BIT);
 	// reset targets
 	for (auto target : curGameScene->level->targets) {
 		target->lasersHit = 0;
@@ -134,7 +129,8 @@ void gameSceneDragLogger(int x, int y) {
 		else if (selected->pos.y > curGameScene->level->size.y) selected->pos.y = curGameScene->level->size.y;
 	}
 	if (rotateComponent && selected->canRotate) {
-		float rotation = originalRotation + (ROTATION_SENSITIVITY * (mousePosition.x - clickPosition.x) + (SECONDARY_ROTATION_SENSITIVITY * (mousePosition.y - clickPosition.y)));
+		float v1r(vector::vectorToDirection(clickPosition - selected->pos)), v2r(vector::vectorToDirection(mousePosition - selected->pos));
+		float rotation = originalRotation + v2r - v1r;
 		while (rotation > 360.) rotation -= 360.;
 		while (rotation < 0.) rotation += 360.;
 		selected->rotation = rotation;
